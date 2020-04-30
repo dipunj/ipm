@@ -9,7 +9,7 @@ export const NotFound = styled.img`
 export const Wrapper = styled.div.attrs({
 	className: 'row justify-center full-width',
 })`
-	max-width: 768px;
+	max-width: 360px;
 	/* background: blue; */
 `;
 
