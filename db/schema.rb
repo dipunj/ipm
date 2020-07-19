@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
 
   create_table "admissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "admit_timestamp", null: false
-    t.datetime "discharge_timestamp", null: false
+    t.datetime "discharge_timestamp"
     t.string "doctor_name", limit: 255, null: false
     t.string "purpose", limit: 255
     t.string "comment", limit: 255
