@@ -41,3 +41,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "figaro", "~> 1.2"
+
+gem "rubocop", "~> 0.88.0"
+
+gem "pgcrypto", "~> 0.4.1"

@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS IPM_development;
+DROP DATABASE IF EXISTS ipm_development;
 DO $$
 BEGIN
     CREATE USER ipm_user WITH PASSWORD 'ipm_password';
@@ -7,4 +7,4 @@ BEGIN
 END
 $$;
 
-CREATE DATABASE IPM_development WITH OWNER = ipm_user;
+CREATE DATABASE ipm_development WITH OWNER = ipm_user;
