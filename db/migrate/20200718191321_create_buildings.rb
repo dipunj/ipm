@@ -9,7 +9,7 @@ class CreateBuildings < ActiveRecord::Migration[6.0]
       # second line of address
       t.column :address_line       , 'VARCHAR(255)', null: false
       # street name
-      t.column :locality           , 'VARCHAR(255)', null: false
+      t.column :locality           , 'VARCHAR(255)'
       # city/district
       t.column :city               , 'VARCHAR(255)', null: false
       # state/province/region
