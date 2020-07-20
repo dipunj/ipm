@@ -3,22 +3,32 @@ class Api::V1::Setup::BuildingController < Api::V1::AuthorisationController
 	before_action :set_service
 
 	def create
-		response = @service.create_new_building(new_building_params)
+		response = @service.create_new_building(building_params)
 		render json: response
 	end
 
 	def read
-		response = @service.fetch_building_by_id(fetch_building_params)
+		response = @service.fetch_building_by_id(building_id)
 		render json: response
 	end
 
 	def update
-		response = @service.update_existing_building(update_building_params)
+		response = @service.update_existing_building(building_id, building_params)
 		render json: response
 	end
 
 	def delete
-		response = @service.delete_existing_building(delete_building_params)
+		response = @service.delete_existing_building(building_id)
+		render json: response
+	end
+
+	def search
+		response = @service.search_building(building_params)
+		render json: response
+	end
+
+	def list_all
+		response = @service.fetch_all_buildings
 		render json: response
 	end
 
@@ -28,7 +38,7 @@ class Api::V1::Setup::BuildingController < Api::V1::AuthorisationController
 			@service ||= Setup::BuildingService
 		end
 
-		def new_building_params
+		def building_params
 			params.permit(:code,
 						  :name_line,
 						  :address_line,
@@ -37,5 +47,9 @@ class Api::V1::Setup::BuildingController < Api::V1::AuthorisationController
 						  :administrative_area,
 						  :postal_code,
 						  :country)
+		end
+
+		def building_id
+			params.permit(:id)[:id]
 		end
 end
