@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "country", limit: 3, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["code"], name: "index_buildings_on_code", unique: true
   end
 
   create_table "buildings_users", id: false, force: :cascade do |t|

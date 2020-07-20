@@ -20,6 +20,8 @@ class CreateBuildings < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+
+    add_index :buildings, [:code], :unique => true
   end
 
   def down

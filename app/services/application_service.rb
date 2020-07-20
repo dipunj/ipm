@@ -1,3 +1,3 @@
 class ApplicationService
-	self.abstract_class = true
+	include ResponseHelper
 end
