@@ -22,9 +22,11 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "doctor_name", limit: 255, null: false
     t.string "purpose", limit: 255
     t.string "comment", limit: 255
+    t.uuid "building_id", null: false
     t.uuid "patient_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["building_id"], name: "index_admissions_on_building_id"
     t.index ["patient_id"], name: "index_admissions_on_patient_id"
   end
 
@@ -40,7 +42,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "code", limit: 255, null: false
     t.string "name_line", limit: 255, null: false
     t.string "address_line", limit: 255, null: false
-    t.string "locality", limit: 255, null: false
+    t.string "locality", limit: 255
     t.string "city", limit: 255, null: false
     t.string "administrative_area", limit: 255, null: false
     t.string "postal_code", limit: 10, null: false
@@ -80,11 +82,11 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name", limit: 50, null: false
+    t.string "display_name", limit: 50, null: false
     t.string "account_type", limit: 50, null: false
     t.string "image_url", limit: 255
-    t.string "password", null: false
-    t.string "VARCHAR(255)", null: false
+    t.string "login_id", limit: 255, null: false
+    t.string "password_digest", limit: 255, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -115,6 +117,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.index ["building_id"], name: "index_wards_on_building_id"
   end
 
+  add_foreign_key "admissions", "buildings"
   add_foreign_key "admissions", "patients"
   add_foreign_key "beds", "wards"
   add_foreign_key "transactions", "admissions"

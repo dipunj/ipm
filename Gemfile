@@ -45,3 +45,7 @@ gem "figaro", "~> 1.2"
 gem "rubocop", "~> 0.88.0"
 
 gem "pgcrypto", "~> 0.4.1"
+
+gem "jwt", "~> 2.2"
+
+gem "bcrypt", "~> 3.1"
