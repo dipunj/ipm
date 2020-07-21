@@ -18,12 +18,28 @@ Rails.application.routes.draw do
         get 'admission/delete'
 	  end
 	  namespace :setup do
-        post       'building/create' => 'building#create'
-		get        'building/read'   => 'building#read'
-		post       'building/update' => 'building#update'
-		post       'building/delete' => 'building#delete'
-		get        'building/list'   => 'building#list_all'
-		get        'building/search' => 'building#search'
+        post       'building/create'       => 'building#create'
+		get        'building/read'         => 'building#read'
+		post       'building/update'       => 'building#update'
+		post       'building/delete'       => 'building#delete'
+		get        'building/list'         => 'building#list_all'
+		get        'building/search'       => 'building#search'
+
+
+        post       'ward/create'           => 'ward#create'
+        get        'ward/read'             => 'ward#read'
+        post       'ward/update'           => 'ward#update'
+        post       'ward/delete'           => 'ward#delete'
+        get        'ward/list'             => 'ward#list_all'
+        get        'ward/search'           => 'ward#search'
+
+
+		post       'bed/create'           => 'bed#create'
+		get        'bed/read'             => 'bed#read'
+		post       'bed/update'           => 'bed#update'
+		post       'bed/delete'           => 'bed#delete'
+		get        'bed/list'             => 'bed#list_all'
+		get        'bed/search'           => 'bed#search'
       end
     end
   end
