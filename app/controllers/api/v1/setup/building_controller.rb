@@ -23,7 +23,7 @@ class Api::V1::Setup::BuildingController < Api::V1::AuthorisationController
 	end
 
 	def search
-		response = @service.search_building(building_params)
+		response = @service.find_building(building_params)
 		render json: response
 	end
 
