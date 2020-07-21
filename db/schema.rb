@@ -111,7 +111,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "floor", limit: 5, null: false
     t.string "ward_type", limit: 30
     t.string "ward_number", limit: 10
-    t.string "name", limit: 50, null: false
+    t.string "display_name", limit: 50, null: false
     t.uuid "building_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
