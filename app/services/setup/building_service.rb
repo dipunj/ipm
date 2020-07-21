@@ -19,7 +19,7 @@ module Setup
 		def self.update_existing_building(id, params)
 			building = Building.find_by(id: id)
 			raise 'No such building exists in database' if building.blank?
-			building = building.update!(params)
+			building.update!(params)
 
 			return ResponseHelper.json(true,
 									   building,
@@ -44,7 +44,7 @@ module Setup
 								}, nil)
 		end
 
-		def self.search_building(params)
+		def self.find_building(params)
 			buildings = Building.find(params)
 			return ResponseHelper.json(true,{
 				count: buildings.length,
