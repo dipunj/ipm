@@ -7,7 +7,7 @@ class Api::V1::BaseController < ApplicationController
 			success: false,
 			data: {
 				data: nil,
-				message: 'Unauthenticated'
+				message: 'Not authenticated'
 			}
 		} unless authenticated?
 	end

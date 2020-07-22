@@ -22,3 +22,8 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+## TODO
+
+- Add user logs model - log login time, logout time, ip address
+- set max number of attempts allowed to login. Lock login attempts after max attempts reach.
