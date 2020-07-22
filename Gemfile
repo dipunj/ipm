@@ -49,3 +49,5 @@ gem "pgcrypto", "~> 0.4.1"
 gem "jwt", "~> 2.2"
 
 gem "bcrypt", "~> 3.1"
+
+gem "ruby-enum", "~> 0.8.0"

@@ -84,6 +84,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rexml (v3.2.4, RVM: ruby-2.7.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop (v0.88.0, RVM: ruby-2.7.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-ast (v0.1.0, RVM: ruby-2.7.1) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ruby-enum (v0.8.0, RVM: ruby-2.7.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-progressbar (v1.10.1, RVM: ruby-2.7.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="spring (v2.1.0, RVM: ruby-2.7.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="spring-watcher-listen (v2.0.1, RVM: ruby-2.7.1) [gem]" level="application" />
