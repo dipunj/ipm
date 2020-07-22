@@ -79,4 +79,8 @@ class Api::V1::Setup::UserController < Api::V1::BaseController
 			params.permit(:building_id, :code, :city, :postal_code)
 		end
 
+		def password_params
+			params.permit(:password, :password_confirmation)
+		end
+
 end

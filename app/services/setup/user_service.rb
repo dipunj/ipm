@@ -11,7 +11,8 @@ module Setup
 				account_type: params[:account_type],
 				login_id: params[:login_id],
 				password: params[:password],
-				password_confirmation: params[:password_confirmation]
+				password_confirmation: params[:password_confirmation],
+				is_active: true
 			}
 			user = User.create!(create_params)
 			return ResponseHelper.json(true, user, 'Successfully Created User')
@@ -83,15 +84,18 @@ module Setup
 
 		def self.toggle_user_account_status(admin, user_id)
 			user = User.find_by(id: user_id)
+			system_admin = User.find_by(login_id: 'admin')
+			raise 'Cannot deactivate system admin' if system_admin.id == user.id
 			raise 'No such user in database' if user.nil?
 			if user.update!(is_active: !user[:is_active])
-				ResponseHelper.json(true, user, "#{user[:display_name]}'s account is now #{user[:is_active] ? 'active'
+				return ResponseHelper.json(true, user, "#{user[:display_name]}'s account is now #{user[:is_active] ?
+																								  'active'
 																									: 'deactivated'}")
 			end
 			ResponseHelper.json(false, nil, "Request Failed!")
 		end
 
-		def change_other_user_password(admin, user_id, params)
+		def self.change_other_user_password(admin, user_id, params)
 			user = User.find_by(id: user_id)
 			raise 'No such user in database' if user.nil?
 
@@ -101,7 +105,7 @@ module Setup
 			}
 
 			if user.update!(pass_params)
-				ResponseHelper.json(true, user, "#{user[:display_name]}'s password changed successfully")
+				return ResponseHelper.json(true, user, "#{user[:display_name]}'s password changed successfully")
 			end
 			ResponseHelper.json(false, nil, 'Request Failed')
 		end

@@ -48,6 +48,12 @@ Rails.application.routes.draw do
 		post       'user/delete'           => 'user#delete'
 		get        'user/list'             => 'user#list_all'
 		get        'user/search'           => 'user#search'
+
+		post       'user/add_building'        => 'user#add_to_building'
+		post       'user/remove_building'     => 'user#remove_from_building'
+		post       'user/reset'               => 'user#change_other_password'
+		post       'user/deactivate'          => 'user#deactivate_other_account'
+
 	  end
 	  namespace :session do
 		  post     'auth/login'            => 'auth#login'
