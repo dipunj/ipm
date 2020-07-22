@@ -1,5 +1,6 @@
-class Api::V1::Session::SessionController < Api::V1::ApplicationController
+class Api::V1::Session::AuthController < Api::V1::BaseController
 
+	before_action :set_service
 	skip_before_action :authenticate!, only: [:login]
 
 	def login

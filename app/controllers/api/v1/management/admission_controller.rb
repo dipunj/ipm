@@ -1,4 +1,4 @@
-class Api::V1::Management::AdmissionController < ApplicationController
+class Api::V1::Management::AdmissionController < Api::V1::BaseController
   def create
   end
 

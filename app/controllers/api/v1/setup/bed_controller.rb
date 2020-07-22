@@ -1,6 +1,6 @@
-class Api::V1::Setup::BedController < Api::V1::AuthorisationController
+class Api::V1::Setup::BedController < Api::V1::BaseController
 
-  before_action :set_service
+  before_action :set_service, :require_escalated_privileges
 
   def create
     response = @service.create_new_bed(ward_id,bed_params)

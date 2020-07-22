@@ -1,4 +1,4 @@
-class Api::V1::Management::TransactionController < ApplicationController
+class Api::V1::Management::TransactionController < Api::V1::BaseController
   def create
   end
 
