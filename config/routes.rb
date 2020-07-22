@@ -40,6 +40,14 @@ Rails.application.routes.draw do
 		post       'bed/delete'           => 'bed#delete'
 		get        'bed/list'             => 'bed#list_all'
 		get        'bed/search'           => 'bed#search'
+
+
+		post       'user/create'           => 'user#create'
+		get        'user/read'             => 'user#read'
+		post       'user/update'           => 'user#update'
+		post       'user/delete'           => 'user#delete'
+		get        'user/list'             => 'user#list_all'
+		get        'user/search'           => 'user#search'
       end
     end
   end

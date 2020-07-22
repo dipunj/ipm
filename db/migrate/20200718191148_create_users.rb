@@ -3,6 +3,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
     create_table :users, id: :uuid do |t|
 
       t.column :display_name       , 'VARCHAR(50)',  null: false
+
       t.column :account_type       , 'VARCHAR(50)',  null: false
       t.column :image_url          , 'VARCHAR(255)'
 
@@ -11,6 +12,8 @@ class CreateUsers < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+
+      #add_index :users, [:login_id], unique: true
   end
 
   def down
