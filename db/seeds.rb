@@ -5,3 +5,11 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+Setup::UserService.create_new_user({
+									   display_name: 'System Admin',
+									   account_type: AccountTypes::ADMIN,
+									   login_id: 'admin',
+									   password: 'admin',
+									   password_confirmation: 'admin'
+								   })
