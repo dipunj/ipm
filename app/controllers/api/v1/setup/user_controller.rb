@@ -33,6 +33,27 @@ class Api::V1::Setup::UserController < Api::V1::BaseController
 	end
 
 
+	def add_to_building
+		response = @service.add_user_to_building(@current_user, user_id, building_params)
+		render json: response
+	end
+
+	def remove_from_building
+		response = @service.remove_user_from_building(@current_user, user_id, building_params)
+		render json: response
+	end
+
+	def change_other_password
+		response = @service.change_other_user_password(@current_user, user_id, password_params)
+		render json: response
+	end
+
+	def deactivate_other_account
+		response = @service.toggle_user_account_status(@current_user, user_id)
+		render json: response
+	end
+
+
 	private
 		def set_service
 			@service ||= Setup::UserService
@@ -48,6 +69,10 @@ class Api::V1::Setup::UserController < Api::V1::BaseController
 
 		def building_id
 			params.permit(:building_id)[:building_id]
+		end
+
+		def building_params
+			params.permit(:building_id_list => [])
 		end
 
 		def filter_params

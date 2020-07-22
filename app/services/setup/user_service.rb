@@ -17,15 +17,15 @@ module Setup
 			return ResponseHelper.json(true, user, 'Successfully Created User')
 		end
 
-		def self.fetch_user_by_id(id)
-			user = User.find_by(id: id)
+		def self.fetch_user_by_id(user_id)
+			user = User.find_by(id: user_id)
 			return ResponseHelper.json(true, nil, 'No Such User') if user.nil?
 			return ResponseHelper.json(true, user, nil)
 
 		end
 
-		def self.update_existing_user(id, params)
-			user = User.find_by(id: id)
+		def self.update_existing_user(user_id, params)
+			user = User.find_by(id: user_id)
 			return ResponseHelper.json(true, nil, 'No Such User') if user.nil?
 			update_params = {
 				display_name: params[:display_name] || user[:display_name],
@@ -43,29 +43,67 @@ module Setup
 			return ResponseHelper.json(true, user, 'User Updated Successfully')
 		end
 
-		def self.delete_existing_user(id)
-			user = User.find_by(id: id)
+		def self.delete_existing_user(user_id)
+			user = User.find_by(id: user_id)
 			return ResponseHelper.json(true, nil, 'No Such User') if user.nil?
 			user.delete
 			return ResponseHelper.json(true, nil, 'User Deleted')
 		end
 
-		def self.fetch_all_users
+		def self.fetch_all_users(params)
 			return ResponseHelper.json(true, User.all, nil)
 		end
 
 
 		# application specific
-		def self.add_user_to_building(params)
+		def self.add_user_to_building(admin, user_id, params)
+			user = User.find_by(id: user_id)
+			raise 'No such user in database' if user.nil?
 
+			buildings = Building.where(id: params[:building_id_list])
+			user.buildings << buildings.select{ |building| ! user.buildings.include?(building) }
+
+			access_count = user.buildings.length
+			ResponseHelper.json(true,
+								nil,
+								"#{user[:display_name]} can now login into #{access_count} #{'branch'.pluralize(access_count)}")
 		end
 
-		def self.remove_user_from_building(params)
+		def self.remove_user_from_building(admin, user_id, params)
+			user = User.find_by(id: user_id)
+			raise 'No such user in database' if user.nil?
 
+			user.buildings.delete(Building.find(params[:building_id_list]))
+			access_count = user.buildings.length
+
+			ResponseHelper.json(true,
+								nil,
+								"#{user[:display_name]} can now login into #{access_count} #{'branch'.pluralize(access_count)}")
 		end
 
-		def self.deactivate_user_account(params)
+		def self.toggle_user_account_status(admin, user_id)
+			user = User.find_by(id: user_id)
+			raise 'No such user in database' if user.nil?
+			if user.update!(is_active: !user[:is_active])
+				ResponseHelper.json(true, user, "#{user[:display_name]}'s account is now #{user[:is_active] ? 'active'
+																									: 'deactivated'}")
+			end
+			ResponseHelper.json(false, nil, "Request Failed!")
+		end
 
+		def change_other_user_password(admin, user_id, params)
+			user = User.find_by(id: user_id)
+			raise 'No such user in database' if user.nil?
+
+			pass_params = {
+				password: params[:password],
+				password_confirmation: params[:password_confirmation]
+			}
+
+			if user.update!(pass_params)
+				ResponseHelper.json(true, user, "#{user[:display_name]}'s password changed successfully")
+			end
+			ResponseHelper.json(false, nil, 'Request Failed')
 		end
 	end
 end

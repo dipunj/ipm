@@ -27,3 +27,4 @@ Things you may want to cover:
 
 - Add user logs model - log login time, logout time, ip address
 - set max number of attempts allowed to login. Lock login attempts after max attempts reach.
+- Add uniqueness constraint for join table of building and user

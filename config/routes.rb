@@ -48,8 +48,13 @@ Rails.application.routes.draw do
 		post       'user/delete'           => 'user#delete'
 		get        'user/list'             => 'user#list_all'
 		get        'user/search'           => 'user#search'
-      end
-    end
+	  end
+	  namespace :session do
+		  post     'auth/login'            => 'auth#login'
+		  post     'auth/logout'           => 'auth#logout'
+		  post     'auth/reset'            => 'auth#change_password'
+	  end
+	end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
