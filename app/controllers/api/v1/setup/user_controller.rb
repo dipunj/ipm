@@ -48,7 +48,7 @@ class Api::V1::Setup::UserController < Api::V1::BaseController
 		render json: response
 	end
 
-	def deactivate_other_account
+	def toggle_account_state
 		response = @service.toggle_user_account_status(@current_user, user_id)
 		render json: response
 	end

@@ -41,7 +41,7 @@ class Api::V1::BaseController < ApplicationController
 					end
 				else nil
 			end
-			if user.present?
+			if user.present? && user[:is_active]
 				@current_user ||= user
 			end
 		end

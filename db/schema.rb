@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "image_url", limit: 255
     t.string "login_id", limit: 255, null: false
     t.string "password_digest", limit: 255, null: false
+    t.boolean "is_active", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

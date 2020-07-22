@@ -3,13 +3,18 @@ module Session
 
 		def self.authenticate(params, mode='cookie')
 			user = User.find_by(login_id: params[:login_id])
+
+			unless user[:is_active]
+				return ResponseHelper.json(false, nil, 'Account is not active. Contact Admin')
+			end
+
 			if user.authenticate(params[:password])
 				case mode
 					when 'jwt'
 						jwt = JwtAuth.issue({ user_id: user.id, account_type: user.account_type})
 						return ResponseHelper.json(true, jwt, 'Logged In')
 					when 'cookie'
-						return ResponseHelper.json(true, user.id, nil)
+						return ResponseHelper.json(true, user.id, 'Logged In')
 					else nil
 				end
 			end
