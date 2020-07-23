@@ -22,11 +22,17 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "doctor_name", limit: 255, null: false
     t.string "purpose", limit: 255
     t.string "comment", limit: 255
-    t.uuid "building_id", null: false
+    t.string "guardian_name", limit: 255, null: false
+    t.string "guardian_phone", limit: 15, null: false
+    t.uuid "bed_id", null: false
     t.uuid "patient_id", null: false
+    t.uuid "created_by_id", null: false
+    t.uuid "last_updated_by_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["building_id"], name: "index_admissions_on_building_id"
+    t.index ["bed_id"], name: "index_admissions_on_bed_id"
+    t.index ["created_by_id"], name: "index_admissions_on_created_by_id"
+    t.index ["last_updated_by_id"], name: "index_admissions_on_last_updated_by_id"
     t.index ["patient_id"], name: "index_admissions_on_patient_id"
   end
 
@@ -118,8 +124,10 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.index ["building_id"], name: "index_wards_on_building_id"
   end
 
-  add_foreign_key "admissions", "buildings"
+  add_foreign_key "admissions", "beds"
   add_foreign_key "admissions", "patients"
+  add_foreign_key "admissions", "users", column: "created_by_id"
+  add_foreign_key "admissions", "users", column: "last_updated_by_id"
   add_foreign_key "beds", "wards"
   add_foreign_key "transactions", "admissions"
   add_foreign_key "transactions", "users", column: "created_by_id"
