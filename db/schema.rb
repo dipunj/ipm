@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
   end
 
   create_table "beds", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "code", limit: 50, null: false
+    t.string "name", limit: 50, null: false
     t.uuid "ward_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
   end
 
   create_table "buildings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "code", limit: 255, null: false
+    t.string "branch_code", limit: 255, null: false
     t.string "name_line", limit: 255, null: false
     t.string "address_line", limit: 255, null: false
     t.string "locality", limit: 255
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "display_name", limit: 50, null: false
+    t.string "name", limit: 50, null: false
     t.string "account_type", limit: 50, null: false
     t.string "image_url", limit: 255
     t.string "login_id", limit: 255, null: false
@@ -111,7 +111,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "floor", limit: 5, null: false
     t.string "ward_type", limit: 30
     t.string "ward_number", limit: 10
-    t.string "display_name", limit: 50, null: false
+    t.string "name", limit: 50, null: false
     t.uuid "building_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

@@ -8,7 +8,7 @@ class CreateWards < ActiveRecord::Migration[6.0]
 
       # fall back if the above three are not supplied by user
       # human readable nickname for the room
-      t.column :display_name        , 'VARCHAR(50)', null: false
+      t.column :name                , 'VARCHAR(50)', null: false
 
       t.references :building, type: :uuid, foreign_key: true
 

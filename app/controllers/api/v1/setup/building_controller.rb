@@ -39,7 +39,7 @@ class Api::V1::Setup::BuildingController < Api::V1::BaseController
 		end
 
 		def building_params
-			params.permit(:code,
+			params.permit(:branch_code,
 						  :name_line,
 						  :address_line,
 						  :locality,

@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 Setup::UserService.create_new_user({
-									   display_name: 'System Admin',
+									   name: 'System Admin',
 									   account_type: AccountTypes::ADMIN,
 									   login_id: 'admin',
 									   password: 'admin',

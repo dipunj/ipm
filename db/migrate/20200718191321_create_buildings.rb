@@ -3,7 +3,7 @@ class CreateBuildings < ActiveRecord::Migration[6.0]
     create_table :buildings, id: :uuid do |t|
 
       # branch code
-      t.column :code               , 'VARCHAR(255)', null: false
+      t.column :branch_code        , 'VARCHAR(255)', null: false
       # first line of address
       t.column :name_line          , 'VARCHAR(255)', null: false
       # second line of address

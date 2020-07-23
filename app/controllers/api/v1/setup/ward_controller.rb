@@ -51,6 +51,6 @@ class Api::V1::Setup::WardController < Api::V1::BaseController
     end
 
     def filter_params
-      params.permit(:building_id, :code, :city, :postal_code)
+      params.permit(:building_id, :branch_code, :city, :postal_code)
     end
 end

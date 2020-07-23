@@ -39,7 +39,7 @@ class Api::V1::Setup::BedController < Api::V1::BaseController
     end
 
     def bed_params
-      params.permit(:code)
+      params.permit(:name)
     end
 
     def bed_id
@@ -55,6 +55,6 @@ class Api::V1::Setup::BedController < Api::V1::BaseController
     end
 
     def filter_params
-      params.permit(:ward_id, :floor, :branch_code, :city, :postal_code)
+      params.permit(:floor, :branch_code, :city, :postal_code, :page)
     end
 end

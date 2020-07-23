@@ -60,7 +60,7 @@ class Api::V1::Setup::UserController < Api::V1::BaseController
 		end
 
 		def user_params
-			params.permit(:display_name, :account_type, :image_url, :login_id, :password, :password_confirmation)
+			params.permit(:name, :account_type, :image_url, :login_id, :password, :password_confirmation)
 		end
 
 		def user_id
@@ -76,7 +76,7 @@ class Api::V1::Setup::UserController < Api::V1::BaseController
 		end
 
 		def filter_params
-			params.permit(:building_id, :code, :city, :postal_code)
+			params.permit(:building_id, :branch_code, :city, :postal_code)
 		end
 
 		def password_params
