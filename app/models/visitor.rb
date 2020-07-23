@@ -1,3 +1,3 @@
 class Visitor < ApplicationRecord
-	# belongs_to :admission
+	has_many :visit_logs
 end
