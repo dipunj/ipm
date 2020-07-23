@@ -20,7 +20,6 @@ module Setup
 
 		def self.fetch_user_by_id(user_id)
 			user = User.find_by(id: user_id)
-			byebug
 			return ResponseHelper.json(true, nil, 'No Such User') if user.nil?
 			return ResponseHelper.json(true, user, nil)
 
