@@ -12,8 +12,8 @@ module Setup
 			building = Building.find_by(id: id)
 
 			return ResponseHelper.json(true,
-									   building,
-									   'No such building exists in database')
+									   building.as_json(Building.with_all_data),
+									   nil)
 		end
 
 		def self.update_existing_building(id, params)

@@ -13,7 +13,7 @@ module Setup
 				floor:        params[:floor],
 				ward_type:    params[:ward_type],
 				ward_number:  params[:ward_number],
-				display_name: "#{params[:ward_type]}-#{params[:ward_number]} L#{params[:floor]}"
+				name:         "#{params[:ward_type]}-#{params[:ward_number]} L#{params[:floor]}"
 			}
 
 			new_ward = Ward.create!(create_params)
@@ -34,7 +34,7 @@ module Setup
 				floor:        params[:floor] || ward[:floor],
 				ward_type:    params[:ward_type] || ward[:ward_type],
 				ward_number:  params[:ward_number] || ward[:ward_number],
-				display_name: "#{params[:ward_type] || ward[:ward_type]}-#{params[:ward_number] ||
+				name:         "#{params[:ward_type] || ward[:ward_type]}-#{params[:ward_number] ||
 					ward[:ward_number]} L#{params[:floor] || ward[:floor]}"
 			}
 
@@ -52,12 +52,18 @@ module Setup
 		end
 
 		def self.fetch_all_wards(params)
-			building_id = params[:building_id]
-			code        = params[:code]
-			city        = params[:city]
-			postal_code = params[:postal_code]
+			building_id        = params[:building_id]
+			branch_code        = params[:branch_code]
+			city               = params[:city]
+			postal_code        = params[:postal_code]
 
-			# search sql here
+			wards = Building.where("branch_code = ? or city = ? or postal_code = ? or id = ?",
+								   branch_code,
+								   city,
+								   postal_code,
+								   building_id).collect(&:wards)
+							                   .flatten
+			ResponseHelper.json(true, wards.as_json(Ward.admin_view), nil)
 		end
 
 		def self.find_ward(building_id, params)

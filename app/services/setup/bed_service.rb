@@ -7,7 +7,7 @@ module Setup
 
 			create_params = {
 				ward_id:  ward_id,
-				code: params[:code]
+				name: params[:name]
 			}
 
 			new_bed = Bed.create!(create_params)
@@ -17,7 +17,7 @@ module Setup
 		def self.fetch_bed_by_id(id)
 			bed = Bed.find_by(id: id)
 			return ResponseHelper.json(true, bed, 'Bed not found') if bed.nil?
-			return ResponseHelper.json(true, bed, nil)
+			return ResponseHelper.json(true, bed.as_json(Bed.with_all_data), nil)
 		end
 
 		def self.update_existing_bed(bed_id, params)
@@ -25,12 +25,12 @@ module Setup
 			raise 'No Such Bed exists in database' if bed.blank?
 
 			update_params = {
-				code: params[:code]
+				name: params[:name]
 			}
 
 			bed.update!(update_params)
 
-			return ResponseHelper.json(true, bed, 'Updated Bed Successfully')
+			return ResponseHelper.json(true, bed.as_json(Bed.only), 'Updated Bed Successfully')
 		end
 
 		def self.delete_existing_bed(id)
@@ -42,16 +42,23 @@ module Setup
 		end
 
 		def self.fetch_all_beds(params)
-			ward_id     = params[:ward_id]
-			code        = params[:code]
+			branch_code        = params[:branch_code]
 			city        = params[:city]
 			postal_code = params[:postal_code]
-
-			# search sql here
+			beds = Building.where("branch_code = ? or city = ? or postal_code = ?",
+								  branch_code,
+								  city,
+								  postal_code).collect(&:beds)
+						                      .flatten
+			ResponseHelper.json(true, beds.as_json(Bed.with_all_data), 'Success')
 		end
 
 		def self.find_bed(building_id, ward_id, params)
 
+			if ward_id.present?
+				ward = Ward.find_by(id: ward_id)
+
+			end
 		end
 
 	end

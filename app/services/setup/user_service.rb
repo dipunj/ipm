@@ -2,12 +2,12 @@ module Setup
 	class UserService < SetupService
 
 		def self.create_new_user(params)
-			raise 'Display Name should not be empty'      if params[:display_name].blank?
+			raise 'Name should not be empty'              if params[:name].blank?
 			raise 'Please Select Account type'            if params[:account_type].blank?
 			raise 'Please enter your mobile phone number' if params[:login_id].blank?
 
 			create_params = {
-				display_name: params[:display_name],
+				name: params[:name],
 				account_type: params[:account_type],
 				login_id: params[:login_id],
 				password: params[:password],
@@ -20,6 +20,7 @@ module Setup
 
 		def self.fetch_user_by_id(user_id)
 			user = User.find_by(id: user_id)
+			byebug
 			return ResponseHelper.json(true, nil, 'No Such User') if user.nil?
 			return ResponseHelper.json(true, user, nil)
 
@@ -29,7 +30,7 @@ module Setup
 			user = User.find_by(id: user_id)
 			return ResponseHelper.json(true, nil, 'No Such User') if user.nil?
 			update_params = {
-				display_name: params[:display_name] || user[:display_name],
+				name: params[:name] || user[:name],
 				account_type: params[:account_type] || user[:account_type],
 				login_id: params[:login_id] || user[:login_id],
 			}
@@ -52,7 +53,23 @@ module Setup
 		end
 
 		def self.fetch_all_users(params)
-			return ResponseHelper.json(true, User.all, nil)
+			building_id = params[:building_id]
+			branch_code = params[:branch_code]
+			city        = params[:city]
+			postal_code = params[:postal_code]
+
+			if branch_code.nil? && city.nil? && postal_code.nil? && building_id.nil?
+				users = User.all
+			else
+				buildings = Building.where("branch_code = ? or city = ? or postal_code = ? or id = ?",
+										   branch_code,
+										   city,
+										   postal_code,
+										   building_id)
+
+				users     = buildings.collect(&:users).flatten
+			end
+			return ResponseHelper.json(true, users.as_json(User.with_all_data), nil)
 		end
 
 
@@ -67,7 +84,7 @@ module Setup
 			access_count = user.buildings.length
 			ResponseHelper.json(true,
 								nil,
-								"#{user[:display_name]} can now login into #{access_count} #{'branch'.pluralize(access_count)}")
+								"#{user[:name]} can now login into #{access_count} #{'branch'.pluralize(access_count)}")
 		end
 
 		def self.remove_user_from_building(admin, user_id, params)
@@ -79,7 +96,7 @@ module Setup
 
 			ResponseHelper.json(true,
 								nil,
-								"#{user[:display_name]} can now login into #{access_count} #{'branch'.pluralize(access_count)}")
+								"#{user[:name]} can now login into #{access_count} #{'branch'.pluralize(access_count)}")
 		end
 
 		def self.toggle_user_account_status(admin, user_id)
@@ -88,7 +105,7 @@ module Setup
 			raise 'Cannot deactivate system admin' if system_admin.id == user.id
 			raise 'No such user in database' if user.nil?
 			if user.update!(is_active: !user[:is_active])
-				return ResponseHelper.json(true, user, "#{user[:display_name]}'s account is now #{user[:is_active] ?
+				return ResponseHelper.json(true, user, "#{user[:name]}'s account is now #{user[:is_active] ?
 																								  'active'
 																									: 'deactivated'}")
 			end
@@ -105,7 +122,7 @@ module Setup
 			}
 
 			if user.update!(pass_params)
-				return ResponseHelper.json(true, user, "#{user[:display_name]}'s password changed successfully")
+				return ResponseHelper.json(true, user, "#{user[:name]}'s password changed successfully")
 			end
 			ResponseHelper.json(false, nil, 'Request Failed')
 		end
