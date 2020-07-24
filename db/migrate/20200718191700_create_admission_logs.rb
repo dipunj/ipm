@@ -1,6 +1,7 @@
-class CreateAdmissions < ActiveRecord::Migration[6.0]
+class CreateAdmissionLogs < ActiveRecord::Migration[6.0]
   def up
-    create_table :admissions, id: :uuid do |t|
+    create_table :admission_logs, id: :uuid do |t|
+      t.references :admission, type: :uuid, foreign_key: true, null: false
 
       t.datetime   :admit_timestamp          , null: false
       t.datetime   :discharge_timestamp
@@ -15,10 +16,9 @@ class CreateAdmissions < ActiveRecord::Migration[6.0]
       t.references :patient               , type: :uuid, foreign_key: true, null: false
       t.references :created_by            , type: :uuid, foreign_key: { to_table: :users }, null: false
       t.references :last_updated_by       , type: :uuid, foreign_key: { to_table: :users }, null: false
-    end
-  end
 
-  def down
-    drop_table :admissions
+      # represents the time at which a log entry was created
+      t.datetime :created_at, null: false
+    end
   end
 end

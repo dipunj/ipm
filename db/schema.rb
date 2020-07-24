@@ -16,6 +16,27 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
+  create_table "admission_logs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "admission_id", null: false
+    t.datetime "admit_timestamp", null: false
+    t.datetime "discharge_timestamp"
+    t.string "doctor_name", limit: 255, null: false
+    t.string "purpose", limit: 255
+    t.string "comment", limit: 255
+    t.string "guardian_name", limit: 255, null: false
+    t.string "guardian_phone", limit: 15, null: false
+    t.uuid "bed_id", null: false
+    t.uuid "patient_id", null: false
+    t.uuid "created_by_id", null: false
+    t.uuid "last_updated_by_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["admission_id"], name: "index_admission_logs_on_admission_id"
+    t.index ["bed_id"], name: "index_admission_logs_on_bed_id"
+    t.index ["created_by_id"], name: "index_admission_logs_on_created_by_id"
+    t.index ["last_updated_by_id"], name: "index_admission_logs_on_last_updated_by_id"
+    t.index ["patient_id"], name: "index_admission_logs_on_patient_id"
+  end
+
   create_table "admissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "admit_timestamp", null: false
     t.datetime "discharge_timestamp"
@@ -28,8 +49,6 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.uuid "patient_id", null: false
     t.uuid "created_by_id", null: false
     t.uuid "last_updated_by_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.index ["bed_id"], name: "index_admissions_on_bed_id"
     t.index ["created_by_id"], name: "index_admissions_on_created_by_id"
     t.index ["last_updated_by_id"], name: "index_admissions_on_last_updated_by_id"
@@ -124,6 +143,11 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.index ["building_id"], name: "index_wards_on_building_id"
   end
 
+  add_foreign_key "admission_logs", "admissions"
+  add_foreign_key "admission_logs", "beds"
+  add_foreign_key "admission_logs", "patients"
+  add_foreign_key "admission_logs", "users", column: "created_by_id"
+  add_foreign_key "admission_logs", "users", column: "last_updated_by_id"
   add_foreign_key "admissions", "beds"
   add_foreign_key "admissions", "patients"
   add_foreign_key "admissions", "users", column: "created_by_id"
