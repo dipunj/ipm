@@ -4,6 +4,8 @@ module Session
 		def self.authenticate(params, mode='cookie')
 			user = User.find_by(login_id: params[:login_id])
 
+			raise "User doesn't exist, please contact admin" if user.nil?
+
 			unless user[:is_active]
 				return ResponseHelper.json(false, nil, 'Account is not active. Contact Admin')
 			end
