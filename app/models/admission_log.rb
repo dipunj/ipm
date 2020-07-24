@@ -1,0 +1,2 @@
+class AdmissionLog < ApplicationRecord
+end
