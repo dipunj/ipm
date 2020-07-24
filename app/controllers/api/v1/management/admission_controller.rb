@@ -2,13 +2,9 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
 
   before_action :set_service
 
-  def initiate_new_admission
+  def create_new_admission
     response = @service.initiate_new_admission(@current_user, admission_params, patient_params)
     render json: response
-  end
-
-  def list_current_admissions
-
   end
 
   def find_admission_by_id
@@ -17,8 +13,14 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
   end
 
   def update_admission
-    response = @service.update_admission(@current_user, admission_id, admission_params, patient_params)
+    response = @service.update_admission(@current_user, admission_id, admission_params)
     render json: response
+  end
+
+
+
+  def list_current_admissions
+
   end
 
   def list_all_admissions

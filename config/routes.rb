@@ -7,14 +7,13 @@ Rails.application.routes.draw do
         get 'visitor/update'
         get 'visitor/delete'
 
-		post 'transaction/create'
-        get 'transaction/read'
-        get 'transaction/update'
+		post 'transaction/create'            => 'transaction#create'
+		post 'transaction/undo'              => 'transaction#undo'
         get 'transaction/delete'
 
-		post 'admission/new'                  => 'admission#initiate_new_admission'
+		post 'admission/new'                  => 'admission#create_new_admission'
         get 'admission/find'                  => 'admission#find_admission_by_id'
-        get 'admission/update'
+		post 'admission/update'                => 'admission#update_admission'
         get 'admission/delete'
 	  end
 	  namespace :setup do
