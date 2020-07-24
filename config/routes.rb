@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
 		post 'transaction/create'            => 'transaction#create'
 		post 'transaction/undo'              => 'transaction#undo'
+		get  'transaction/list'              => 'transaction#list_all_in_admission'
         get 'transaction/delete'
 
 		post 'admission/new'                  => 'admission#create_new_admission'

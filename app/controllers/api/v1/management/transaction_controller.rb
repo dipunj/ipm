@@ -12,6 +12,11 @@ class Api::V1::Management::TransactionController < Api::V1::BaseController
     render json: response
   end
 
+  def list_all_in_admission
+    response = @service.list_all_in_admission(@current_user, admission_id)
+    render json: response
+  end
+
   private
 
     def set_service
@@ -23,7 +28,7 @@ class Api::V1::Management::TransactionController < Api::V1::BaseController
     end
 
     def transaction_params
-      params.permit(:is_credit, :payment_mode, :value)
+      params.permit(:is_credit, :payment_mode, :value, :purpose)
     end
 
     def transaction_id

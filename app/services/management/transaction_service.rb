@@ -12,6 +12,7 @@ module Management
 				is_credit: params[:is_credit].to_s.downcase == "true",
 				value: params[:value],
 				payment_mode: params[:payment_mode],
+				purpose: params[:purpose],
 				created_by_id: operator.id
 			}
 			transaction = Transaction.create!(create_params)
@@ -37,6 +38,15 @@ module Management
 				transaction   = Transaction.create!(create_params)
 				return ResponseHelper.json(true, transaction.as_json, 'Reverted transaction')
 			end
+		end
+
+		def self.list_all_in_admission(operator, admission_id)
+			admission = Admission.find_by(id: admission_id)
+			raise 'Invalid admission ID' if admission.nil?
+
+			transactions = Transaction.where(admission_id: admission_id).order(created_at: :asc)
+
+			return ResponseHelper.json(true, transactions.as_json, nil)
 		end
 	end
 end
