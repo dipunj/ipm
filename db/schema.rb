@@ -136,7 +136,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "relation_with_patient", limit: 100
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["name", "phone"], name: "index_visitors_on_name_and_phone", unique: true
+    t.index ["name", "phone", "relation_with_patient"], name: "index_visitors_on_name_and_phone_and_relation_with_patient", unique: true
   end
 
   create_table "wards", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

@@ -16,10 +16,21 @@ class Ward < ApplicationRecord
 			only: [:id, :name],
 			include: {
 				beds: {
-					only: [:name]
+					only: [:id, :name]
 				},
 				building: {
-					only: [:branch_code, :city]
+					only: [:id, :branch_code, :city]
+				}
+			}
+		}
+	end
+
+	def self.with_beds
+		{
+			except: [:created_at, :updated_at],
+			include: {
+				beds: {
+					only: [:id, :name]
 				}
 			}
 		}

@@ -21,7 +21,7 @@ admin_params = {
 
 building_list = [
 	{
-		branch_code:0001,
+		branch_code:"0001",
 		name_line:"First Hospital",
 		address_line: "Bisrat Road",
 		city: "shahjahanpur",
