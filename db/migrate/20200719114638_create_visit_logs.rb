@@ -4,5 +4,7 @@ class CreateVisitLogs < ActiveRecord::Migration[6.0]
       t.datetime :entry_timestamp
       t.datetime :exit_timestamp
     end
+
+    add_index :visitor_logs, [:visitor_id, :admission_id, :entry_timestamp], unique: true, name: 'unique_visits'
   end
 end

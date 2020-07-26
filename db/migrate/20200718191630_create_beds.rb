@@ -5,6 +5,8 @@ class CreateBeds < ActiveRecord::Migration[6.0]
       t.references :ward, type: :uuid, foreign_key: true
       t.timestamps
     end
+
+    add_index :beds, [:ward_id, :name], unique: true
   end
 
   def down

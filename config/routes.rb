@@ -10,12 +10,12 @@ Rails.application.routes.draw do
 		post 'transaction/create'            => 'transaction#create'
 		post 'transaction/undo'              => 'transaction#undo'
 		get  'transaction/list'              => 'transaction#list_all_in_admission'
-        get 'transaction/delete'
 
 		post 'admission/new'                  => 'admission#create_new_admission'
         get 'admission/find'                  => 'admission#find_admission_by_id'
-		post 'admission/update'                => 'admission#update_admission'
-        get 'admission/delete'
+		post 'admission/update'               => 'admission#update_admission'
+        get 'admission/current'               => 'admission#list_current_admissions'
+		get 'admission/list_by_patient'
 	  end
 	  namespace :setup do
         post       'building/create'       => 'building#create'

@@ -12,6 +12,8 @@ class CreateTransactions < ActiveRecord::Migration[6.0]
 
       t.datetime :created_at, null: false
     end
+
+
   end
 
   def down

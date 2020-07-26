@@ -7,6 +7,8 @@ class CreateVisitors < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+
+    add_index :visitors, [:name, :phone], unique: true
   end
 
   def down

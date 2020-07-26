@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "purpose", limit: 255
     t.string "comment", limit: 255
     t.string "guardian_name", limit: 255, null: false
-    t.string "guardian_phone", limit: 15, null: false
+    t.string "guardian_phone", limit: 15
     t.uuid "bed_id", null: false
     t.uuid "patient_id", null: false
     t.uuid "created_by_id", null: false
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.index ["bed_id"], name: "index_admissions_on_bed_id"
     t.index ["created_by_id"], name: "index_admissions_on_created_by_id"
     t.index ["last_updated_by_id"], name: "index_admissions_on_last_updated_by_id"
+    t.index ["patient_id", "admit_timestamp"], name: "index_admissions_on_patient_id_and_admit_timestamp", unique: true
     t.index ["patient_id"], name: "index_admissions_on_patient_id"
   end
 
@@ -60,6 +61,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.uuid "ward_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["ward_id", "name"], name: "index_beds_on_ward_id_and_name", unique: true
     t.index ["ward_id"], name: "index_beds_on_ward_id"
   end
 
@@ -74,6 +76,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "country", limit: 3, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["branch_code"], name: "index_buildings_on_branch_code", unique: true
   end
 
   create_table "buildings_users", id: false, force: :cascade do |t|
@@ -85,25 +88,26 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "name", limit: 255, null: false
     t.string "phone", limit: 15, null: false
     t.string "gender", limit: 10
-    t.string "age", limit: 3
+    t.datetime "dob"
     t.serial "visit_count", limit: 2, null: false
     t.decimal "amount_due", precision: 100, scale: 2
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "phone"], name: "index_patients_on_name_and_phone", unique: true
   end
 
   create_table "transactions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "category", limit: 20, null: false
-    t.string "mode", limit: 30, null: false
+    t.boolean "is_credit", null: false
+    t.string "payment_mode", limit: 30, null: false
     t.decimal "value", precision: 100, scale: 2, null: false
+    t.text "purpose"
+    t.uuid "reverses_transaction_id"
     t.uuid "admission_id", null: false
     t.uuid "created_by_id"
-    t.uuid "last_updated_by_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
     t.index ["admission_id"], name: "index_transactions_on_admission_id"
     t.index ["created_by_id"], name: "index_transactions_on_created_by_id"
-    t.index ["last_updated_by_id"], name: "index_transactions_on_last_updated_by_id"
+    t.index ["reverses_transaction_id"], name: "index_transactions_on_reverses_transaction_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -115,6 +119,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.boolean "is_active", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["login_id"], name: "index_users_on_login_id", unique: true
   end
 
   create_table "visitor_logs", id: false, force: :cascade do |t|
@@ -122,6 +127,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.uuid "visitor_id", null: false
     t.datetime "entry_timestamp"
     t.datetime "exit_timestamp"
+    t.index ["visitor_id", "admission_id", "entry_timestamp"], name: "unique_visits", unique: true
   end
 
   create_table "visitors", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -130,6 +136,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "relation_with_patient", limit: 100
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "phone"], name: "index_visitors_on_name_and_phone", unique: true
   end
 
   create_table "wards", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -140,6 +147,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.uuid "building_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["building_id", "ward_type", "ward_number"], name: "index_wards_on_building_id_and_ward_type_and_ward_number", unique: true
     t.index ["building_id"], name: "index_wards_on_building_id"
   end
 
@@ -154,7 +162,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
   add_foreign_key "admissions", "users", column: "last_updated_by_id"
   add_foreign_key "beds", "wards"
   add_foreign_key "transactions", "admissions"
+  add_foreign_key "transactions", "transactions", column: "reverses_transaction_id"
   add_foreign_key "transactions", "users", column: "created_by_id"
-  add_foreign_key "transactions", "users", column: "last_updated_by_id"
   add_foreign_key "wards", "buildings"
 end

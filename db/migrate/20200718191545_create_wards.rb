@@ -14,6 +14,8 @@ class CreateWards < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+
+    add_index :wards, [:building_id, :ward_type, :ward_number], unique: true
   end
 
   def down
