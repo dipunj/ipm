@@ -74,8 +74,9 @@ module Management
 			return ResponseHelper.json(admission.present?, admission.as_json(Admission.with_all_data), nil)
 		end
 
-		def self.list_current_admissions(operator)
+		def self.list_current_admissions(operator, building_id)
 			current = Admission.where.not(is_discharged: true)
+			current =  current.joins(bed: [ward: [:building]]).where(beds: { wards: { building_id: building_id } }) if building_id.present?
 			return ResponseHelper.json(true, current.as_json(Admission.with_all_data), "There are #{current.length} current admissions")
 		end
 

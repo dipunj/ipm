@@ -18,7 +18,7 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
   end
 
   def list_current_admissions
-    response = @service.list_current_admissions(@current_user)
+    response = @service.list_current_admissions(@current_user, building_id)
     render json: response
   end
 
@@ -36,6 +36,10 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
 
     def admission_id
       params.permit(:admission_id)[:admission_id]
+    end
+
+    def building_id
+      params.permit(:building_id)[:building_id]
     end
 
     def admission_params
