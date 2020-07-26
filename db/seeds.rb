@@ -117,18 +117,21 @@ dummy_transactions = [
 	{
 		is_credit: true,
 		payment_mode: 'gold',
+		currency: 'INR',
 		value: 11000000000.25,
 		purpose: 'Security Deposit'
 	},
 	{
 		is_credit: true,
 		payment_mode: 'cash',
+		currency: 'INR',
 		value: 2000,
 		purpose: 'Consultancy Fee'
 	},
 	{
 		is_credit: true,
 		payment_mode: 'card',
+		currency: 'INR',
 		value: '3000',
 		purpose: 'Anti-insanity injection vile'
 	}

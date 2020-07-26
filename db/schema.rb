@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
   create_table "admissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "admit_timestamp", null: false
     t.datetime "discharge_timestamp"
+    t.boolean "is_discharged"
     t.string "doctor_name", limit: 255, null: false
     t.string "purpose", limit: 255
     t.string "comment", limit: 255
@@ -49,6 +50,8 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.uuid "patient_id", null: false
     t.uuid "created_by_id", null: false
     t.uuid "last_updated_by_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["bed_id"], name: "index_admissions_on_bed_id"
     t.index ["created_by_id"], name: "index_admissions_on_created_by_id"
     t.index ["last_updated_by_id"], name: "index_admissions_on_last_updated_by_id"
