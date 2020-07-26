@@ -1,17 +1,17 @@
 class Admission < ApplicationRecord
 	belongs_to :patient
 	belongs_to :bed
-
+	belongs_to :created_by, class_name: 'User'
+	belongs_to :last_updated_by, class_name: 'User'
 
 	has_many :transactions
 	has_many :visit_logs
 
 	has_many :visitors, through: :visit_logs
-	has_one :created_by, class_name: 'User'
-	has_one :last_updated_by, class_name: 'User'
 	has_many :admission_logs
 
 	validates :patient_id, uniqueness:  { scope: :admit_timestamp }
+	attribute :is_discharged, default: false
 
 	def self.with_all_data
 		{
@@ -34,6 +34,12 @@ class Admission < ApplicationRecord
 				},
 				admission_logs: {
 					except: [:created_at]
+				},
+				created_by: {
+					only: [:id, :name]
+				},
+				last_updated_by: {
+					only: [:id, :name]
 				}
 			}
 		}

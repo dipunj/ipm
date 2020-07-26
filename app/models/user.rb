@@ -1,7 +1,7 @@
 class User < ApplicationRecord
 	has_secure_password
 	has_and_belongs_to_many :buildings
-
+	has_many :admissions
 	validates :login_id, uniqueness: true
 
 	def as_json(options = {})

@@ -13,22 +13,24 @@ module Management
 			print "Number of faulty records on this bed #{} ", Admission.where(bed_id: bed.id, discharge_timestamp: nil).length
 
 			# find the latest admission on that bed,
-			# if the patient hasn't been discharged i.e discharge_timestamp.nil? => do not allow admission on that bed
+			# if the patient hasn't been discharged
 			last_admission = Admission.where(bed_id: bed.id).order(admit_timestamp: :desc).first
-			raise 'Please discharge previous patient on this bed.' if last_admission && last_admission[:discharge_timestamp].nil?
+			raise 'Please discharge previous patient on this bed.' if last_admission && !last_admission[:is_discharged]
 
 			admission_params = {
-				admit_timestamp:    params[:admit_timestamp] || Time.now,
-				doctor_name:        params[:doctor_name],
-				purpose:            params[:purpose],
-				comment:            params[:comment],
-				guardian_name:      params[:guardian_name],
-				guardian_phone:     params[:guardian_phone],
-				bed_id:             bed.id,
-				patient_id:         patient.id,
-				created_by_id:      operator.id,
-				last_updated_by_id: operator.id
+				admit_timestamp:     params[:admit_timestamp] || Time.now,
+				discharge_timestamp: params[:discharges_timestamp],
+				doctor_name:         params[:doctor_name],
+				purpose:             params[:purpose],
+				comment:             params[:comment],
+				guardian_name:       params[:guardian_name],
+				guardian_phone:      params[:guardian_phone],
+				bed_id:              bed.id,
+				patient_id:          patient.id,
+				created_by_id:       operator.id,
+				last_updated_by_id:  operator.id
 			}
+
 			admission = Admission.create!(admission_params)
 			return ResponseHelper.json(true, admission.as_json(Admission.with_all_data), "#{patient.name} has been admitted at #{bed.name} in #{bed.ward.name}")
 		end
@@ -73,8 +75,8 @@ module Management
 		end
 
 		def self.list_current_admissions(operator)
-			current = Admission.find_by(discharge_timestamp: nil)
-			return ResponseHelper.json(true, current, "There are #{current.length} current admissions")
+			current = Admission.where.not(is_discharged: true)
+			return ResponseHelper.json(true, current.as_json(Admission.with_all_data), "There are #{current.length} current admissions")
 		end
 
 		def self.search_admissions(operator, params)

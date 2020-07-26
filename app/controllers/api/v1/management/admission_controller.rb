@@ -39,7 +39,7 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
     end
 
     def admission_params
-      params.permit(:doctor_name,:purpose,:comment, :bed_id, :guardian_name, :guardian_phone)
+      params.permit(:admit_timestamp, :discharge_timestamp, :doctor_name,:purpose,:comment, :bed_id, :guardian_name, :guardian_phone)
     end
 
     def patient_params
