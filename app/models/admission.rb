@@ -9,6 +9,9 @@ class Admission < ApplicationRecord
 	has_many :visitors, through: :visit_logs
 	has_one :created_by, class_name: 'User'
 	has_one :last_updated_by, class_name: 'User'
+	has_many :admission_logs
+
+	validates :patient_id, uniqueness:  { scope: :admit_timestamp }
 
 	def self.with_all_data
 		{
@@ -27,6 +30,9 @@ class Admission < ApplicationRecord
 					}
 				},
 				transactions: {
+					except: [:created_at]
+				},
+				admission_logs: {
 					except: [:created_at]
 				}
 			}

@@ -6,6 +6,13 @@ class Bed < ApplicationRecord
 	has_many :visit_logs, through: :admissions
 	has_many :visitors, through: :admissions
 
+	validates :name, uniqueness: {
+		scope: :ward_id,
+		message: ->(object, data) do
+			"Bed #{object.name} is already present in ward #{object.ward.name}"
+		end
+	}
+
 	def self.with_all_data
 		{
 			only: [:id, :name],

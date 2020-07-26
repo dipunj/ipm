@@ -9,6 +9,8 @@ class Building < ApplicationRecord
 	has_many :visitors, through: :admissions
 	has_many :visit_logs, through: :admissions
 
+	validates :branch_code, uniqueness: true
+
 	def self.with_all_data
 		{
 			except: [:created_at, :updated_at],
