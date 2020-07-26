@@ -35,7 +35,6 @@ module Management
 			return ResponseHelper.json(true, admission.as_json(Admission.with_all_data), "#{patient.name} has been admitted at #{bed.name} in #{bed.ward.name}")
 		end
 
-
 		def self.update_admission(operator, admission_id, params)
 			raise 'Please select a valid admission' if admission_id.nil?
 			admission = Admission.find_by(id: admission_id)
@@ -49,17 +48,18 @@ module Management
 
 			update_params                      = {}
 
-			update_params[:admit_timestamp]    = params[:admit_timestamp] if params[:admit_timestamp].present?
-			update_params[:doctor_name]        = params[:doctor_name]     if params[:doctor_name].present?
-			update_params[:purpose]            = params[:purpose]         if params[:purpose].present?
-			update_params[:comment]            = params[:comment]         if params[:comment].present?
-			update_params[:guardian_name]      = params[:guardian_name]   if params[:guardian_name].present?
-			update_params[:guardian_phone]     = params[:guardian_phone]  if params[:guardian_phone].present?
-			update_params[:bed_id]             = bed.id unless bed.nil?
-			update_params[:last_updated_by_id] = operator.id
+			update_params[:admit_timestamp]        = params[:admit_timestamp]     if params[:admit_timestamp].present?
+			update_params[:discharge_timestamp]    = params[:discharge_timestamp] if params[:discharge_timestamp].present?
+			update_params[:doctor_name]            = params[:doctor_name]         if params[:doctor_name].present?
+			update_params[:purpose]                = params[:purpose]             if params[:purpose].present?
+			update_params[:comment]                = params[:comment]             if params[:comment].present?
+			update_params[:guardian_name]          = params[:guardian_name]       if params[:guardian_name].present?
+			update_params[:guardian_phone]         = params[:guardian_phone]      if params[:guardian_phone].present?
+			update_params[:bed_id]                 = bed.id unless bed.nil?
+			update_params[:last_updated_by_id]     = operator.id
 
 			Admission.transaction do
-				log_params = admission.as_json.deep_symbolize_keys.except(:id)
+				log_params = admission.as_json.deep_symbolize_keys.except(:id, :created_at, :updated_at)
 				log_params[:admission_id] = admission.id
 				log_entry = AdmissionLog.create!(log_params)
 				admission.update!(update_params)
@@ -75,7 +75,7 @@ module Management
 		end
 
 		def self.list_current_admissions(operator, building_id)
-			current = Admission.where.not(is_discharged: true)
+			current = Admission.where(is_discharged: false)
 			current =  current.joins(bed: [ward: [:building]]).where(beds: { wards: { building_id: building_id } }) if building_id.present?
 			return ResponseHelper.json(true, current.as_json(Admission.with_all_data), "There are #{current.length} current admissions")
 		end
