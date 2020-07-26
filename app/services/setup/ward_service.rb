@@ -52,6 +52,9 @@ module Setup
 		end
 
 		def self.fetch_all_wards(params)
+
+			# todo add limit and offset to results
+
 			building_id        = params[:building_id]
 			branch_code        = params[:branch_code]
 			city               = params[:city]

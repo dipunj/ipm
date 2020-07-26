@@ -16,7 +16,7 @@ module Setup
 
 		def self.fetch_bed_by_id(id)
 			bed = Bed.find_by(id: id)
-			return ResponseHelper.json(true, bed, 'Bed not found') if bed.nil?
+			return ResponseHelper.json(false, bed, 'Bed not found') if bed.nil?
 			return ResponseHelper.json(true, bed.as_json(Bed.with_all_data), nil)
 		end
 
@@ -42,14 +42,16 @@ module Setup
 		end
 
 		def self.fetch_all_beds(params)
-			branch_code        = params[:branch_code]
+			branch_code = params[:branch_code]
 			city        = params[:city]
 			postal_code = params[:postal_code]
+
 			beds = Building.where("branch_code = ? or city = ? or postal_code = ?",
 								  branch_code,
 								  city,
 								  postal_code).collect(&:beds)
 						                      .flatten
+
 			ResponseHelper.json(true, beds.as_json(Bed.with_all_data), 'Success')
 		end
 

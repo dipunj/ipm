@@ -8,13 +8,14 @@ module Management
 			raise 'Phone number of the patient is required' if params[:phone].blank?
 			raise 'Specify the gender of the patient'       if params[:gender].blank?
 
-			create_params = {
+			find_params = {
 				name: params[:name],
 				phone: params[:phone],
 				gender: params[:gender],
-				# created_by: operator.id
 			}
-			patient = Patient.find_by(create_params)
+			patient = Patient.find_by(find_params)
+
+			create_params = find_params.merge({dob: params[:dob]})
 			patient = Patient.create!(create_params) if patient.nil?
 
 			return patient if internal

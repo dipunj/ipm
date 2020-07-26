@@ -17,14 +17,14 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
     render json: response
   end
 
-
-
   def list_current_admissions
-
+    response = @service.list_current_admissions(@current_user)
+    render json: response
   end
 
-  def list_all_admissions
-
+  def search
+    response = @service.search_admissions(@current_user, search_params)
+    render json: response
   end
 
 
@@ -43,6 +43,10 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
     end
 
     def patient_params
-      params.permit(:name, :phone, :gender, :age)
+      params.permit(:name, :phone, :gender, :dob)
+    end
+
+    def search_params
+      params.permit(:query)
     end
 end

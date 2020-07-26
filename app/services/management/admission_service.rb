@@ -8,14 +8,14 @@ module Management
 			raise 'Invalid bed' if bed.nil?
 
 			raise 'Guardian Name is required' if params[:guardian_name].nil?
-			raise 'Guardian phone is required' if params[:guardian_phone].nil?
+			# raise 'Guardian phone is required' if params[:guardian_phone].nil?
 
-			# find the latest admission on that bed, if the patient hasn't been discharged i.e discharge_timestamp.nil? => do not allow admission on that bed
-
-			last_admission = Admission.where(bed_id: bed.id).order(admit_timestamp: :desc).first
 			print "Number of faulty records on this bed #{} ", Admission.where(bed_id: bed.id, discharge_timestamp: nil).length
-			raise 'Please discharge previous patient on this bed.' if last_admission && last_admission[:discharge_timestamp].nil?
 
+			# find the latest admission on that bed,
+			# if the patient hasn't been discharged i.e discharge_timestamp.nil? => do not allow admission on that bed
+			last_admission = Admission.where(bed_id: bed.id).order(admit_timestamp: :desc).first
+			raise 'Please discharge previous patient on this bed.' if last_admission && last_admission[:discharge_timestamp].nil?
 
 			admission_params = {
 				admit_timestamp:    params[:admit_timestamp] || Time.now,
@@ -33,12 +33,6 @@ module Management
 			return ResponseHelper.json(true, admission.as_json(Admission.with_all_data), "#{patient.name} has been admitted at #{bed.name} in #{bed.ward.name}")
 		end
 
-		def self.find_admission_by_id(operator, admission_id)
-			raise 'Invalid Admission' if admission_id.nil?
-			admission = Admission.find_by(id: admission_id)
-
-			return ResponseHelper.json(admission.present?, admission.as_json(Admission.with_all_data), nil)
-		end
 
 		def self.update_admission(operator, admission_id, params)
 			raise 'Please select a valid admission' if admission_id.nil?
@@ -70,5 +64,38 @@ module Management
 			end
 			return ResponseHelper.json(true, admission.as_json(Admission.with_all_data), nil)
 		end
+
+		def self.find_admission_by_id(operator, admission_id)
+			raise 'Invalid Admission' if admission_id.nil?
+			admission = Admission.find_by(id: admission_id)
+
+			return ResponseHelper.json(admission.present?, admission.as_json(Admission.with_all_data), nil)
+		end
+
+		def self.list_current_admissions(operator)
+			current = Admission.find_by(discharge_timestamp: nil)
+			return ResponseHelper.json(true, current, "There are #{current.length} current admissions")
+		end
+
+		def self.search_admissions(operator, params)
+			regex_query = "%" + params[:query] + "%"
+
+			# search in
+			# 1. patient names, phones
+			# 2. guardian names, phones
+			# 3. visitor names, phones
+
+			# 1
+
+			result = []
+			patient_matches = Patient.where("name LIKE ? or phone LIKE ?", regex_query).collect(&:admissions)
+			guardian_matches = Admission.where("guardian_name LIKE ? OR guardian_phone LIKE ?", regex_query, regex_query)
+			visitor_matches = Visitor.where("name LIKE ? OR phone LIKE ?", regex_query, regex_query)
+		end
 	end
 end
+
+
+
+
+
