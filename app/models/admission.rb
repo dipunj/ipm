@@ -33,7 +33,7 @@ class Admission < ApplicationRecord
 					except: [:created_at]
 				},
 				admission_logs: {
-					except: [:created_at]
+					except: []
 				},
 				created_by: {
 					only: [:id, :name]
