@@ -10,6 +10,7 @@ module Management
 			create_params = {
 				admission_id: admission_id,
 				is_credit: params[:is_credit].to_s.downcase == "true",
+				currency: params[:currency],
 				value: params[:value],
 				payment_mode: params[:payment_mode],
 				purpose: params[:purpose],

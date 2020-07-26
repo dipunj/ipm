@@ -28,7 +28,7 @@ class Api::V1::Management::TransactionController < Api::V1::BaseController
     end
 
     def transaction_params
-      params.permit(:is_credit, :payment_mode, :value, :purpose)
+      params.permit(:is_credit, :payment_mode, :currency, :value, :purpose)
     end
 
     def transaction_id
