@@ -69,8 +69,11 @@ module Setup
 			ResponseHelper.json(true, wards.as_json(Ward.admin_view), nil)
 		end
 
-		def self.find_ward(building_id, params)
+		def self.fetch_for_building_id(building_id)
+			raise 'Invalid building' if building_id.blank?
 
+			wards = Ward.where(building_id: building_id)
+			return ResponseHelper.json(true, wards.as_json(Ward.with_beds), nil)
 		end
 	end
 end

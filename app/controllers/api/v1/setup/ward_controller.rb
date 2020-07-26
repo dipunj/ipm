@@ -32,6 +32,11 @@ class Api::V1::Setup::WardController < Api::V1::BaseController
     render json: response
   end
 
+  def list_by_building_id
+    response = @service.fetch_for_building_id(building_id)
+    render json: response
+  end
+
 
   private
     def set_service

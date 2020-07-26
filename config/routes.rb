@@ -31,7 +31,7 @@ Rails.application.routes.draw do
         post       'ward/update'           => 'ward#update'
         post       'ward/delete'           => 'ward#delete'
         get        'ward/list'             => 'ward#list_all'
-        get        'ward/search'           => 'ward#search'
+        get        'ward/list_building'    => 'ward#list_by_building_id'
 
 
 		post       'bed/create'           => 'bed#create'
