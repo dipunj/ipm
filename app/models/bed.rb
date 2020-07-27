@@ -2,9 +2,9 @@ class Bed < ApplicationRecord
 	belongs_to :ward
 	has_many :admissions
 
-	has_many :patients, through: :admissions
+	has_many :patients  , through: :admissions
 	has_many :visit_logs, through: :admissions
-	has_many :visitors, through: :admissions
+	has_many :visitors  , through: :admissions
 
 	validates :name, uniqueness: {
 		scope: :ward_id,

@@ -1,5 +1,6 @@
 class Ward < ApplicationRecord
 	belongs_to :building
+
 	has_many :beds
 	has_many :admissions, through: :beds
 	has_many :visit_logs, through: :admissions
