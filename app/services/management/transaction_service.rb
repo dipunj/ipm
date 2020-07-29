@@ -2,18 +2,20 @@ module Management
 	class TransactionService
 
 		def self.create_new_transaction(operator, admission_id, params)
-			raise 'Please select a valid admission'           if admission_id.blank?
-			raise 'Please select payment type'                if params[:is_credit].blank?
-			raise 'Please enter a non zero transaction value' if params[:value].blank? or params[:value].to_i <= 0
-			raise 'Please select a payment mode'              if params[:payment_mode].blank?
+			raise 'Please select a valid admission'               if admission_id.nil?
+			raise 'Please select payment type'                    if params[:is_credit].nil?
+			raise 'Please enter a non zero transaction value'     if params[:value].nil? or params[:value].to_i <= 0
+			raise 'Please select a payment mode'                  if params[:payment_mode].nil?
+			raise 'Please select if transaction has been settled' if params[:is_settled].nil?
 
 			create_params = {
-				admission_id: admission_id,
-				is_credit: params[:is_credit].to_s.downcase == "true",
-				currency: params[:currency],
-				value: params[:value],
-				payment_mode: params[:payment_mode],
-				purpose: params[:purpose],
+				admission_id:  admission_id,
+				is_credit:     params[:is_credit].to_s.downcase == "true",
+				currency:      params[:currency],
+				value:         params[:value],
+				payment_mode:  params[:payment_mode],
+				purpose:       params[:purpose],
+				is_settled:    params[:is_settled].to_s.downcase == "true",
 				created_by_id: operator.id
 			}
 			transaction = Transaction.create!(create_params)
@@ -22,7 +24,9 @@ module Management
 
 		def self.undo_transaction(operator, revert_id, params)
 
-			raise 'Please select a valid transaction to revert' if revert_id.blank?
+			raise 'Please select a valid transaction to revert'   if revert_id.blank?
+			raise 'Please select if transaction has been settled' if params[:is_settled].blank?
+
 			target_txn = Transaction.find_by(id: revert_id)
 
 			if target_txn.nil?
@@ -31,9 +35,10 @@ module Management
 				create_params = {
 					reverses_transaction_id: target_txn.id,
 					admission_id:            target_txn[:admission_id],
-					is_credit:               !target_txn[:is_credit],
+					is_credit:               !(target_txn[:is_credit].to_s.downcase == "true"),
 					value:                   target_txn[:value],
 					payment_mode:            params[:payment_mode] || target_txn[:payment_mode],
+					is_settled:              params[:is_settled].to_s.downcase == "true",
 					created_by_id:           operator.id
 				}
 				transaction   = Transaction.create!(create_params)

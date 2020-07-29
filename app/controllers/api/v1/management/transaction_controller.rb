@@ -28,7 +28,7 @@ class Api::V1::Management::TransactionController < Api::V1::BaseController
     end
 
     def transaction_params
-      params.permit(:is_credit, :payment_mode, :currency, :value, :purpose)
+      params.permit(:is_credit, :payment_mode, :currency, :value, :purpose, :is_settled)
     end
 
     def transaction_id
@@ -36,6 +36,6 @@ class Api::V1::Management::TransactionController < Api::V1::BaseController
     end
 
     def undo_params
-      params.permit(:payment_mode)
+      params.permit(:payment_mode, :is_settled)
     end
 end

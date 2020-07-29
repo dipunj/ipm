@@ -6,6 +6,7 @@ class CreateTransactions < ActiveRecord::Migration[6.0]
       t.column     :payment_mode        , 'VARCHAR(30)'   , null: false
       t.column     :currency            , 'VARCHAR(4)'    , null: false
       t.column     :value               , 'NUMERIC(100,2)', null: false
+      t.boolean    :is_settled
       t.text       :purpose
       t.references :reverses_transaction, type: :uuid, foreign_key: { to_table: :transactions }
       t.references :admission           , type: :uuid, foreign_key: true, null: false

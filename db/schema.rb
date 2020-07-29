@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "payment_mode", limit: 30, null: false
     t.string "currency", limit: 4, null: false
     t.decimal "value", precision: 100, scale: 2, null: false
+    t.boolean "is_settled"
     t.text "purpose"
     t.uuid "reverses_transaction_id"
     t.uuid "admission_id", null: false
