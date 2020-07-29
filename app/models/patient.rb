@@ -6,5 +6,5 @@ class Patient < ApplicationRecord
 	has_many :transactions, through: :admissions
 
 	validates :phone, uniqueness: { scope: :name }
-	validates :gender, inclusion: GenderTypes
+	validates :gender, inclusion: GenderTypes.values
 end

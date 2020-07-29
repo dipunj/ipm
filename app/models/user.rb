@@ -4,7 +4,7 @@ class User < ApplicationRecord
 	has_many :admissions
 
 	validates :login_id    , uniqueness: true
-	validates :account_type, inclusion: AccountTypes
+	validates :account_type, inclusion: AccountTypes.values
 
 
 
