@@ -1,0 +1,1 @@
+All the components for building the actual pages/view are in this directory. Components are supposed to reuse the ui components located in library directory.
