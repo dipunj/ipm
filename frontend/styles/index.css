@@ -1,3 +1,33 @@
+.theme-dark {
+	/* color */
+	--color-100: #ffffff;
+	--color-200: #f2f2f2;
+	--color-300: #e0e0e0;
+
+	--color-400: #bdbdbd;
+	--color-500: #828282;
+	--color-600: #4f4f4f;
+
+	--color-700: #404040;
+	--color-800: #333333;
+	--color-900: #000000;
+}
+
+.theme-light {
+	/* color */
+	--color-100: #000000;
+	--color-200: #333333;
+	--color-300: #404040;
+
+	--color-400: #4f4f4f;
+	--color-500: #828282;
+	--color-600: #bdbdbd;
+
+	--color-700: #e0e0e0;
+	--color-800: #f2f2f2;
+	--color-900: #ffffff;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

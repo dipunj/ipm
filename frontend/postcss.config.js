@@ -6,7 +6,6 @@
 // so just use the default postcss config for nextjs and add tailwindcss plugin to it
 module.exports = {
 	plugins: [
-		'tailwindcss',
 		'postcss-flexbugs-fixes',
 		[
 			'postcss-preset-env',
@@ -15,10 +14,11 @@ module.exports = {
 					flexbox: 'no-2009',
 				},
 				stage: 3,
-				features: {
-					'custom-properties': false,
-				},
+				// features: {
+				// 	'custom-properties': false,
+				// },
 			},
 		],
+		'tailwindcss',
 	],
 };
