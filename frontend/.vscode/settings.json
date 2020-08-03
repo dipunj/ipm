@@ -25,4 +25,24 @@
 	"todo-tree.tree.scanMode": "current file",
 	"editor.wordWrapColumn": 120,
 	"editor.wordWrap": "bounded"
+	// "extensions.enabled": [
+	// 	"formulahendry.auto-close-tag",
+	// 	"coenraads.bracket-pair-colorizer-2",
+	// 	"wmaurer.change-case",
+	// 	"kamikillerto.vscode-colorize",
+	// 	"joelday.docthis",
+	// 	"dsznajder.es7-react-js-snippets",
+	// 	"dbaeumer.vscode-eslint",
+	// 	"ecmel.vscode-html-css",
+	// 	"xabikos.javascriptsnippets",
+	// 	"pkief.material-icon-theme",
+	// 	"christian-kohler.path-intellisense",
+	// 	"johnpapa.vscode-peacock",
+	// 	"esbenp.prettier-vscode",
+	// 	"daylerees.rainglow",
+	// 	"gruntfuggly.todo-tree",
+	// 	"visualstudioexptteam.vscodeintellicode",
+	// 	"jpoissonnier.vscode-styled-components",
+	// 	"bradlc.vscode-tailwindcss"
+	// ]
 }
