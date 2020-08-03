@@ -13,7 +13,7 @@ const MyApp = (props: AppProps) => {
 	const { Component, pageProps } = props;
 
 	return (
-		<React.Fragment>
+		<>
 			<Head>
 				<title>IPM</title>
 				<meta
@@ -22,7 +22,7 @@ const MyApp = (props: AppProps) => {
 				/>
 			</Head>
 			<Component {...pageProps} />
-		</React.Fragment>
+		</>
 	);
 };
 

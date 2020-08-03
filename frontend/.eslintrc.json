@@ -1,9 +1,18 @@
 {
+	"root": true,
 	"env": {
 		"browser": true,
 		"es2020": true
 	},
-	"extends": ["plugin:react/recommended", "airbnb", "prettier"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:react/recommended",
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended",
+		"airbnb",
+		"prettier",
+		"prettier/react"
+	],
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"ecmaFeatures": {
@@ -14,6 +23,9 @@
 	},
 	"plugins": ["react", "@typescript-eslint", "prettier"],
 	"rules": {
+		// NextJs specific fix: allow jsx syntax in js/ts files
+		"react/react-in-jsx-scope": "off",
+		"react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
 		"prettier/prettier": ["error"]
 	}
 }
