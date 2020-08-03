@@ -1,4 +1,4 @@
-const { colors } = require('tailwindcss/defaultTheme');
+// const { colors } = require('tailwindcss/defaultTheme');
 
 module.exports = {
 	purge: ['./components/**/*.tsx', './library/**/*.tsx', './pages/**/*.tsx', './styles/**/*.tsx'],
@@ -31,6 +31,10 @@ module.exports = {
 					800: 'var(--color-800)',
 					900: 'var(--color-900)',
 				},
+			},
+			fontFamily: {
+				Amiko: ['Amiko'],
+				Lobster: ['Lobster'],
 			},
 		},
 	},

@@ -28,6 +28,25 @@
 	--color-900: #ffffff;
 }
 
+
+@font-face {
+	font-family: Amiko;
+	font-style: normal;
+	font-display: auto;
+	src: url(/fonts/Amiko-Regular.ttf) format('ttf');
+}
+
+@font-face {
+	font-family: Lobster;
+	font-style: normal;
+	font-display: auto;
+	src: url(/fonts/Lobster-Regular.ttf) format('ttf');
+}
+
 @tailwind base;
+
+
 @tailwind components;
+
+
 @tailwind utilities;

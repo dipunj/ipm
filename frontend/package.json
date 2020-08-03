@@ -15,6 +15,7 @@
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
 		"styled-components": "^5.1.1",
+		"tailwindcss": "^1.6.1",
 		"@welldone-software/why-did-you-render": "^4.2.7"
 	},
 	"devDependencies": {
@@ -38,7 +39,6 @@
 		"postcss-flexbugs-fixes": "^4.2.1",
 		"postcss-preset-env": "^6.7.0",
 		"prettier": "^2.0.5",
-		"tailwindcss": "^1.6.1",
 		"typescript": "^3.9.7"
 	},
 	"license": "ISC"
