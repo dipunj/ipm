@@ -18,13 +18,17 @@
 		"titleBar.inactiveForeground": "#e7e7e799"
 	},
 	"editor.tabSize": 4,
-	"editor.formatOnSave": true,
 	"editor.insertSpaces": false,
 	"editor.detectIndentation": false,
 	"peacock.color": "#000000",
 	"todo-tree.tree.scanMode": "current file",
 	"editor.wordWrapColumn": 120,
-	"editor.wordWrap": "bounded"
+	"editor.wordWrap": "bounded",
+	
+	"editor.formatOnSave": false,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true
+	},
 	// "extensions.enabled": [
 	// 	"formulahendry.auto-close-tag",
 	// 	"coenraads.bracket-pair-colorizer-2",
@@ -38,7 +42,6 @@
 	// 	"pkief.material-icon-theme",
 	// 	"christian-kohler.path-intellisense",
 	// 	"johnpapa.vscode-peacock",
-	// 	"esbenp.prettier-vscode",
 	// 	"daylerees.rainglow",
 	// 	"gruntfuggly.todo-tree",
 	// 	"visualstudioexptteam.vscodeintellicode",

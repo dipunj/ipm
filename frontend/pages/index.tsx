@@ -6,7 +6,7 @@ const Data = styled.p`
 	font-size: 40px;
 `;
 
-export default function Home() {
+export default function Home(): JSX.Element {
 	return (
 		<div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4" role="alert">
 			{process.env.APP_NAME}
