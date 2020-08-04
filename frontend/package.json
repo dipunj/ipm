@@ -10,16 +10,17 @@
 		"analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
 	},
 	"dependencies": {
+		"@welldone-software/why-did-you-render": "^4.2.7",
 		"framer-motion": "^2.3.0",
 		"next": "latest",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
 		"styled-components": "^5.1.1",
-		"tailwindcss": "^1.6.1",
-		"@welldone-software/why-did-you-render": "^4.2.7"
+		"tailwindcss": "^1.6.1"
 	},
 	"devDependencies": {
 		"@next/bundle-analyzer": "^9.5.1",
+		"@svgr/webpack": "^5.4.0",
 		"@types/node": "^14.0.27",
 		"@types/react": "^16.9.44",
 		"@types/react-dom": "^16.9.8",
