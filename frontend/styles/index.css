@@ -33,14 +33,14 @@
 	font-family: Amiko;
 	font-style: normal;
 	font-display: auto;
-	src: url(/fonts/Amiko-Regular.ttf) format('ttf');
+	src: url(../public/fonts/Amiko-Regular.ttf) format('ttf');
 }
 
 @font-face {
-	font-family: Lobster;
+	font-family: 'Exo2';
 	font-style: normal;
 	font-display: auto;
-	src: url(/fonts/Lobster-Regular.ttf) format('ttf');
+	src: url(../public/fonts/Exo2-VariableFont_wght.ttf) format('ttf');
 }
 
 @tailwind base;

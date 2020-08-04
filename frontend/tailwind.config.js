@@ -31,10 +31,15 @@ module.exports = {
 					800: 'var(--color-800)',
 					900: 'var(--color-900)',
 				},
+				landing: '#1C1C1C',
 			},
 			fontFamily: {
 				Amiko: ['Amiko'],
-				Lobster: ['Lobster'],
+				Exo2: ['Exo2'],
+			},
+			fontSize: {
+				'brand-title': '58px',
+				'brand-subtitle': '36px',
 			},
 		},
 	},
