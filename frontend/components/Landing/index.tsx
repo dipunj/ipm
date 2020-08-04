@@ -1,6 +1,7 @@
 // import { useState } from 'react';
 
 import { useState } from 'react';
+import { Layer, Button } from 'grommet';
 import Modal from '../../library/Modal';
 
 const Landing = (): JSX.Element => {
@@ -55,13 +56,13 @@ const Landing = (): JSX.Element => {
 					Sign-In
 				</button>
 			</div>
-			{show && (
+			{/* {show && (
 				<Modal
 					handleClose={toggleModal}
 					handleOutsideClick={toggleModal}
 					content={modalContent}
 				/>
-			)}
+			)} */}
 		</div>
 	);
 };
