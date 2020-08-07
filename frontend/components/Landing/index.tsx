@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Button, Dialog, FormGroup, InputGroup } from '@blueprintjs/core';
+import { useRouter } from 'next/dist/client/router';
 import { Background, Column, Logo, CenterColumn, Brand, AppName } from './styles';
 import request from '../../library/Request';
 
@@ -16,6 +17,8 @@ const signInButtonStyles = {
 const dialogStyles = { width: 'min(300px, 100vw)' };
 
 const Landing = (): JSX.Element => {
+	const router = useRouter();
+
 	const [open, setOpen] = useState(false);
 
 	const [loginId, setLoginId] = useState('');
@@ -28,13 +31,22 @@ const Landing = (): JSX.Element => {
 
 	const handleSubmit = async () => {
 		try {
-			const response = await request.post('/session/auth/login', null, {
+			const {
+				data: {
+					success,
+					response: { message },
+				},
+			} = await request.post('/session/auth/login', null, {
 				params: {
 					login_id: loginId,
 					password,
+					withCredentials: true,
 				},
 			});
-			alert(JSON.stringify(response));
+
+			if (success) {
+				router.push(`/dashboard`);
+			}
 		} catch (error) {
 			alert(error);
 		}
