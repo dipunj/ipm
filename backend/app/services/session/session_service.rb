@@ -16,7 +16,7 @@ module Session
 						jwt = JwtAuth.issue({ user_id: user.id, account_type: user.account_type})
 						return ResponseHelper.json(true, jwt, 'Logged In')
 					when 'cookie'
-						return ResponseHelper.json(true, user.id, 'Logged In')
+						return ResponseHelper.json(true, user.as_json, 'Logged In')
 					else nil
 				end
 			end
@@ -24,8 +24,12 @@ module Session
 		end
 
 		def self.check_cookie(user_id)
-			raise 'Invalid Session, please login again' if user_id.nil? or User.find(user_id).nil?
-			return ResponseHelper.json(true, nil, nil)
+			raise 'Invalid Session, please login again' if user_id.nil?
+
+			user = User.find(user_id)
+			raise 'Invalid User' if user.nil?
+
+			return ResponseHelper.json(true, user.as_json, nil)
 		end
 
 		def self.change_password(current_user, params)

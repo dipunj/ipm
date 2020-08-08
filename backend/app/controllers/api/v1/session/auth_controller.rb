@@ -6,16 +6,15 @@ class Api::V1::Session::AuthController < Api::V1::BaseController
 	def login
 		response = @service.authenticate(login_params)
 		if ENV["AUTH_MODE"] == 'cookie'
-			session[:user_id] = response[:response][:data]
-			response[:response][:data] = nil
+			session[:user_id] = response[:response][:data]["id"]
 		end
 		render json: response
 	end
 
 	def is_logged_in
+		response = nil
 		if ENV["AUTH_MODE"] == "cookie"
 			response = @service.check_cookie(session[:user_id])
-			response[:response][:data] = nil
 		end
 		render json: response
 	end
