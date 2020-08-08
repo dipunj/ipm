@@ -36,12 +36,9 @@ const Landing = (): JSX.Element => {
 					success,
 					response: { message },
 				},
-			} = await request.post('/session/auth/login', null, {
-				params: {
-					login_id: loginId,
-					password,
-					withCredentials: true,
-				},
+			} = await request.post('/session/auth/login', {
+				login_id: loginId,
+				password,
 			});
 
 			if (success) {
