@@ -105,4 +105,6 @@ const Landing = (): JSX.Element => {
 	);
 };
 
+Landing.getLayout = (page) => page;
+
 export default Landing;
