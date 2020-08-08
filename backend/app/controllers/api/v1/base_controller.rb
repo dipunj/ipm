@@ -5,6 +5,7 @@ class Api::V1::BaseController < ApplicationController
 	def authenticate!
 		render json: {
 			success: false,
+			is_authenticated: false,
 			data: {
 				data: nil,
 				message: 'Not authenticated'
@@ -15,6 +16,7 @@ class Api::V1::BaseController < ApplicationController
 	def require_escalated_privileges
 		render json: {
 			success: false,
+			is_authenticated: true,
 			data: {
 				data: nil,
 				message: 'Unauthorised'

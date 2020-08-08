@@ -59,6 +59,7 @@ Rails.application.routes.draw do
 		  post     'auth/login'            => 'auth#login'
 		  post     'auth/logout'           => 'auth#logout'
 		  post     'auth/reset'            => 'auth#change_password'
+		  get      'auth/status'           => 'auth#is_logged_in'
 	  end
 	end
   end

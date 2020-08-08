@@ -12,6 +12,14 @@ class Api::V1::Session::AuthController < Api::V1::BaseController
 		render json: response
 	end
 
+	def is_logged_in
+		if ENV["AUTH_MODE"] == "cookie"
+			response = @service.check_cookie(session[:user_id])
+			response[:response][:data] = nil
+		end
+		render json: response
+	end
+
 	# only makes sense when using cookie as auth mode
 	def logout
 		reset_session

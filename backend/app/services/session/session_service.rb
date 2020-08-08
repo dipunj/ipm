@@ -23,6 +23,11 @@ module Session
 			ResponseHelper.json(true, nil, 'Invalid Username or password')
 		end
 
+		def self.check_cookie(user_id)
+			raise 'Invalid Session, please login again' if user_id.nil? or User.find(user_id).nil?
+			return ResponseHelper.json(true, nil, nil)
+		end
+
 		def self.change_password(current_user, params)
 			password_params = {
 				password: params[:password],
