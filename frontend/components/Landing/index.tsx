@@ -1,8 +1,8 @@
 // import { useState } from 'react';
 
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { Button, Dialog, FormGroup, InputGroup } from '@blueprintjs/core';
-import { useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/router';
 import { Background, Column, Logo, CenterColumn, Brand, AppName } from './styles';
 import request from '../../library/Request';
 
@@ -24,24 +24,21 @@ const Landing = (): JSX.Element => {
 	const [loginId, setLoginId] = useState('');
 	const [password, setPassword] = useState('');
 
-	const handleLoginChange = ({ target: { value } }) => setLoginId(value);
-	const handlePasswordChange = ({ target: { value } }) => setPassword(value);
+	const handleLoginChange = (event: FormEvent<HTMLElement>) => setLoginId(event.target.value);
+	const handlePasswordChange = (event: FormEvent<HTMLElement>) => setPassword(event.target.value);
 
-	const toggleModal = () => setOpen((open) => !open);
+	const toggleModal = () => setOpen((val: boolean) => !val);
 
 	const handleSubmit = async () => {
 		try {
 			const {
-				data: {
-					success,
-					response: { message },
-				},
+				data: { success, is_authenticated },
 			} = await request.post('/session/auth/login', {
 				login_id: loginId,
 				password,
 			});
 
-			if (success) {
+			if (success && is_authenticated) {
 				router.push(`/dashboard`);
 			}
 		} catch (error) {

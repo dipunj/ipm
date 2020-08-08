@@ -3,11 +3,10 @@ import Head from 'next/head';
 import { AppProps } from 'next/app';
 import '../styles/index.css';
 import whyDidYouRender from '@welldone-software/why-did-you-render';
-import Providers from '../library/Providers';
 import getDefaultLayout from '../library/Layout';
 
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-	whyDidYouRender(React, { trackAllPureComponents: true });
+	whyDidYouRender(React, { trackAllPureComponents: false });
 }
 
 const MyApp = (props: AppProps) => {
@@ -29,7 +28,7 @@ const MyApp = (props: AppProps) => {
 					content="minimum-scale=1, initial-scale=1, width=device-width"
 				/>
 			</Head>
-			<Providers>{getLayout(<Component {...pageProps} />)}</Providers>
+			{getLayout(<Component {...pageProps} />)}
 		</>
 	);
 };
