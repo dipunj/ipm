@@ -6,6 +6,7 @@ class User < ApplicationRecord
 	validates :login_id    , uniqueness: true
 	validates :account_type, inclusion: AccountTypes.values
 
+	attribute :prefers_dark, default: false
 
 
 	def as_json(options = {})

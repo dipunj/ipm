@@ -119,6 +119,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", limit: 50, null: false
     t.string "account_type", limit: 50, null: false
+    t.boolean "prefers_dark"
     t.string "image_url", limit: 255
     t.string "login_id", limit: 255, null: false
     t.string "password_digest", limit: 255, null: false

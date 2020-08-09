@@ -19,6 +19,11 @@ class Api::V1::Session::AuthController < Api::V1::BaseController
 		render json: response
 	end
 
+	def toggle_theme
+		response = @service.toggle_theme(@current_user, theme_params)
+		render json: response
+	end
+
 	# only makes sense when using cookie as auth mode
 	def logout
 		reset_session
@@ -51,5 +56,9 @@ class Api::V1::Session::AuthController < Api::V1::BaseController
 
 		def password_params
 			params.permit(:password, :password_confirmation)
+		end
+
+		def theme_params
+			params.permit(:prefers_dark)
 		end
 end

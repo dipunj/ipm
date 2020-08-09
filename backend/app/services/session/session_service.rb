@@ -42,5 +42,11 @@ module Session
 			end
 		end
 
+		def self.toggle_theme(current_user, params)
+
+			return ResponseHelper.json(true, nil, nil) if current_user.update!(params)
+
+			raise 'Something is broken'
+		end
 	end
 end

@@ -5,6 +5,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.column  :name               , 'VARCHAR(50)',  null: false
 
       t.column  :account_type       , 'VARCHAR(50)',  null: false
+      t.boolean :prefers_dark
       t.column  :image_url          , 'VARCHAR(255)'
 
       t.column  :login_id           , 'VARCHAR(255)', null: false
