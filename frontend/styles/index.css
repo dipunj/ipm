@@ -10,10 +10,13 @@
 	
 	--light-background-color: #eeeeee;
 	--light-text-color: #000000;
+	--light-text-secondary: #3f3f3f;
+	--light-shadow: #cccccc;
 	
-	--dark-background-color: #000000;
+	--dark-background-color: #111111;
 	--dark-text-color: #ffffff;
 	--dark-text-secondary: #bebebe;
+	--dark-shadow: #000000;
 }
 
 body { 
