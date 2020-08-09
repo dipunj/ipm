@@ -39,7 +39,7 @@ const Landing = (): JSX.Element => {
 			});
 
 			if (success && is_authenticated) {
-				router.push(`/dashboard`);
+				router.push('/');
 			}
 		} catch (error) {
 			alert(error);
