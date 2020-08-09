@@ -24,7 +24,7 @@ const ThemeCtxProvider = ({ children }): JSX.Element => {
 
 	return (
 		<ThemeCtx.Provider value={{ isDark, setIsDark, toggleTheme }}>
-			<div id="themeRoot" className={isDark ? 'bp3-dark' : ''}>
+			<div id="themeRoot" className={isDark ? 'bp3-dark dark-styled' : 'light-styled'}>
 				{children}
 			</div>
 		</ThemeCtx.Provider>

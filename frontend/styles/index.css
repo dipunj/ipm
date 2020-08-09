@@ -4,11 +4,28 @@
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
 
+:root {
+	--header-height: 64px;
+	--page-padding: 100px;
+	
+	--light-background-color: #eeeeee;
+	--light-text-color: #000000;
+	
+	--dark-background-color: #000000;
+	--dark-text-color: #ffffff;
+	--dark-text-secondary: #bebebe;
+}
+
 body { 
 	margin: 0px;
 }
 
-:root {
-	--header-height: 40px;
-	--page-padding: 100px;
+.dark-styled {
+	background-color: var(--dark-background-color);
+	color: var(--dark-text-color);
+}
+
+.light-styled {
+	background-color: var(--light-background-color);
+	color: var(--light-text-color);
 }
