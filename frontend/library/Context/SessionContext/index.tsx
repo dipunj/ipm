@@ -8,7 +8,7 @@ const SessionCtxProvider = ({ children }) => {
 	const router = useRouter();
 	const [ctx, setCtx] = useState({});
 
-	useEffect(() => {
+	const fetchCtx = () => {
 		request
 			.get('/session/auth/status')
 			.then((res) => {
@@ -16,14 +16,22 @@ const SessionCtxProvider = ({ children }) => {
 					setCtx({ ...res.data.response.data });
 				} else {
 					// TODO: Create toast here
-					router.push('/');
+					router.push('/login');
 				}
 			})
 			.catch((err) => console.log(err));
+	};
+
+	useEffect(() => {
+		fetchCtx();
 	}, []);
 
-	if (Object.keys(ctx).length === 0) return <div>Loading...</div>;
-	return <SessionCtx.Provider value={{ ctx, setCtx }}>{children}</SessionCtx.Provider>;
+	if (Object.keys(ctx).length === 0) return <div />;
+	return (
+		<SessionCtx.Provider value={{ ctx, setCtx, refetchCtx: fetchCtx }}>
+			{children}
+		</SessionCtx.Provider>
+	);
 };
 
 // wont ever be used for Functional components
