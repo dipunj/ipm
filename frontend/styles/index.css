@@ -8,6 +8,12 @@ body {
 	margin: 0px;
 }
 
+:root {
+	--title-size: 28px;
+	--header-height: 76px;
+	--page-padding: 100px;
+}
+
 .dark-styled {
 
 	--background: #111111;
@@ -17,9 +23,7 @@ body {
 	--highlight: var(--shadow);
 	--highlight-contrast: var(--text-secondary);
 	
-	
-	--header-height: 64px;
-	--page-padding: 100px;
+
 	background-color: var(--background);
 	color: var(--text-color);
 	
@@ -33,8 +37,6 @@ body {
 	--highlight: var(--shadow);
 	--highlight-contrast: var(--text-secondary);
 
-	--header-height: 64px;
-	--page-padding: 100px;
 	background-color: var(--background);
 	color: var(--text-color);
 }
@@ -42,4 +44,11 @@ body {
 .main-menu {
 	background: var(--background) !important;
 	padding-top: var(--header-height);
+}
+
+.page-title {
+	font-size: var(--title-size);
+	font-weight: 200;
+	text-align: center;
+	margin-bottom: 48px;
 }
