@@ -3,15 +3,13 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
 	/* padding: 0px var(--page-padding); */
 	min-height: ${(props) => (props.height ? props.height : 'var(--header-height)')};
-	box-shadow: ${(props) =>
-		props.isDark
-			? '0px 4px 4px 0px var(--dark-shadow)'
-			: '0px 4px 4px 0px var(--light-shadow)'};
+	box-shadow: 0px 4px 4px 0px var(--shadow);
 	width: 100%;
 	background: inherit;
 
 	position: fixed;
 	top: 0;
+	z-index: 500;
 `;
 
 const Container = styled.div`
@@ -20,7 +18,18 @@ const Container = styled.div`
 	justify-content: space-between;
 	width: 100%;
 	height: 100%;
-	padding: 28px 48px;
+	padding: 12px 48px 12px 28px;
+`;
+
+const MenuContainer = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 36px;
+	padding: 12px;
+	border: 1px solid var(--text-secondary);
+	border-radius: 20px;
+	background-color: inherit;
 `;
 
 const Column = styled.div`
@@ -29,6 +38,29 @@ const Column = styled.div`
 `;
 
 const Greeting = styled.div`
-	margin-left: 40px;
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently not supported by any browser */
+	cursor: pointer;
+	padding: 10px;
+	:hover {
+		background: var(--shadow);
+		/* border: 0.5px solid var(--text-secondary); */
+		border-radius: 8px;
+	}
 `;
-export { Wrapper, Container, Column, Greeting };
+
+const IconContainer = styled.div`
+	cursor: pointer;
+	padding: 16px;
+	border-radius: 50%;
+	margin-right: 20px;
+
+	&:hover {
+		background-color: var(--highlight);
+	}
+`;
+export { Wrapper, Container, Column, Greeting, IconContainer, MenuContainer };

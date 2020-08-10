@@ -1,22 +1,19 @@
 import { useContext, useState } from 'react';
-import { Button, Switch, Icon } from '@blueprintjs/core';
-import { useRouter } from 'next/router';
+import { Button, Switch, Icon, Drawer, Position } from '@blueprintjs/core';
 import { SessionCtx } from '../../Context/SessionContext';
-import { prettyJSON } from '../../../helpers';
 import { ThemeCtx } from '../../Context/ThemeContext';
-import { Container, Greeting, Wrapper, Column } from './styles';
+import { Container, Greeting, Wrapper, Column, IconContainer, MenuContainer } from './styles';
 import request from '../../Request';
 
 const switchStyle = { marginBottom: 0, marginRight: '16px' };
-
 const Header = (): JSX.Element => {
 	const {
 		ctx: { name },
 		refetchCtx,
 	} = useContext(SessionCtx);
 
-	const router = useRouter();
 	const { isDark, toggleTheme } = useContext(ThemeCtx);
+	const [show, setShow] = useState(false);
 
 	const handleLogout = async () => {
 		const response = await request.post('/session/auth/logout');
@@ -25,12 +22,19 @@ const Header = (): JSX.Element => {
 		}
 	};
 
+	const toggleMenu = () => setShow((show) => !show);
+
+	const drawerClass = `main-menu ${isDark ? 'bp3-dark dark-styled' : 'light-styled'}`;
+	const menu = <MenuContainer>menu</MenuContainer>;
+
 	return (
-		<Wrapper isDark={isDark}>
+		<Wrapper>
 			<Container>
 				<Column>
-					<Icon icon="menu" />
-					<Greeting>Hi, {name}</Greeting>
+					<IconContainer onClick={toggleMenu}>
+						<Icon icon="menu" />
+					</IconContainer>
+					Hi, <Greeting>{name}</Greeting>
 				</Column>
 				<Column>
 					<Switch
@@ -45,6 +49,14 @@ const Header = (): JSX.Element => {
 					</Button>
 				</Column>
 			</Container>
+			<Drawer
+				isOpen={show}
+				position={Position.TOP}
+				onClose={toggleMenu}
+				className={drawerClass}
+			>
+				{menu}
+			</Drawer>
 		</Wrapper>
 	);
 };
