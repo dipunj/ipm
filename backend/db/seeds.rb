@@ -163,6 +163,8 @@ building_list.each { |building_params|
 	}
 }
 
+admin.buildings << Building.all
+
 dummy_patients.each_with_index do |params, idx|
 	params[:admission_params].merge!({bed_id: bed_ids[idx]})
 	admission = Management::AdmissionService.initiate_new_admission(admin, params[:admission_params], params[:patient_params])
