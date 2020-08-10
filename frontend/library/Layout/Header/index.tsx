@@ -12,16 +12,16 @@ const switchStyle = { marginBottom: 0, marginRight: '16px' };
 const Header = (): JSX.Element => {
 	const {
 		ctx: { name },
-		setCtx,
+		refetchCtx,
 	} = useContext(SessionCtx);
 
 	const router = useRouter();
 	const { isDark, toggleTheme } = useContext(ThemeCtx);
+
 	const handleLogout = async () => {
 		const response = await request.post('/session/auth/logout');
 		if (response.data.success) {
-			setCtx({});
-			router.push('/login');
+			refetchCtx();
 		}
 	};
 
