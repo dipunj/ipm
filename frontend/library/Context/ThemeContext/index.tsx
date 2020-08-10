@@ -1,6 +1,7 @@
 import { createContext, useState, useContext } from 'react';
 import { SessionCtx } from '../SessionContext';
 import request from '../../Request';
+import { saveToLS, getFromLS } from '../../../helpers';
 
 const ThemeCtx = createContext({});
 
@@ -12,11 +13,15 @@ const ThemeCtxProvider = ({ children }): JSX.Element => {
 	const [isDark, setIsDark] = useState(prefers_dark);
 
 	const toggleTheme = async () => {
+		// toggle the theme immediately for the user, if there is an error show him a toast that his preference wasn't updated at the remote server
+
+		const newTheme = !isDark;
+		await setIsDark(newTheme);
+		// saveToLS('prefers_dark', newTheme);
+
 		const response = await request.post('/session/auth/theme', {
 			prefers_dark: !isDark,
 		});
-		// toggle the theme immediately for the user, if there is an error show him a toast that his preference wasn't updated at the remote server
-		setIsDark((isDark) => !isDark);
 		if (!response.data.success) {
 			// TODO: Toast an error here
 		}
