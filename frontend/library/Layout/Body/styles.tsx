@@ -5,6 +5,8 @@ const PageWrapper = styled.div`
 	margin-top: calc(var(--header-height));
 	/* min-height: 200vh; */
 	min-height: calc(100vh - var(--header-height));
+	display: flex;
+	flex-direction: column;
 `;
 
 export { PageWrapper };

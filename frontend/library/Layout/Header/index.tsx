@@ -25,6 +25,7 @@ const Header = (): JSX.Element => {
 	const toggleMenu = () => setShow((show) => !show);
 
 	const drawerClass = `main-menu ${isDark ? 'bp3-dark dark-styled' : 'light-styled'}`;
+	// const backdropClass = `${!isDark ? 'dark-styled' : 'light-styled'}`;
 	const menu = <MenuContainer>menu</MenuContainer>;
 
 	return (
@@ -54,6 +55,13 @@ const Header = (): JSX.Element => {
 				position={Position.TOP}
 				onClose={toggleMenu}
 				className={drawerClass}
+				// backdropClassName={backdropClass}
+				// backdropProps={{
+				// 	style: {
+				// 		background: 'black',
+				// 		boxShadow: 'none',
+				// 	},
+				// }}
 			>
 				{menu}
 			</Drawer>
