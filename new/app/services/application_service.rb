@@ -1,3 +1,0 @@
-class ApplicationService
-	include ResponseHelper
-end
