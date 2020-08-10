@@ -7,6 +7,11 @@ class Api::V1::Session::AuthController < Api::V1::BaseController
 		response = @service.authenticate(login_params)
 		if ENV["AUTH_MODE"] == 'cookie'
 			session[:user_id] = response[:response][:data]["id"]
+			cookies[:_ipm_sb] = {
+				value: response[:response][:data]["buildings"][0]["id"],
+				domain: 'localhost',
+				expires: 1.week
+			}
 		end
 		render json: response
 	end

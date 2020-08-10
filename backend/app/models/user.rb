@@ -17,7 +17,7 @@ class User < ApplicationRecord
 		{
 			include: {
 				buildings: {
-					only: [:branch_code, :city]
+					only: [:id, :branch_code, :city]
 				}
 			}
 		}
