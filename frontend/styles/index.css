@@ -4,31 +4,42 @@
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
 
-:root {
-	--header-height: 64px;
-	--page-padding: 100px;
-	
-	--light-background-color: #eeeeee;
-	--light-text-color: #000000;
-	--light-text-secondary: #3f3f3f;
-	--light-shadow: #cccccc;
-	
-	--dark-background-color: #111111;
-	--dark-text-color: #ffffff;
-	--dark-text-secondary: #bebebe;
-	--dark-shadow: #000000;
-}
-
 body { 
 	margin: 0px;
 }
 
 .dark-styled {
-	background-color: var(--dark-background-color);
-	color: var(--dark-text-color);
+
+	--background: #111111;
+	--text-color: #ffffff;
+	--text-secondary: #bebebe;
+	--shadow: #000000;
+	--highlight: var(--shadow);
+	--highlight-contrast: var(--text-secondary);
+	
+	
+	--header-height: 64px;
+	--page-padding: 100px;
+	background-color: var(--background);
+	color: var(--text-color);
+	
 }
 
 .light-styled {
-	background-color: var(--light-background-color);
-	color: var(--light-text-color);
+	--background: #eeeeee;
+	--text-color: #000000;
+	--text-secondary: #3f3f3f;
+	--shadow: #cccccc;
+	--highlight: var(--shadow);
+	--highlight-contrast: var(--text-secondary);
+
+	--header-height: 64px;
+	--page-padding: 100px;
+	background-color: var(--background);
+	color: var(--text-color);
+}
+
+.main-menu {
+	background: var(--background) !important;
+	padding-top: var(--header-height);
 }
