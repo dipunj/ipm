@@ -1,10 +1,10 @@
 // import { useState } from 'react';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useContext } from 'react';
 import { Button, Dialog, FormGroup, InputGroup } from '@blueprintjs/core';
-import { useRouter } from 'next/router';
 import { Background, Column, Logo, CenterColumn, Brand, AppName } from './styles';
 import request from '../../library/Request';
+import { SessionCtx } from '../../library/Context/SessionContext';
 
 const signInButtonStyles = {
 	background: '#EA3333',
@@ -17,8 +17,7 @@ const signInButtonStyles = {
 const dialogStyles = { width: 'min(300px, 100vw)' };
 
 const Landing = (): JSX.Element => {
-	const router = useRouter();
-
+	const { refetchCtx } = useContext(SessionCtx);
 	const [open, setOpen] = useState(false);
 
 	const [loginId, setLoginId] = useState('');
@@ -39,7 +38,7 @@ const Landing = (): JSX.Element => {
 			});
 
 			if (success && is_authenticated) {
-				router.push('/');
+				refetchCtx();
 			}
 		} catch (error) {
 			alert(error);
