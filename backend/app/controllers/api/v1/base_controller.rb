@@ -2,6 +2,25 @@ class Api::V1::BaseController < ApplicationController
 
 	before_action :authenticate!
 
+	def authorise_building_access
+		error_message = nil
+
+		if cookies[:_ipm_sb].blank?
+			error_message = "You don't have access to any hospital building. Please contact admin"
+		elsif @current_user.buildings.find(cookies[:_ipm_sb]).nil?
+			error_message = 'You are not allowed to access this building'
+		end
+
+		render json: {
+			success: false,
+			is_authenticated: true,
+			data: {
+				data:    nil,
+				message: error_message
+			}
+		} unless error_message.nil?
+	end
+
 	def authenticate!
 		render json: {
 			success: false,

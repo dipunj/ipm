@@ -1,6 +1,6 @@
 class Api::V1::Management::TransactionController < Api::V1::BaseController
 
-  before_action :set_service
+  before_action :set_service, :authorise_building_access
 
   def create
     response = @service.create_new_transaction(@current_user, admission_id, transaction_params)
