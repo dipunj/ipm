@@ -15,6 +15,11 @@ module Setup
 				is_active: true
 			}
 			user = User.create!(create_params)
+
+			# allow access to all buildings
+			if params[:account_type] == AccountTypes::ADMIN
+				user.buildings << Building.all
+			end
 			return ResponseHelper.json(true, user, 'Successfully Created User')
 		end
 
