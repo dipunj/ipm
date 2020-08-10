@@ -65,27 +65,31 @@ const Landing = (): JSX.Element => {
 			</Column>
 			<Dialog title="Login" isOpen={open} onClose={toggleModal} style={dialogStyles}>
 				<div className="bp3-dialog-body">
-					<FormGroup labelFor="loginid" labelInfo="(required)">
-						<InputGroup
-							id="loginid"
-							name="login_id"
-							placeholder="login id"
-							large
-							value={loginId}
-							onChange={handleLoginChange}
-						/>
-					</FormGroup>
-					<FormGroup labelFor="password" labelInfo="(required)">
-						<InputGroup
-							large
-							id="password"
-							type="password"
-							name="password"
-							placeholder="password"
-							value={password}
-							onChange={handlePasswordChange}
-						/>
-					</FormGroup>
+					<form>
+						<FormGroup labelFor="loginid" labelInfo="(required)">
+							<InputGroup
+								id="loginid"
+								name="login_id"
+								placeholder="login id"
+								large
+								value={loginId}
+								onChange={handleLoginChange}
+								autoComplete="username"
+							/>
+						</FormGroup>
+						<FormGroup labelFor="password" labelInfo="(required)">
+							<InputGroup
+								large
+								id="password"
+								type="password"
+								name="password"
+								placeholder="password"
+								value={password}
+								onChange={handlePasswordChange}
+								autoComplete="current-password"
+							/>
+						</FormGroup>
+					</form>
 				</div>
 				<div className="bp3-dialog-footer">
 					<Button
