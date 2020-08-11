@@ -4,6 +4,18 @@
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
 
+
+html {
+	overflow-y: overlay;
+	overflow-x: hidden;
+	/* Hide scrollbar for IE, Edge and Firefox */
+	-ms-overflow-style: none;  /* IE and Edge */
+	scrollbar-width: none;  /* Firefox */
+}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: var(--brand-color); }
+
+
 body { 
 	margin: 0px;
 }
@@ -12,6 +24,7 @@ body {
 	--title-size: 28px;
 	--header-height: 76px;
 	--page-padding: 100px;
+	--brand-color: #EA3333;
 }
 
 .dark-styled {
@@ -22,7 +35,6 @@ body {
 	--shadow: #000000;
 	--highlight: var(--shadow);
 	--highlight-contrast: var(--text-secondary);
-	
 
 	background-color: var(--background);
 	color: var(--text-color);
@@ -30,6 +42,7 @@ body {
 }
 
 .light-styled {
+	
 	--background: #eeeeee;
 	--text-color: #000000;
 	--text-secondary: #3f3f3f;
