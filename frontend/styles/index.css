@@ -41,6 +41,12 @@ body {
 	color: var(--text-color);
 }
 
+.bp3-transition-container {
+	opacity: 1;
+	display: flex;
+	z-index: 40;
+}
+
 .main-menu {
 	background: var(--background) !important;
 	padding-top: var(--header-height);
