@@ -7,7 +7,7 @@ import request from '../../library/Request';
 import { SessionCtx } from '../../library/Context/SessionContext';
 
 const signInButtonStyles = {
-	background: '#EA3333',
+	background: 'var(--brand-color)',
 	fontSize: '24px',
 	padding: '16px 32px',
 	borderRadius: 0,

@@ -1,7 +1,6 @@
 import { createContext, useState, useContext } from 'react';
 import { SessionCtx } from '../SessionContext';
 import request from '../../Request';
-import { saveToLS, getFromLS } from '../../../helpers';
 
 const ThemeCtx = createContext({});
 
