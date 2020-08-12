@@ -1,19 +1,9 @@
 import { InputGroup, Button } from '@blueprintjs/core';
 import { RowContainer, InputContainer } from './styles';
 
-const PageControls = ({
-	searchQuery,
-	handleSearchQueryChange,
-	doSearch,
-	toggleDrawer,
-}): JSX.Element => {
+const PageControls = ({ searchQuery, handleSearchQueryChange, doSearch }): JSX.Element => {
 	return (
 		<>
-			<div>
-				<Button intent="warning" minimal onClick={toggleDrawer}>
-					View Wards
-				</Button>
-			</div>
 			<RowContainer>
 				<InputContainer>
 					<InputGroup
