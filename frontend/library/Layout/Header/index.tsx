@@ -27,9 +27,9 @@ const renderBuildingItem: ItemRenderer<IBuilding> = (
 		<MenuItem
 			active={modifiers.active}
 			key={building.id}
-			label={building.branch_code}
+			label={building.city}
 			onClick={handleClick}
-			text={building.city}
+			text={building.branch_code}
 		/>
 	);
 };
@@ -95,7 +95,7 @@ const Header = (): JSX.Element => {
 					>
 						<Button
 							disabled={!allowBuildingToggle}
-							text={`${selectedBuilding.city} ${selectedBuilding.branch_code}`}
+							text={`${selectedBuilding.branch_code} ${selectedBuilding.city}`}
 							rightIcon="double-caret-vertical"
 						/>
 					</BuildingSelect>
