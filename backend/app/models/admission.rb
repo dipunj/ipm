@@ -4,6 +4,7 @@ class Admission < ApplicationRecord
 	belongs_to :created_by     , class_name: 'User'
 	belongs_to :last_updated_by, class_name: 'User'
 
+	has_one :ward, through: :bed
 	has_many :transactions
 	has_many :admission_logs
 	has_many :visit_logs
@@ -14,6 +15,19 @@ class Admission < ApplicationRecord
 	attribute :is_discharged   , default: false
 
 
+	def self.with_overview_data
+		{
+			except: [:comment, :patient_id, :created_at, :updated_at, :created_by_id, :last_updated_by_id, :bed_id],
+			include: {
+				ward: {
+					only: [:name]
+				},
+				patient: {
+					only: [:name, :phone]
+				},
+			}
+		}
+	end
 
 	def self.with_all_data
 		{
@@ -30,6 +44,9 @@ class Admission < ApplicationRecord
 							}
 						}
 					}
+				},
+				patient: {
+					only: [:name, :phone]
 				},
 				transactions: {
 					except: [:created_at]

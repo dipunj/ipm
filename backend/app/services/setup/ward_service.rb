@@ -13,7 +13,7 @@ module Setup
 				floor:        params[:floor],
 				ward_type:    params[:ward_type],
 				ward_number:  params[:ward_number],
-				name:         "#{params[:ward_type]}-#{params[:ward_number]} L#{params[:floor]}"
+				name:         "L#{params[:floor]} / #{params[:ward_type]} #{params[:ward_number]}"
 			}
 
 			new_ward = Ward.create!(create_params)
