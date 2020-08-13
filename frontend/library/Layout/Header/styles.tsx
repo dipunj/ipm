@@ -7,7 +7,7 @@ const Wrapper = styled.div`
 
 	/* not 100%, otherwise scrollbar would leave a gap on the right side */
 	width: 100vw;
-	background: inherit;
+	background: var(--background);
 
 	position: fixed;
 	top: 0;

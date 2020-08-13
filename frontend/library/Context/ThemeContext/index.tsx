@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 import { SessionCtx } from '../SessionContext';
 import request from '../../Request';
 
@@ -26,12 +26,12 @@ const ThemeCtxProvider = ({ children }): JSX.Element => {
 		}
 	};
 
+	useEffect(() => {
+		document.body.className = isDark ? 'bp3-dark dark-styled' : 'light-styled';
+	}, [isDark]);
+
 	return (
-		<ThemeCtx.Provider value={{ isDark, setIsDark, toggleTheme }}>
-			<div id="themeRoot" className={isDark ? 'bp3-dark dark-styled' : 'light-styled'}>
-				{children}
-			</div>
-		</ThemeCtx.Provider>
+		<ThemeCtx.Provider value={{ isDark, setIsDark, toggleTheme }}>{children}</ThemeCtx.Provider>
 	);
 };
 
