@@ -11,6 +11,7 @@ html {
 	/* Hide scrollbar for IE, Edge and Firefox */
 	-ms-overflow-style: none;  /* IE and Edge */
 	scrollbar-width: none;  /* Firefox */
+	background: var(--background) !important;
 }
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--brand-color); }
@@ -34,8 +35,7 @@ body {
 }
 
 .dark-styled {
-
-	--background: #111111;
+	--background: #0e0e0e;
 	--text-color: #ffffff;
 	--text-secondary: #bebebe;
 	--shadow: #000000;
@@ -47,11 +47,12 @@ body {
 	
 }
 
-.light-styled {
+
+.light-styled{
 	
 	--background: #ffffff;
 	--text-color: #000000;
-	--text-secondary: #3f3f3f;
+	--text-secondary: #949494;
 	--shadow: #cccccc;
 	--highlight: var(--shadow);
 	--highlight-contrast: var(--text-secondary);
@@ -75,6 +76,7 @@ body {
 	/* background: lightgray !important; */
 	border-radius: 20px;
 	margin: 12px 0;
+	padding: 48px;
 	/* border: 0px !important; */
 	/* box-shadow: none; */
 
