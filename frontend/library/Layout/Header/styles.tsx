@@ -62,7 +62,7 @@ const IconContainer = styled.div`
 	margin-right: 20px;
 
 	&:hover {
-		background-color: var(--highlight);
+		background-color: var(--shadow);
 	}
 `;
 export { Wrapper, Container, Column, Greeting, IconContainer, MenuContainer };

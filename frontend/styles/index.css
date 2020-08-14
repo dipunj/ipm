@@ -34,12 +34,15 @@ body {
 	}
 }
 
+
+
 .dark-styled {
 	--background: #0e0e0e;
 	--text-color: #ffffff;
 	--text-secondary: #bebebe;
 	--shadow: #000000;
-	--highlight: var(--shadow);
+	--shadow-card: #909090;
+	--highlight: #50505081;
 	--highlight-contrast: var(--text-secondary);
 
 	background: var(--background) !important;
@@ -48,13 +51,14 @@ body {
 }
 
 
-.light-styled{
+.light-styled {
 	
 	--background: #ffffff;
 	--text-color: #000000;
 	--text-secondary: #949494;
 	--shadow: #cccccc;
-	--highlight: var(--shadow);
+	--shadow-card: #999999;
+	--highlight: #bfbfbf42;
 	--highlight-contrast: var(--text-secondary);
 
 	background: var(--background) !important;
