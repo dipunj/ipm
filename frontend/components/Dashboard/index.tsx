@@ -8,10 +8,16 @@ import { FlexWrapper } from './styles';
 const AdmissionsOverview = (): JSX.Element => {
 	const [admissions, setAdmissions] = useState([]);
 
+	const [page, setPage] = useState(1);
+	const [resultsPerPage, setResultsPerPage] = useState(10);
+
 	const fetchCurrentAdmissions = async () => {
 		try {
-			const response = await request.get('/management/admission/current');
-			setAdmissions(response.data.response.data);
+			const response = await request.get('/management/admission/current', {
+				page,
+				resultsPerPage,
+			});
+			setAdmissions(response.data.response.data.result);
 		} catch (error) {}
 	};
 
@@ -25,7 +31,9 @@ const AdmissionsOverview = (): JSX.Element => {
 			<PageControls />
 			<div className="page-div">
 				<FlexWrapper>
-					{admissions ? admissions.map((adm) => <AdmissionCard data={adm} />) : null}
+					{admissions
+						? admissions.map((data) => <AdmissionCard key={data.id} {...{ data }} />)
+						: null}
 				</FlexWrapper>
 			</div>
 		</>
