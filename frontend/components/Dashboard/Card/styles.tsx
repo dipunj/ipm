@@ -19,6 +19,8 @@ export const Column = styled.div`
 	display: flex;
 	flex-direction: column;
 	flex: 1;
+	align-items: ${({ alignItems }) => alignItems};
+	align-self: stretch;
 `;
 
 export const Row = styled.div`
@@ -53,8 +55,14 @@ export const Label = styled.div`
 
 export const DateValue = styled.div`
 	font-weight: 200;
-	font-size: 16px;
+	font-size: 20px;
 	color: var(--text-color);
+`;
+
+export const TimeValue = styled.div`
+	font-weight: 200;
+	font-size: 18px;
+	color: var(--text-secondary);
 `;
 
 export const Phone = styled.div`

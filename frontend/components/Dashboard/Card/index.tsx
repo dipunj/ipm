@@ -11,6 +11,7 @@ import {
 	DateValue,
 	GuardianTitle,
 	GuardianPhone,
+	TimeValue,
 } from './styles';
 
 interface IAdmissionCard {
@@ -35,23 +36,30 @@ const AdmissionCard = (props: IAdmissionCard) => {
 		bed: { name: bed },
 		ward: { name: ward },
 		admit_timestamp,
+		discharge_timestamp,
 	} = props.data;
 
 	const showAdmissionPage = () => {
 		router.push(`/admissions/${admission_id}`);
 	};
 
+	const options = {
+		// weekday: 'short',
+		day: 'numeric',
+		month: 'short',
+		year: 'numeric',
+		hour12: true,
+		hour: 'numeric',
+		minute: 'numeric',
+		// timeZoneName: 'long',
+	};
+
 	const [admissionDate, admissionTime] = new Date(admit_timestamp)
-		.toLocaleString('en-GB', {
-			// weekday: 'short',
-			day: 'numeric',
-			month: 'short',
-			year: 'numeric',
-			hour12: true,
-			hour: 'numeric',
-			minute: 'numeric',
-			timeZoneName: 'long',
-		})
+		.toLocaleString('en-GB', options)
+		.split(',');
+
+	const [dischargeDate, _] = new Date(discharge_timestamp)
+		.toLocaleString('en-GB', options)
 		.split(',');
 	return (
 		<Card>
@@ -64,9 +72,13 @@ const AdmissionCard = (props: IAdmissionCard) => {
 			</Row>
 			<Row>
 				<Column>
-					<Label>Admission:</Label>
+					<Label>Admission Time</Label>
 					<DateValue>{admissionDate}</DateValue>
-					<DateValue>{admissionTime}</DateValue>
+					<TimeValue>{`(${admissionTime.trim()})`}</TimeValue>
+				</Column>
+				<Column>
+					<Label>Expected Discharge Time*</Label>
+					<DateValue>{discharge_timestamp ? dischargeDate : '-'}</DateValue>
 				</Column>
 				<Column>
 					<Label right>Guardian</Label>
