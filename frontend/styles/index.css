@@ -38,13 +38,19 @@ body {
 
 .dark-styled {
 	--background: #0e0e0e;
+	
 	--text-color: #ffffff;
 	--text-secondary: #bebebe;
+	
 	--shadow: #000000;
-	--shadow-card: #909090;
+	--shadow-card-color: #909090;
+	--shadow-card: 0px 4px 12px 1px #000000;
+
 	--highlight: #50505081;
 	--highlight-contrast: var(--text-secondary);
 
+	--border-color-light: #363636;
+	
 	background: var(--background) !important;
 	color: var(--text-color);
 	
@@ -54,10 +60,16 @@ body {
 .light-styled {
 	
 	--background: #ffffff;
+	
 	--text-color: #000000;
 	--text-secondary: #949494;
+
 	--shadow: #cccccc;
-	--shadow-card: #999999;
+	--shadow-card-color: #999999;
+	--shadow-card: 0px 2px 4px 0px var(--shadow-card-color);
+	
+	--border-color-light: #cccccc;
+
 	--highlight: #bfbfbf42;
 	--highlight-contrast: var(--text-secondary);
 
@@ -93,7 +105,7 @@ body {
 	margin-bottom: 48px;
 }
 
-.page-div {
+.page-content {
 	/* border: 1px solid gray; */
 	padding: 32px;
 	border-radius: 16px;

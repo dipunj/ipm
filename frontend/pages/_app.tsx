@@ -7,7 +7,7 @@ import getDefaultLayout from '../library/Layout';
 import Providers from '../library/Providers';
 
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-	whyDidYouRender(React, { trackAllPureComponents: false });
+	whyDidYouRender(React, { trackAllPureComponents: true });
 }
 
 const MyApp = (props: AppProps) => {
