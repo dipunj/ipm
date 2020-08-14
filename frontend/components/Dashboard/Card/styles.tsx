@@ -3,15 +3,15 @@ import styled from 'styled-components';
 export const Card = styled.div`
 	display: flex;
 	flex-direction: column;
-	border: 1px solid var(--shadow);
+	border: 1px solid var(--border-color-light);
 	border-radius: 16px;
 	padding: 24px;
 	margin-bottom: 36px;
+	width: 100%;
 	cursor: pointer;
 
 	&:hover {
-		box-shadow: 0px 2px 4px 0px var(--shadow-card);
-		background: var(--highlight);
+		box-shadow: var(--shadow-card);
 	}
 `;
 
