@@ -74,10 +74,23 @@ module Management
 			return ResponseHelper.json(admission.present?, admission.as_json(Admission.with_all_data), nil)
 		end
 
-		def self.list_current_admissions(operator, building_id)
+		def self.list_current_admissions(operator, building_id, params)
+
+
+			records_per_page = (params[:records_per_page] || 10).to_i
+			page = ( params[:page] || 1 ).to_i - 1
+
 			current = Admission.where(is_discharged: false)
-			current =  current.joins(bed: [ward: [:building]]).where(beds: { wards: { building_id: building_id } }) if building_id.present?
-			return ResponseHelper.json(true, current.as_json(Admission.with_overview_data), "There are #{current.length} current admissions")
+			if building_id.present?
+				current =  current.joins(bed: [ward: [:building]]).where(beds: { wards: { building_id: building_id } })
+				count = current.length
+				current = current.limit(records_per_page).offset(page*records_per_page)
+			else
+				raise 'Invalid Building ID'
+			end
+
+
+			return ResponseHelper.json(true, {page: page.to_i+1, count: count, result: current.as_json(Admission.with_overview_data)}, nil)
 		end
 
 		def self.search_admissions(operator, params)
@@ -91,7 +104,7 @@ module Management
 			# 1
 
 			result = []
-			patient_matches = Patient.where("name LIKE ? or phone LIKE ?", regex_query).collect(&:admissions)
+			patient_matches = Patient.where("name LIKE ? OR phone LIKE ?", regex_query).collect(&:admissions)
 			guardian_matches = Admission.where("guardian_name LIKE ? OR guardian_phone LIKE ?", regex_query, regex_query)
 			visitor_matches = Visitor.where("name LIKE ? OR phone LIKE ?", regex_query, regex_query)
 		end

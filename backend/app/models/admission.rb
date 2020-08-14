@@ -19,6 +19,9 @@ class Admission < ApplicationRecord
 		{
 			except: [:comment, :patient_id, :created_at, :updated_at, :created_by_id, :last_updated_by_id, :bed_id],
 			include: {
+				bed: {
+					only: [:name]
+				},
 				ward: {
 					only: [:name]
 				},

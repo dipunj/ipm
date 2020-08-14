@@ -18,7 +18,7 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
   end
 
   def list_current_admissions
-    response = @service.list_current_admissions(@current_user, building_id)
+    response = @service.list_current_admissions(@current_user, building_id, pagination_params)
     render json: response
   end
 
@@ -39,7 +39,11 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
     end
 
     def building_id
-      cookies[:selected_building]
+      cookies[:_ipm_sb]
+    end
+
+    def pagination_params
+      params.permit(:page, :records_per_page)
     end
 
     def admission_params
