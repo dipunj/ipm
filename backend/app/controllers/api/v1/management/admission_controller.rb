@@ -18,7 +18,7 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
   end
 
   def list_current_admissions
-    response = @service.list_current_admissions(@current_user, building_id, pagination_params)
+    response = @service.list_current_admissions(@current_user, building_id, pagination_params, search_params)
     render json: response
   end
 

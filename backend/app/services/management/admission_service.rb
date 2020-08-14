@@ -74,16 +74,17 @@ module Management
 			return ResponseHelper.json(admission.present?, admission.as_json(Admission.with_all_data), nil)
 		end
 
-		def self.list_current_admissions(operator, building_id, params)
-
-
+		def self.list_current_admissions(operator, building_id, params, search_params)
 			records_per_page = (params[:records_per_page] || 10).to_i
-			page = ( params[:page] || 1 ).to_i - 1
-
+			page = params[:page].nil? ? 0 : (params[:page].to_i - 1)
 			current = Admission.where(is_discharged: false)
 			if building_id.present?
 				current =  current.joins(bed: [ward: [:building]]).where(beds: { wards: { building_id: building_id } })
 				count = current.length
+				if search_params[:query].present?
+					regex_query = "%#{search_params[:query].downcase}%"
+					current = current.joins(:patient).where('LOWER(patients.name) LIKE ? OR patients.phone LIKE ?', regex_query, regex_query)
+				end
 				current = current.limit(records_per_page).offset(page*records_per_page)
 			else
 				raise 'Invalid Building ID'

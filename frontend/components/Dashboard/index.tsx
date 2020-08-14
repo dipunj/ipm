@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import PageControls from './PageControls';
 import request from '../../library/Request';
 import AdmissionCard from './Card';
@@ -9,12 +9,17 @@ const AdmissionsOverview = (): JSX.Element => {
 	const [loading, setLoading] = useState(true);
 	const [response, setResponse] = useState(null);
 	const [recordsPerPage, setRecordsPerPage] = useState(2);
+	const [searchQuery, setSearchQuery] = useState('');
 
-	const fetchCurrentAdmissions = async (page: number) => {
+	const handleSearchQueryChange = (event: FormEvent<HTMLElement>) =>
+		setSearchQuery(event.target.value);
+
+	const fetchCurrentAdmissions = async (page) => {
 		setLoading(true);
 		try {
 			const apiResponse = await request.get('/management/admission/current', {
 				params: {
+					query: searchQuery,
 					page,
 					records_per_page: recordsPerPage,
 				},
@@ -27,15 +32,15 @@ const AdmissionsOverview = (): JSX.Element => {
 	};
 
 	useEffect(() => {
-		fetchCurrentAdmissions(1);
-	}, []);
+		if (searchQuery === '') fetchCurrentAdmissions(1);
+	}, [searchQuery]);
 
 	let content = null;
 
 	if (loading) {
 		content = <div>Loading...</div>;
 	} else if (!loading && response.result.length === 0) {
-		content = <div>No current Admissions</div>;
+		content = <div>No Admissions</div>;
 	} else {
 		content = (
 			<>
@@ -57,7 +62,13 @@ const AdmissionsOverview = (): JSX.Element => {
 	return (
 		<>
 			<h1 className="page-title">Current Admissions</h1>
-			{response?.result?.length > 0 && <PageControls />}
+			<PageControls
+				{...{
+					doSearch: () => fetchCurrentAdmissions(),
+					searchQuery,
+					handleSearchQueryChange,
+				}}
+			/>
 			<div className="page-content">
 				<FlexWrapper>{content}</FlexWrapper>
 			</div>

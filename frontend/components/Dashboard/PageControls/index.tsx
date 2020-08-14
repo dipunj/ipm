@@ -11,8 +11,7 @@ const PageControls = ({ searchQuery, handleSearchQueryChange, doSearch }): JSX.E
 					type="search"
 					value={searchQuery}
 					leftIcon="search"
-					// fill
-					// onChange={handleSearchQueryChange}
+					onChange={handleSearchQueryChange}
 					placeholder="Patient Name / Phone Number"
 				/>
 			</InputContainer>
