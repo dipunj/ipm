@@ -110,3 +110,44 @@ body {
 	padding: 32px;
 	border-radius: 16px;
 }
+
+.row {
+	display: flex;
+	flex-direction: row;
+}
+
+.column {
+	display: flex;
+	flex-direction: column;
+}
+
+.space-between {
+	justify-content: space-between;
+}
+
+.wrap {
+	flex-wrap: wrap;
+}
+
+.space-evenly {
+	justify-content: space-evenly;
+}
+
+.full-width {
+	width: 100%;
+}
+
+.align-center {
+	align-items: center;
+}
+
+.justify-center {
+	justify-content: center;
+}
+
+
+.center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
