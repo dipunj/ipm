@@ -1,40 +1,65 @@
 import { useState, useEffect } from 'react';
 import PageControls from './PageControls';
 import request from '../../library/Request';
-import { prettyJSON } from '../../helpers';
 import AdmissionCard from './Card';
 import { FlexWrapper } from './styles';
+import Pagination from '../../library/Pagination';
 
 const AdmissionsOverview = (): JSX.Element => {
-	const [admissions, setAdmissions] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [response, setResponse] = useState(null);
+	const [recordsPerPage, setRecordsPerPage] = useState(2);
 
-	const [page, setPage] = useState(1);
-	const [resultsPerPage, setResultsPerPage] = useState(10);
-
-	const fetchCurrentAdmissions = async () => {
+	const fetchCurrentAdmissions = async (page: number) => {
+		setLoading(true);
 		try {
-			const response = await request.get('/management/admission/current', {
-				page,
-				resultsPerPage,
+			const apiResponse = await request.get('/management/admission/current', {
+				params: {
+					page,
+					records_per_page: recordsPerPage,
+				},
 			});
-			setAdmissions(response.data.response.data.result);
-		} catch (error) {}
+			setResponse(apiResponse.data.response.data);
+			setLoading(false);
+		} catch (error) {
+			// TODO: show toast here
+		}
 	};
 
 	useEffect(() => {
-		fetchCurrentAdmissions();
+		fetchCurrentAdmissions(1);
 	}, []);
+
+	let content = null;
+
+	if (loading) {
+		content = <div>Loading...</div>;
+	} else if (!loading && response.result.length === 0) {
+		content = <div>No current Admissions</div>;
+	} else {
+		content = (
+			<>
+				{response.result
+					? response.result.map((data) => <AdmissionCard key={data.id} {...{ data }} />)
+					: null}
+				<Pagination
+					{...{
+						currentPage: response.page,
+						totalRecords: response.count,
+						recordsPerPage,
+						onPageChange: fetchCurrentAdmissions,
+					}}
+				/>
+			</>
+		);
+	}
 
 	return (
 		<>
 			<h1 className="page-title">Current Admissions</h1>
-			<PageControls />
-			<div className="page-div">
-				<FlexWrapper>
-					{admissions
-						? admissions.map((data) => <AdmissionCard key={data.id} {...{ data }} />)
-						: null}
-				</FlexWrapper>
+			{response?.result?.length > 0 && <PageControls />}
+			<div className="page-content">
+				<FlexWrapper>{content}</FlexWrapper>
 			</div>
 		</>
 	);
