@@ -3,25 +3,23 @@ import { RowContainer, InputContainer } from './styles';
 
 const PageControls = ({ searchQuery, handleSearchQueryChange, doSearch }): JSX.Element => {
 	return (
-		<>
-			<RowContainer>
-				<InputContainer>
-					<InputGroup
-						intent="primary"
-						large
-						type="search"
-						value={searchQuery}
-						leftIcon="search"
-						// fill
-						// onChange={handleSearchQueryChange}
-						placeholder="Patient Name / Phone Number"
-					/>
-				</InputContainer>
-				<Button intent="primary" onClick={doSearch} large>
-					Search
-				</Button>
-			</RowContainer>
-		</>
+		<RowContainer>
+			<InputContainer>
+				<InputGroup
+					intent="primary"
+					large
+					type="search"
+					value={searchQuery}
+					leftIcon="search"
+					// fill
+					// onChange={handleSearchQueryChange}
+					placeholder="Patient Name / Phone Number"
+				/>
+			</InputContainer>
+			<Button intent="primary" onClick={doSearch} large>
+				Search
+			</Button>
+		</RowContainer>
 	);
 };
 
