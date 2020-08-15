@@ -1,4 +1,4 @@
-import { InputGroup, FormGroup, Button } from '@blueprintjs/core';
+import { InputGroup, FormGroup, Button, TextArea } from '@blueprintjs/core';
 import { FormEvent, useState } from 'react';
 import GenderSelect from '../../../library/Select/Gender';
 
@@ -105,7 +105,7 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 			<h1 className="page-title">New Admission</h1>
 			<div className="page-content">
 				<div className="column">
-					<div className="row wrap full-width">
+					<div className="column wrap full-width">
 						<FormGroup
 							label="Name"
 							intent={intent.name}
@@ -135,7 +135,7 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 								name="phone"
 								type="tel"
 								intent={intent.phone}
-								placeholder="Patient Phone Number"
+								placeholder="Patient's Phone Number"
 								value={state.phone}
 								onChange={handleTextChange}
 							/>
@@ -155,7 +155,135 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 								activeItem={state.gender}
 							/>
 						</FormGroup>
+						<FormGroup
+							label="Age"
+							intent={intent.age}
+							labelFor="patient-age"
+							helperText={intent.age === 'danger' && 'Required'}
+							labelInfo="*"
+						>
+							<InputGroup
+								id="patient-age"
+								name="age"
+								type="number"
+								min="0"
+								placeholder="Patient's Age"
+								value={state.age}
+								onChange={handleTextChange}
+							/>
+						</FormGroup>
 
+						<FormGroup
+							label="Name"
+							intent={intent.name}
+							labelFor="guardian-name"
+							labelInfo="*"
+							helperText={intent.name === 'danger' && 'Required'}
+						>
+							<InputGroup
+								id="guardian-name"
+								intent={intent.guardian_name}
+								name="guardian_name"
+								type="text"
+								placeholder="Guardian Name"
+								value={state.guardian_name}
+								onChange={handleTextChange}
+							/>
+						</FormGroup>
+						<FormGroup
+							label="Phone Number"
+							intent={intent.guardian_phone}
+							labelFor="guardian-phone"
+							helperText={intent.guardian_phone === 'danger' && 'Required'}
+							labelInfo="*"
+						>
+							<InputGroup
+								id="guardian-phone"
+								name="guardian_phone"
+								type="tel"
+								intent={intent.guardian_phone}
+								placeholder="guardian's Phone Number"
+								value={state.guardian_phone}
+								onChange={handleTextChange}
+							/>
+						</FormGroup>
+
+						<FormGroup
+							label="Ward"
+							intent={intent.ward_id}
+							labelFor="ward_id"
+							labelInfo="*"
+							helperText={intent.ward_id === 'danger' && 'Required'}
+						>
+							ward select goes here
+						</FormGroup>
+
+						<FormGroup
+							label="Bed"
+							intent={intent.bed_id}
+							labelFor="bed_id"
+							labelInfo="*"
+							helperText={intent.bed_id === 'danger' && 'Required'}
+						>
+							bed select goes here
+						</FormGroup>
+
+						<FormGroup
+							label="Admission Date & Time"
+							intent={intent.admit_timestamp}
+							labelFor="admit_timestamp"
+							labelInfo="*"
+							helperText={intent.admit_timestamp === 'danger' && 'Requierd'}
+						>
+							Admit Timestamp goes here
+						</FormGroup>
+
+						<FormGroup
+							label="Expected Discharge Date"
+							intent={intent.admit_timestamp}
+							labelFor="discharge_timestamp"
+						>
+							Discharge Timestamp goes here
+						</FormGroup>
+
+						<FormGroup
+							label="Comments"
+							intent={intent.comments}
+							labelFor="operator-comments"
+						>
+							<TextArea
+								id="operator-comments"
+								name="comments"
+								type="textarea"
+								intent={intent.comments}
+								placeholder="Any note about the patient / Admission"
+								value={state.comments}
+								onChange={handleTextChange}
+							/>
+						</FormGroup>
+
+						<FormGroup
+							label="Purpose"
+							intent={intent.purpose}
+							labelFor="admission-purpose"
+						>
+							<InputGroup
+								id="admission-purpose"
+								name="purpose"
+								intent={intent.purpose}
+								placeholder="Delivery, Gall Bladder Removal ...etc"
+								value={state.purpose}
+								onChange={handleTextChange}
+							/>
+						</FormGroup>
+
+						<FormGroup
+							label="Doctor Name"
+							intent={intent.doctor_name}
+							labelFor="doctor-name"
+						>
+							Select for doctor name
+						</FormGroup>
 						<FormGroup>
 							<Button type="submit" onClick={handleSubmit}>
 								Submit
