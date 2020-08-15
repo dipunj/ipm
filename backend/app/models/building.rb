@@ -11,15 +11,15 @@ class Building < ApplicationRecord
 
 	validates :branch_code, uniqueness: true
 
-	def self.with_all_data
+	def self.with_structural_data
 		{
 			except: [:created_at, :updated_at],
 			include: {
 				wards: {
-					only: [:name],
+					except: [:created_at, :updated_at],
 					include: {
 						beds: {
-							only: [:name]
+							except: [:created_at, :updated_at]
 						}
 					}
 				}

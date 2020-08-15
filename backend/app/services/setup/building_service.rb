@@ -8,11 +8,27 @@ module Setup
 									   'Building Created Successfully')
 		end
 
+		# used by operators on inital call to set context in frontend
 		def self.fetch_building_by_id(id)
 			building = Building.find_by(id: id)
+			occupied_beds = Admission.where(is_discharged: false).joins(bed: [ward: [:building]]).where("buildings.id = ?",id).pluck(:bed_id)
+
+			json_data = building.as_json(Building.with_structural_data)
+			json_data["wards"].each do |ward|
+				ward["beds"].each do |bed|
+					if occupied_beds.include? bed["id"]
+						bed["is_occupied"] = true
+					else
+						bed["is_occupied"] = false
+					end
+				end
+			end
 
 			return ResponseHelper.json(true,
-									   building.as_json(Building.with_all_data),
+									   {
+										   building: json_data,
+										   occupied_beds: occupied_beds
+									   },
 									   nil)
 		end
 

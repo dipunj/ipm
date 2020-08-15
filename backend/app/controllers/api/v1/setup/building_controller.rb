@@ -1,14 +1,11 @@
 class Api::V1::Setup::BuildingController < Api::V1::BaseController
 
-	before_action :set_service, :require_escalated_privileges
+	before_action :set_service
+	before_action :require_escalated_privileges, except: [:find_building_by_id]
+	before_action :authorise_building_access, only: [:find_building_by_id]
 
 	def create
 		response = @service.create_new_building(building_params)
-		render json: response
-	end
-
-	def read
-		response = @service.fetch_building_by_id(building_id)
 		render json: response
 	end
 
@@ -33,6 +30,15 @@ class Api::V1::Setup::BuildingController < Api::V1::BaseController
 	end
 
 
+
+	# for use by operators
+
+	def find_building_by_id
+		response = @service.fetch_building_by_id(selected_building_id)
+		render json: response
+	end
+
+
 	private
 		def set_service
 			@service ||= Setup::BuildingService
@@ -47,6 +53,10 @@ class Api::V1::Setup::BuildingController < Api::V1::BaseController
 						  :administrative_area,
 						  :postal_code,
 						  :country)
+		end
+
+		def selected_building_id
+			cookies[:_ipm_sb]
 		end
 
 		def building_id
