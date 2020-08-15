@@ -12,25 +12,29 @@ const SessionCtxProvider = ({ children }) => {
 	const [loading, setLoading] = useState(true);
 
 	const fetchCtx = async () => {
-		await setLoading(true);
+		try {
+			await setLoading(true);
 
-		// must be asynchronous to avoid a flash of signin page, since setLoading(false) would execute before the api call is complete, causing a render with SigIn being rendered for a moment
-		await request
-			.get('/session/auth/status')
-			.then((res) => {
-				if (res.data.success && res.data.is_authenticated) {
-					setCtx({ ...res.data.response.data });
-					// saveToLS('prefers_dark', res.data.response.data.prefers_dark);
-				} else {
-					// TODO: Create toast here
-					router.push('/');
+			// must be asynchronous to avoid a flash of signin page, since setLoading(false) would execute before the api call is complete, causing a render with SigIn being rendered for a moment
+			await request
+				.get('/session/auth/status')
+				.then((res) => {
+					if (res.data.success && res.data.is_authenticated) {
+						setCtx({ ...res.data.response.data });
+						// saveToLS('prefers_dark', res.data.response.data.prefers_dark);
+					} else {
+						// TODO: Create toast here
+						router.push('/');
 
-					// crucial for logout
-					setCtx({});
-				}
-			})
-			.catch((err) => console.log(err));
-		setLoading(false);
+						// crucial for logout
+						setCtx({});
+					}
+				})
+				.catch((err) => console.log(err));
+			setLoading(false);
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	useEffect(() => {
