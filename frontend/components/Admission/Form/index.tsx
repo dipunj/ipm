@@ -1,10 +1,12 @@
 import { InputGroup, FormGroup, Button, TextArea } from '@blueprintjs/core';
-import { FormEvent, useState, useContext, useEffect } from 'react';
+import { FormEvent, useState, useContext } from 'react';
+import { DatePicker } from '@blueprintjs/datetime';
 import GenderSelect from '../../../library/Select/Gender';
 import { BuildingCtx } from '../../../library/Context/BuildingContext';
-import { prettyJSON } from '../../../helpers';
 import WardSelect from '../../../library/Select/Ward';
 import BedSelect from '../../../library/Select/Bed';
+import { DetailBlock, BlockLabel } from './styles';
+import styles from './form.module.css';
 
 type State = {
 	name: string;
@@ -55,7 +57,7 @@ const nullable = {
 	ward: false,
 	bed: false,
 	admit_timestamp: false,
-	discharge_timestamp: false,
+	discharge_timestamp: true,
 	comments: true,
 	purpose: true,
 	doctor_name: true,
@@ -83,6 +85,13 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 		dispatch({ fieldName, newValue });
 	};
 
+	const handleDateChange = (selectedDate: Date, isUserChanged: boolean, fieldName: string) => {
+		if (selectedDate && intent[fieldName] === 'danger')
+			setIntent((prev) => ({ ...prev, [fieldName]: 'none' }));
+
+		dispatch({ fieldName, newValue: selectedDate });
+	};
+
 	const formOK = () => {
 		const newIntent = { ...intent };
 		let properlyFilled = true;
@@ -106,215 +115,265 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 		<>
 			<h1 className="page-title">New Admission</h1>
 			<div className="page-content">
-				<div className="column">
-					<div className="column wrap full-width">
-						<FormGroup
-							label="Name"
-							intent={intent.name}
-							labelFor="patient-name"
-							labelInfo="*"
-							helperText={intent.name === 'danger' && 'Required'}
-						>
-							<InputGroup
-								id="patient-name"
+				<div className="column full-width">
+					<DetailBlock>
+						<BlockLabel>Patient Details</BlockLabel>
+						<div className="row wrap full-width">
+							<FormGroup
+								className={styles.halfColumn}
+								label="Name"
 								intent={intent.name}
-								name="name"
-								type="text"
-								placeholder="Patient Name"
-								value={state.name}
-								onChange={handleTextChange}
-							/>
-						</FormGroup>
-						<FormGroup
-							label="Phone Number"
-							intent={intent.phone}
-							labelFor="patient-phone"
-							helperText={intent.phone === 'danger' && 'Required'}
-							labelInfo="*"
-						>
-							<InputGroup
-								id="patient-phone"
-								name="phone"
-								type="tel"
+								labelFor="patient-name"
+								labelInfo="*"
+								helperText={intent.name === 'danger' && 'Required'}
+							>
+								<InputGroup
+									id="patient-name"
+									intent={intent.name}
+									name="name"
+									type="text"
+									placeholder="Patient Name"
+									value={state.name}
+									onChange={handleTextChange}
+								/>
+							</FormGroup>
+							<FormGroup
+								className={styles.halfColumn}
+								label="Phone Number"
 								intent={intent.phone}
-								placeholder="Patient's Phone Number"
-								value={state.phone}
-								onChange={handleTextChange}
-							/>
-						</FormGroup>
+								labelFor="patient-phone"
+								helperText={intent.phone === 'danger' && 'Required'}
+								labelInfo="*"
+							>
+								<InputGroup
+									id="patient-phone"
+									name="phone"
+									type="tel"
+									intent={intent.phone}
+									placeholder="Patient's Phone Number"
+									value={state.phone}
+									onChange={handleTextChange}
+								/>
+							</FormGroup>
+						</div>
 
-						<FormGroup
-							label="Gender"
-							intent={intent.gender}
-							labelFor="patient-gender"
-							helperText={intent.gender === 'danger' && 'Required'}
-							labelInfo="*"
-						>
-							<GenderSelect
-								id="patient-gender"
+						<div className="row wrap full-width">
+							<FormGroup
+								className={styles.halfColumn}
+								label="Gender"
 								intent={intent.gender}
-								name="gender"
-								onItemSelect={(val, _) => handleSelectChange(val, 'gender')}
-								activeItem={state.gender}
-							/>
-						</FormGroup>
-						<FormGroup
-							label="Age"
-							intent={intent.age}
-							labelFor="patient-age"
-							helperText={intent.age === 'danger' && 'Required'}
-							labelInfo="*"
-						>
-							<InputGroup
-								id="patient-age"
-								name="age"
-								type="number"
-								min="0"
+								labelFor="patient-gender"
+								helperText={intent.gender === 'danger' && 'Required'}
+								labelInfo="*"
+							>
+								<GenderSelect
+									id="patient-gender"
+									intent={intent.gender}
+									name="gender"
+									onItemSelect={(val, _) => handleSelectChange(val, 'gender')}
+									activeItem={state.gender}
+								/>
+							</FormGroup>
+							<FormGroup
+								className={styles.halfColumn}
+								label="Age"
 								intent={intent.age}
-								placeholder="Patient's Age"
-								value={state.age}
-								onChange={handleTextChange}
-							/>
-						</FormGroup>
+								labelFor="patient-age"
+								helperText={intent.age === 'danger' && 'Required'}
+								labelInfo="*"
+							>
+								<InputGroup
+									id="patient-age"
+									name="age"
+									type="number"
+									min="0"
+									intent={intent.age}
+									placeholder="Patient's Age"
+									value={state.age}
+									onChange={handleTextChange}
+								/>
+							</FormGroup>
+						</div>
+					</DetailBlock>
 
-						<FormGroup
-							label="Name"
-							intent={intent.name}
-							labelFor="guardian-name"
-							labelInfo="*"
-							helperText={intent.name === 'danger' && 'Required'}
-						>
-							<InputGroup
-								id="guardian-name"
-								intent={intent.guardian_name}
-								name="guardian_name"
-								type="text"
-								placeholder="Guardian Name"
-								value={state.guardian_name}
-								onChange={handleTextChange}
-							/>
-						</FormGroup>
-						<FormGroup
-							label="Phone Number"
-							intent={intent.guardian_phone}
-							labelFor="guardian-phone"
-							helperText={intent.guardian_phone === 'danger' && 'Required'}
-							labelInfo="*"
-						>
-							<InputGroup
-								id="guardian-phone"
-								name="guardian_phone"
-								type="tel"
+					<DetailBlock>
+						<BlockLabel>Guardian Details</BlockLabel>
+						<div className="row wrap full-width">
+							<FormGroup
+								className={styles.halfColumn}
+								label="Name"
+								intent={intent.name}
+								labelFor="guardian-name"
+								labelInfo="*"
+								helperText={intent.name === 'danger' && 'Required'}
+							>
+								<InputGroup
+									id="guardian-name"
+									intent={intent.guardian_name}
+									name="guardian_name"
+									type="text"
+									placeholder="Guardian Name"
+									value={state.guardian_name}
+									onChange={handleTextChange}
+								/>
+							</FormGroup>
+							<FormGroup
+								className={styles.halfColumn}
+								label="Phone Number"
 								intent={intent.guardian_phone}
-								placeholder="Guardian's Phone Number"
-								value={state.guardian_phone}
-								onChange={handleTextChange}
-							/>
-						</FormGroup>
+								labelFor="guardian-phone"
+								helperText={intent.guardian_phone === 'danger' && 'Required'}
+								labelInfo="*"
+							>
+								<InputGroup
+									id="guardian-phone"
+									name="guardian_phone"
+									type="tel"
+									intent={intent.guardian_phone}
+									placeholder="Guardian's Phone Number"
+									value={state.guardian_phone}
+									onChange={handleTextChange}
+								/>
+							</FormGroup>
+						</div>
+					</DetailBlock>
 
-						<FormGroup
-							label="Ward"
-							intent={intent.ward}
-							labelFor="ward-select"
-							labelInfo="*"
-							helperText={intent.ward === 'danger' && 'Required'}
-						>
-							<WardSelect
-								id="ward-select"
-								name="ward"
+					<DetailBlock>
+						<BlockLabel>Admission Details</BlockLabel>
+						<div className="row wrap full-width">
+							<FormGroup
+								className={styles.halfColumn}
+								label="Ward"
 								intent={intent.ward}
-								activeItem={state.ward}
-								onItemSelect={(val, _) => handleSelectChange(val, 'ward')}
-							/>
-						</FormGroup>
-
-						<FormGroup
-							label="Bed"
-							intent={intent.bed}
-							labelFor="bed-select"
-							labelInfo="*"
-							helperText={intent.bed === 'danger' && 'Required'}
-						>
-							<BedSelect
-								id="bed-select"
-								name="bed"
+								labelFor="ward-select"
+								labelInfo="*"
+								helperText={intent.ward === 'danger' && 'Required'}
+							>
+								<WardSelect
+									id="ward-select"
+									name="ward"
+									intent={intent.ward}
+									activeItem={state.ward}
+									onItemSelect={(val, _) => handleSelectChange(val, 'ward')}
+								/>
+							</FormGroup>
+							<FormGroup
+								className={styles.halfColumn}
+								label="Bed"
 								intent={intent.bed}
-								wardIDs={state.ward ? [state.ward.id] : []}
-								activeItem={state.bed}
-								onItemSelect={(val, _) => handleSelectChange(val, 'bed')}
-							/>
-						</FormGroup>
-
-						<FormGroup
-							label="Admission Date & Time"
-							intent={intent.admit_timestamp}
-							labelFor="admit_timestamp"
-							labelInfo="*"
-							helperText={intent.admit_timestamp === 'danger' && 'Requierd'}
-						>
-							Admit Timestamp goes here
-						</FormGroup>
-
-						<FormGroup
-							label="Expected Discharge Date"
-							intent={intent.admit_timestamp}
-							labelFor="discharge_timestamp"
-						>
-							Discharge Timestamp goes here
-						</FormGroup>
-
-						<FormGroup
-							label="Comments"
-							intent={intent.comments}
-							labelFor="operator-comments"
-						>
-							<TextArea
-								id="operator-comments"
-								name="comments"
-								type="textarea"
+								labelFor="bed-select"
+								labelInfo="*"
+								helperText={intent.bed === 'danger' && 'Required'}
+							>
+								<BedSelect
+									id="bed-select"
+									name="bed"
+									intent={intent.bed}
+									wardIDs={state.ward ? [state.ward.id] : []}
+									activeItem={state.bed}
+									onItemSelect={(val, _) => handleSelectChange(val, 'bed')}
+								/>
+							</FormGroup>
+						</div>
+						<div className="row wrap full-width">
+							<FormGroup
+								className={styles.halfColumn}
+								label="Admission Date & Time"
+								intent={intent.admit_timestamp}
+								labelFor="admit-timestamp"
+								labelInfo="*"
+								helperText={intent.admit_timestamp === 'danger' && 'Required'}
+							>
+								<DatePicker
+									className={styles.datepicker}
+									highlightCurrentDay
+									value={state.admit_timestamp}
+									timePickerProps={{
+										useAmPm: true,
+										onChange: (time) =>
+											handleDateChange(time, false, 'admit_timestamp'),
+									}}
+									onChange={(val, iuc) =>
+										handleDateChange(val, iuc, 'admit_timestamp')
+									}
+								/>
+							</FormGroup>
+							<FormGroup
+								className={styles.halfColumn}
+								label="Expected Discharge Date"
+								intent={intent.discharge_timestamp}
+								labelFor="discharge_timestamp"
+								helperText="(Can be updated later)"
+							>
+								<DatePicker
+									className={styles.datepicker}
+									highlightCurrentDay
+									value={state.discharge_timestamp}
+									onChange={(val, iuc) =>
+										handleDateChange(val, iuc, 'discharge_timestamp')
+									}
+								/>
+							</FormGroup>
+						</div>
+					</DetailBlock>
+					<DetailBlock>
+						<div className="row wrap full-width">
+							<FormGroup
+								className={styles.halfColumn}
+								label="Comments"
 								intent={intent.comments}
-								placeholder="Any note about the patient / Admission"
-								value={state.comments}
-								onChange={handleTextChange}
-							/>
-						</FormGroup>
-
-						<FormGroup
-							label="Purpose"
-							intent={intent.purpose}
-							labelFor="admission-purpose"
-						>
-							<InputGroup
-								id="admission-purpose"
-								name="purpose"
+								labelFor="operator-comments"
+							>
+								<TextArea
+									id="operator-comments"
+									name="comments"
+									type="textarea"
+									fill
+									intent={intent.comments}
+									placeholder="Any note about the patient / Admission"
+									value={state.comments}
+									onChange={handleTextChange}
+								/>
+							</FormGroup>
+							<FormGroup
+								className={styles.halfColumn}
+								label="Purpose"
 								intent={intent.purpose}
-								placeholder="Delivery, Gall Bladder Removal ...etc"
-								value={state.purpose}
-								onChange={handleTextChange}
-							/>
-						</FormGroup>
-
-						<FormGroup
-							label="Doctor Name"
-							intent={intent.doctor_name}
-							labelFor="doctor-name"
-						>
-							<InputGroup
-								id="doctor-name"
-								name="doctor_name"
+								labelFor="admission-purpose"
+							>
+								<InputGroup
+									id="admission-purpose"
+									name="purpose"
+									intent={intent.purpose}
+									placeholder="Delivery, Gall Bladder Removal ...etc"
+									value={state.purpose}
+									onChange={handleTextChange}
+								/>
+							</FormGroup>
+						</div>
+						<div className="row wrap full-width">
+							<FormGroup
+								className={styles.halfColumn}
+								label="Doctor Name"
 								intent={intent.doctor_name}
-								placeholder="Dr. Stephen Strange"
-								value={state.purpose}
-								onChange={handleTextChange}
-							/>
-						</FormGroup>
-
-						<FormGroup>
-							<Button type="submit" onClick={handleSubmit}>
-								Submit
-							</Button>
-						</FormGroup>
-					</div>
+								labelFor="doctor-name"
+							>
+								<InputGroup
+									id="doctor-name"
+									name="doctor_name"
+									intent={intent.doctor_name}
+									placeholder="Dr. Stephen Strange"
+									value={state.purpose}
+									onChange={handleTextChange}
+								/>
+							</FormGroup>
+							<FormGroup className={styles.halfColumn}>
+								<Button fill intent="danger" type="submit" onClick={handleSubmit}>
+									Submit
+								</Button>
+							</FormGroup>
+						</div>
+					</DetailBlock>
 				</div>
 			</div>
 		</>
