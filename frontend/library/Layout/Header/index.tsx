@@ -27,9 +27,9 @@ const renderBuildingItem: ItemRenderer<IBuilding> = (
 		<MenuItem
 			active={modifiers.active}
 			key={building.id}
-			label={building.city}
+			label={building.branch_code}
 			onClick={handleClick}
-			text={building.branch_code}
+			text={<div style={{ textTransform: 'capitalize' }}>{building.city}</div>}
 		/>
 	);
 };
@@ -95,7 +95,11 @@ const Header = (): JSX.Element => {
 					>
 						<Button
 							disabled={!allowBuildingToggle}
-							text={`${selectedBuilding.branch_code} ${selectedBuilding.city}`}
+							text={
+								<div style={{ textTransform: 'capitalize' }}>
+									{`${selectedBuilding.city} / ${selectedBuilding.branch_code}`}
+								</div>
+							}
 							rightIcon="double-caret-vertical"
 						/>
 					</BuildingSelect>
