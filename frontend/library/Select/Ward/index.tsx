@@ -1,5 +1,5 @@
 import { Select, ItemRenderer } from '@blueprintjs/select';
-import { MenuItem, Button } from '@blueprintjs/core';
+import { MenuItem, Button, Intent } from '@blueprintjs/core';
 import { useContext, SyntheticEvent } from 'react';
 import { BuildingCtx } from '../../Context/BuildingContext';
 
@@ -37,6 +37,7 @@ interface GProps {
 	id?: string;
 	name?: string;
 	activeItem: Ward;
+	intent: Intent;
 	onItemSelect: (item: Ward, event?: SyntheticEvent<HTMLElement, Event>) => void;
 }
 
@@ -54,17 +55,18 @@ const WardSelect = (props: GProps) => {
 		occupied_beds: beds.filter((bd) => bd.is_occupied).length,
 	}));
 
-	let { activeItem } = props;
-
-	if (!activeItem) {
-		activeItem = WardList[0];
-	}
-
-	const activeItemString = `${activeItem.ward_type}-${activeItem.ward_number}`;
+	const { activeItem } = props;
+	const activeItemString = activeItem
+		? `${activeItem.ward_type}-${activeItem.ward_number}`
+		: 'Select';
 
 	return (
-		<WSelect {...props} itemRenderer={renderWardItem} items={WardList} filterable>
-			<Button text={activeItemString} rightIcon="double-caret-vertical" />
+		<WSelect {...props} itemRenderer={renderWardItem} items={WardList} filterable={false}>
+			<Button
+				intent={props.intent}
+				text={activeItemString}
+				rightIcon="double-caret-vertical"
+			/>
 		</WSelect>
 	);
 };
