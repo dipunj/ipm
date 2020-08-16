@@ -4,6 +4,7 @@ import GenderSelect from '../../../library/Select/Gender';
 import { BuildingCtx } from '../../../library/Context/BuildingContext';
 import { prettyJSON } from '../../../helpers';
 import WardSelect from '../../../library/Select/Ward';
+import BedSelect from '../../../library/Select/Bed';
 
 type State = {
 	name: string;
@@ -12,8 +13,8 @@ type State = {
 	gender: Gender;
 	guardian_name: string;
 	guardian_phone: string;
-	ward: string;
-	bed_id: string;
+	ward: any;
+	bed: any;
 	admit_timestamp: Date;
 	discharge_timestamp: Date;
 	comments: string;
@@ -24,10 +25,7 @@ type State = {
 interface IAdmissionForm {
 	state: State;
 	// sets the field "field" to value "value"
-	dispatch: (
-		state: string | Gender | Date,
-		action: { fieldName: string; newValue: string }
-	) => void;
+	dispatch: (state: any, action: { fieldName: string; newValue: string }) => void;
 	makeAPICall: (state: State) => void;
 }
 
@@ -39,7 +37,7 @@ const initialIntent = {
 	guardian_name: 'none',
 	guardian_phone: 'none',
 	ward: 'none',
-	bed_id: 'none',
+	bed: 'none',
 	admit_timestamp: 'none',
 	discharge_timestamp: 'none',
 	comments: 'none',
@@ -55,7 +53,7 @@ const nullable = {
 	guardian_name: false,
 	guardian_phone: false,
 	ward: false,
-	bed_id: false,
+	bed: false,
 	admit_timestamp: false,
 	discharge_timestamp: false,
 	comments: true,
@@ -157,6 +155,7 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 						>
 							<GenderSelect
 								id="patient-gender"
+								intent={intent.gender}
 								name="gender"
 								onItemSelect={(val, _) => handleSelectChange(val, 'gender')}
 								activeItem={state.gender}
@@ -174,6 +173,7 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 								name="age"
 								type="number"
 								min="0"
+								intent={intent.age}
 								placeholder="Patient's Age"
 								value={state.age}
 								onChange={handleTextChange}
@@ -225,6 +225,7 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 							<WardSelect
 								id="ward-select"
 								name="ward"
+								intent={intent.ward}
 								activeItem={state.ward}
 								onItemSelect={(val, _) => handleSelectChange(val, 'ward')}
 							/>
@@ -232,12 +233,19 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 
 						<FormGroup
 							label="Bed"
-							intent={intent.bed_id}
-							labelFor="bed_id"
+							intent={intent.bed}
+							labelFor="bed-select"
 							labelInfo="*"
-							helperText={intent.bed_id === 'danger' && 'Required'}
+							helperText={intent.bed === 'danger' && 'Required'}
 						>
-							bed select goes here
+							<BedSelect
+								id="bed-select"
+								name="bed"
+								intent={intent.bed}
+								wardIDs={state.ward ? [state.ward.id] : []}
+								activeItem={state.bed}
+								onItemSelect={(val, _) => handleSelectChange(val, 'bed')}
+							/>
 						</FormGroup>
 
 						<FormGroup
@@ -296,6 +304,7 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 						>
 							Select for doctor name
 						</FormGroup>
+
 						<FormGroup>
 							<Button type="submit" onClick={handleSubmit}>
 								Submit
