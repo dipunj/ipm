@@ -8,7 +8,7 @@ import Pagination from '../../library/Pagination';
 const AdmissionsOverview = (): JSX.Element => {
 	const [loading, setLoading] = useState(true);
 	const [response, setResponse] = useState(null);
-	const [recordsPerPage, setRecordsPerPage] = useState(2);
+	const [recordsPerPage, setRecordsPerPage] = useState(10);
 	const [searchQuery, setSearchQuery] = useState('');
 
 	const handleSearchQueryChange = (event: FormEvent<HTMLElement>) =>

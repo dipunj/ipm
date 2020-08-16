@@ -23,7 +23,7 @@ class Admission < ApplicationRecord
 					only: [:name]
 				},
 				ward: {
-					only: [:name]
+					only: [:name, :floor]
 				},
 				patient: {
 					only: [:name, :phone]

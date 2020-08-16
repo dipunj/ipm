@@ -102,9 +102,6 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 		if (formOK()) makeAPICall(state);
 	};
 
-	useEffect(() => {
-		console.log(state);
-	}, [state]);
 	return (
 		<>
 			<h1 className="page-title">New Admission</h1>
@@ -150,7 +147,7 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 							label="Gender"
 							intent={intent.gender}
 							labelFor="patient-gender"
-							helperText={intent.phone === 'danger' && 'Required'}
+							helperText={intent.gender === 'danger' && 'Required'}
 							labelInfo="*"
 						>
 							<GenderSelect
@@ -209,7 +206,7 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 								name="guardian_phone"
 								type="tel"
 								intent={intent.guardian_phone}
-								placeholder="guardian's Phone Number"
+								placeholder="Guardian's Phone Number"
 								value={state.guardian_phone}
 								onChange={handleTextChange}
 							/>
@@ -302,7 +299,14 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 							intent={intent.doctor_name}
 							labelFor="doctor-name"
 						>
-							Select for doctor name
+							<InputGroup
+								id="doctor-name"
+								name="doctor_name"
+								intent={intent.doctor_name}
+								placeholder="Dr. Stephen Strange"
+								value={state.purpose}
+								onChange={handleTextChange}
+							/>
 						</FormGroup>
 
 						<FormGroup>

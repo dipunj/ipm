@@ -19,14 +19,13 @@ const renderWardItem: ItemRenderer<Ward> = (Ward: Ward, { handleClick, modifiers
 		return null;
 	}
 
-	const simpleWardName = `${Ward.ward_type}-${Ward.ward_number}`;
 	const floor = Ward.floor === 0 ? 'G' : `L${Ward.floor}`;
 
 	return (
 		<MenuItem
 			active={modifiers.active}
 			key={Ward.id}
-			text={simpleWardName}
+			text={Ward.name}
 			onClick={handleClick}
 			label={floor}
 		/>
@@ -46,19 +45,17 @@ const WardSelect = (props: GProps) => {
 		ctx: { wards },
 	} = useContext(BuildingCtx);
 
-	const WardList = wards.map(({ id, ward_type, ward_number, floor, beds }) => ({
+	const WardList = wards.map(({ id, name, floor, beds }) => ({
 		id,
-		ward_type,
-		ward_number,
+		name,
 		floor,
 		total_beds: beds.length,
 		occupied_beds: beds.filter((bd) => bd.is_occupied).length,
 	}));
 
 	const { activeItem } = props;
-	const activeItemString = activeItem
-		? `${activeItem.ward_type}-${activeItem.ward_number}`
-		: 'Select';
+	console.log(activeItem);
+	const activeItemString = activeItem ? activeItem.name : 'Select';
 
 	return (
 		<WSelect {...props} itemRenderer={renderWardItem} items={WardList} filterable={false}>

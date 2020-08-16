@@ -20,6 +20,7 @@ interface IAdmissionCard {
 	phone: string;
 	ward: {
 		name: string;
+		floor: number;
 	};
 	guardian_name: string;
 	guardian_phone: string;
@@ -34,7 +35,7 @@ const AdmissionCard = (props: IAdmissionCard) => {
 		guardian_name,
 		guardian_phone,
 		bed: { name: bed },
-		ward: { name: ward },
+		ward: { name: ward, floor },
 		admit_timestamp,
 		discharge_timestamp,
 	} = props.data;
@@ -61,6 +62,9 @@ const AdmissionCard = (props: IAdmissionCard) => {
 	const [dischargeDate, _] = new Date(discharge_timestamp)
 		.toLocaleString('en-GB', options)
 		.split(',');
+
+	const wardLocation = `${floor === 0 ? 'G' : `L${floor}`} / ${ward} / ${bed}`;
+
 	return (
 		<Card>
 			<Row marginBottom="32px">
@@ -68,7 +72,7 @@ const AdmissionCard = (props: IAdmissionCard) => {
 					<Title>{name}</Title>
 					<Phone>{phone}</Phone>
 				</Column>
-				<WardName>{`${ward} / ${bed}`}</WardName>
+				<WardName>{wardLocation}</WardName>
 			</Row>
 			<Row>
 				<Column>
