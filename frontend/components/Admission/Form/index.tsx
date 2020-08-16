@@ -1,6 +1,9 @@
 import { InputGroup, FormGroup, Button, TextArea } from '@blueprintjs/core';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useContext, useEffect } from 'react';
 import GenderSelect from '../../../library/Select/Gender';
+import { BuildingCtx } from '../../../library/Context/BuildingContext';
+import { prettyJSON } from '../../../helpers';
+import WardSelect from '../../../library/Select/Ward';
 
 type State = {
 	name: string;
@@ -9,7 +12,7 @@ type State = {
 	gender: Gender;
 	guardian_name: string;
 	guardian_phone: string;
-	ward_id: string;
+	ward: string;
 	bed_id: string;
 	admit_timestamp: Date;
 	discharge_timestamp: Date;
@@ -35,7 +38,7 @@ const initialIntent = {
 	gender: 'none',
 	guardian_name: 'none',
 	guardian_phone: 'none',
-	ward_id: 'none',
+	ward: 'none',
 	bed_id: 'none',
 	admit_timestamp: 'none',
 	discharge_timestamp: 'none',
@@ -51,7 +54,7 @@ const nullable = {
 	gender: false,
 	guardian_name: false,
 	guardian_phone: false,
-	ward_id: false,
+	ward: false,
 	bed_id: false,
 	admit_timestamp: false,
 	discharge_timestamp: false,
@@ -61,6 +64,7 @@ const nullable = {
 };
 
 const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
+	const { ctx } = useContext(BuildingCtx);
 	const [intent, setIntent] = useState(initialIntent);
 	const { state, dispatch, makeAPICall } = props;
 
@@ -100,6 +104,9 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 		if (formOK()) makeAPICall(state);
 	};
 
+	useEffect(() => {
+		console.log(state);
+	}, [state]);
 	return (
 		<>
 			<h1 className="page-title">New Admission</h1>
@@ -210,12 +217,17 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 
 						<FormGroup
 							label="Ward"
-							intent={intent.ward_id}
-							labelFor="ward_id"
+							intent={intent.ward}
+							labelFor="ward-select"
 							labelInfo="*"
-							helperText={intent.ward_id === 'danger' && 'Required'}
+							helperText={intent.ward === 'danger' && 'Required'}
 						>
-							ward select goes here
+							<WardSelect
+								id="ward-select"
+								name="ward"
+								activeItem={state.ward}
+								onItemSelect={(val, _) => handleSelectChange(val, 'ward')}
+							/>
 						</FormGroup>
 
 						<FormGroup

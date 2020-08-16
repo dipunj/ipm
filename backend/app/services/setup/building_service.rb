@@ -25,10 +25,7 @@ module Setup
 			end
 
 			return ResponseHelper.json(true,
-									   {
-										   building: json_data,
-										   occupied_beds: occupied_beds
-									   },
+									   json_data,
 									   nil)
 		end
 

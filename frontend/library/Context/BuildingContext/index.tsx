@@ -30,7 +30,7 @@ const BuildingCtxProvider = ({ children }): JSX.Element => {
 		fetchBuilding();
 	}, []);
 
-	if (loading) return children;
+	if (loading) return <div style={{ background: 'darkgray', height: '100vh', width: '100vw' }} />;
 	return <BuildingCtx.Provider value={{ ctx, setCtx }}>{children}</BuildingCtx.Provider>;
 };
 
