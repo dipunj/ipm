@@ -1,5 +1,5 @@
 import { Select, ItemRenderer } from '@blueprintjs/select';
-import { MenuItem, Button } from '@blueprintjs/core';
+import { MenuItem, Button, Intent } from '@blueprintjs/core';
 import { FormEvent } from 'react';
 
 const GSelect = Select.ofType<Gender>();
@@ -27,16 +27,15 @@ interface GProps {
 	name?: string;
 	activeText?: string;
 	activeItem: Gender;
+	intent: Intent;
 	onItemSelect: (value: string, event: FormEvent<HTMLElement>) => void;
 }
 
 const GenderSelect = (props: GProps) => {
+	const selectedText = props.activeText || props.activeItem || 'Select';
 	return (
 		<GSelect {...props} itemRenderer={renderGenderItem} items={genderList} filterable={false}>
-			<Button
-				text={props.activeText || props.activeItem.charAt(0).toUpperCase()}
-				rightIcon="double-caret-vertical"
-			/>
+			<Button intent={props.intent} text={selectedText} rightIcon="double-caret-vertical" />
 		</GSelect>
 	);
 };
