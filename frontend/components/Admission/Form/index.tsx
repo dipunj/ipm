@@ -25,6 +25,7 @@ type State = {
 };
 
 interface IAdmissionForm {
+	title: string;
 	state: State;
 	// sets the field "field" to value "value"
 	dispatch: (action: { fieldName: string; newValue: string | Date }) => void;
@@ -65,7 +66,12 @@ const nullable: any = {
 
 const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 	const [intent, setIntent]: [any, any] = useState(initialIntent);
-	const { state, dispatch, makeAPICall }: { state: any; dispatch: any; makeAPICall: any } = props;
+	const {
+		state,
+		dispatch,
+		makeAPICall,
+		title,
+	}: { state: any; dispatch: any; makeAPICall: any; title: string } = props;
 
 	const handleTextChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		const {
@@ -113,7 +119,7 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 
 	return (
 		<>
-			<h1 className="page-title">New Admission</h1>
+			<h1 className="page-title">{title}</h1>
 			<div className="page-content">
 				<div className="column full-width">
 					<DetailBlock>

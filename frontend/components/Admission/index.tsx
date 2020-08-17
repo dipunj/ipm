@@ -41,7 +41,7 @@ const NewAdmission = (): JSX.Element => {
 		}
 	};
 
-	return <AdmissionForm {...{ state, dispatch, makeAPICall }} />;
+	return <AdmissionForm {...{ title: 'New Admission', state, dispatch, makeAPICall }} />;
 };
 
 export default NewAdmission;
