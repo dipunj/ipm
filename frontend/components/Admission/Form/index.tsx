@@ -285,6 +285,7 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 								helperText={intent.admit_timestamp === 'danger' && 'Required'}
 							>
 								<DatePicker
+									canClearSelection={false}
 									className={styles.datepicker}
 									highlightCurrentDay
 									value={state.admit_timestamp}
@@ -362,7 +363,7 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 									name="doctor_name"
 									intent={intent.doctor_name}
 									placeholder="Dr. Stephen Strange"
-									value={state.purpose}
+									value={state.doctor_name}
 									onChange={handleTextChange}
 								/>
 							</FormGroup>

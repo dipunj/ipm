@@ -1,5 +1,7 @@
 import { useReducer, Dispatch } from 'react';
+import { useRouter } from 'next/router';
 import AdmissionForm from './Form';
+import request from '../../library/Request';
 
 const initialState = {
 	name: '',
@@ -26,9 +28,17 @@ const reducer = (state: any, action: any) => {
 };
 
 const NewAdmission = (): JSX.Element => {
+	const router = useRouter();
 	const [state, dispatch]: [any, Dispatch<any>] = useReducer(reducer, initialState);
-	const makeAPICall = (state: any) => {
-		alert(state);
+	const makeAPICall = async (state: any) => {
+		const { ward, bed, ...params } = state;
+		params.bed_id = bed.id;
+
+		const response = await request.post('/management/admission/new', { ...params });
+		if (response.data.success && response.data.is_authenticated) {
+			// TODO: show toast here
+			router.push('/');
+		}
 	};
 
 	return <AdmissionForm {...{ state, dispatch, makeAPICall }} />;
