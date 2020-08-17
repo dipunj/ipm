@@ -2,7 +2,7 @@ import Header from './Header';
 import MainContent from './Body';
 
 // used by _app.tsx
-const getDefaultLayout = (page) => {
+const getDefaultLayout = (page: JSX.Element) => {
 	return (
 		<>
 			<Header />

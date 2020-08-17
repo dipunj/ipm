@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect } from 'react';
 import PageControls from './PageControls';
 import request from '../../library/Request';
 import AdmissionCard from './Card';
@@ -7,14 +7,14 @@ import Pagination from '../../library/Pagination';
 
 const AdmissionsOverview = (): JSX.Element => {
 	const [loading, setLoading] = useState(true);
-	const [response, setResponse] = useState(null);
-	const [recordsPerPage, setRecordsPerPage] = useState(10);
+	const [response, setResponse]: [any, any] = useState(null);
+	const [recordsPerPage] = useState(10);
 	const [searchQuery, setSearchQuery] = useState('');
 
-	const handleSearchQueryChange = (event: FormEvent<HTMLElement>) =>
+	const handleSearchQueryChange = (event: React.ChangeEvent<HTMLInputElement>) =>
 		setSearchQuery(event.target.value);
 
-	const fetchCurrentAdmissions = async (page) => {
+	const fetchCurrentAdmissions = async (page = 1) => {
 		setLoading(true);
 		try {
 			const apiResponse = await request.get('/management/admission/current', {
@@ -32,7 +32,7 @@ const AdmissionsOverview = (): JSX.Element => {
 	};
 
 	useEffect(() => {
-		if (searchQuery === '') fetchCurrentAdmissions(1);
+		if (searchQuery === '') fetchCurrentAdmissions();
 	}, [searchQuery]);
 
 	let content = null;
@@ -45,7 +45,9 @@ const AdmissionsOverview = (): JSX.Element => {
 		content = (
 			<>
 				{response.result
-					? response.result.map((data) => <AdmissionCard key={data.id} {...{ data }} />)
+					? response.result.map((data: any) => (
+							<AdmissionCard key={data.id} {...{ data }} />
+					  ))
 					: null}
 				<Pagination
 					{...{

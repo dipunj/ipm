@@ -5,11 +5,9 @@ import { BuildingCtx } from '../../Context/BuildingContext';
 
 interface Bed {
 	id: string;
-	bed_type: string;
-	bed_number: number;
-	floor: number;
-	total_beds: number;
-	occupied_beds: number;
+	name: string;
+	ward_display_name: string;
+	is_occupied: boolean;
 }
 
 const BSelect = Select.ofType<Bed>();
@@ -31,7 +29,7 @@ const renderWardItem: ItemRenderer<Bed> = (bed: Bed, { handleClick, modifiers })
 	);
 };
 
-interface GProps {
+interface BProps {
 	id?: string;
 	name?: string;
 	wardIDs?: string[];
@@ -40,16 +38,18 @@ interface GProps {
 	onItemSelect: (item: Bed, event?: SyntheticEvent<HTMLElement, Event>) => void;
 }
 
-const BedSelect = (props: GProps) => {
+const BedSelect = (props: BProps) => {
 	const {
 		ctx: { wards },
-	} = useContext(BuildingCtx);
+	}: any = useContext(BuildingCtx);
 
 	const targetWards =
-		props.wardIDs?.length >= 1 ? wards.filter((w) => props.wardIDs?.includes(w.id)) : wards;
+		((props || {}).wardIDs || []).length >= 1
+			? wards.filter((w: { id: string }) => props.wardIDs?.includes(w.id))
+			: wards;
 
 	const BedList =
-		props.wardIDs?.length === 0
+		((props || {}).wardIDs || []).length === 0
 			? [
 					{
 						id: null,
@@ -58,7 +58,7 @@ const BedSelect = (props: GProps) => {
 					},
 			  ]
 			: targetWards.reduce(
-					(acc, { name, beds }) => [
+					(acc: any, { name, beds }: { name: string; beds: Bed[] }) => [
 						...acc,
 						...beds.map((bd) => ({
 							...bd,

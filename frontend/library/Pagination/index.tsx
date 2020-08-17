@@ -1,5 +1,5 @@
 import React, { useReducer, Reducer } from 'react';
-import { Button, ButtonGroup, Intent } from '@blueprintjs/core';
+import { Button, ButtonGroup } from '@blueprintjs/core';
 
 interface Props {
 	currentPage?: number;

@@ -1,9 +1,8 @@
-import { ThemeConsumer } from 'styled-components';
 import SessionCtxProvider from '../Context/SessionContext';
 import ThemeCtxProvider from '../Context/ThemeContext';
 import BuildingCtxProvider from '../Context/BuildingContext';
 
-const Providers = ({ children }) => {
+const Providers = ({ children }: { children: JSX.Element }) => {
 	return (
 		<SessionCtxProvider>
 			<BuildingCtxProvider>

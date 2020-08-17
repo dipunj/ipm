@@ -1,6 +1,6 @@
 import { PageWrapper } from './styles';
 
-const MainContent = ({ children }): JSX.Element => {
+const MainContent = ({ children }: { children: JSX.Element }): JSX.Element => {
 	return <PageWrapper>{children}</PageWrapper>;
 };
 

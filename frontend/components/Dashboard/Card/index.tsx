@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import { prettyJSON } from '../../../helpers';
 import {
 	Card,
 	Title,
@@ -15,15 +14,27 @@ import {
 } from './styles';
 
 interface IAdmissionCard {
-	name: string;
-	age?: string;
-	phone: string;
-	ward: {
+	data: {
+		id: string;
+		patient: {
+			name: string;
+			phone: string;
+		};
 		name: string;
-		floor: number;
+		age?: string;
+		phone: string;
+		ward: {
+			name: string;
+			floor: number;
+		};
+		bed: {
+			name: string;
+		};
+		admit_timestamp: Date;
+		discharge_timestamp: Date | null;
+		guardian_name: string;
+		guardian_phone: string;
 	};
-	guardian_name: string;
-	guardian_phone: string;
 }
 
 const AdmissionCard = (props: IAdmissionCard) => {
@@ -59,14 +70,14 @@ const AdmissionCard = (props: IAdmissionCard) => {
 		.toLocaleString('en-GB', options)
 		.split(',');
 
-	const [dischargeDate, _] = new Date(discharge_timestamp)
-		.toLocaleString('en-GB', options)
-		.split(',');
+	const dischargeDate = discharge_timestamp
+		? new Date(discharge_timestamp).toLocaleString('en-GB', options).split(',')[0]
+		: '-';
 
 	const wardLocation = `${floor === 0 ? 'G' : `L${floor}`} / ${ward} / ${bed}`;
 
 	return (
-		<Card>
+		<Card onClick={showAdmissionPage}>
 			<Row marginBottom="32px">
 				<Column>
 					<Title>{name}</Title>
@@ -82,7 +93,7 @@ const AdmissionCard = (props: IAdmissionCard) => {
 				</Column>
 				<Column>
 					<Label>Expected Discharge Time*</Label>
-					<DateValue>{discharge_timestamp ? dischargeDate : '-'}</DateValue>
+					<DateValue>{dischargeDate}</DateValue>
 				</Column>
 				<Column>
 					<Label right>Guardian</Label>

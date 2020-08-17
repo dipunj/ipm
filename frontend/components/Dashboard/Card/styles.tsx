@@ -19,7 +19,7 @@ export const Column = styled.div`
 	display: flex;
 	flex-direction: column;
 	flex: 1;
-	align-items: ${({ alignItems }) => alignItems};
+	align-items: ${(props: { alignItems?: string }) => props.alignItems};
 	align-self: stretch;
 `;
 
@@ -27,7 +27,8 @@ export const Row = styled.div`
 	display: flex;
 	width: 100%;
 	align-items: center;
-	margin-bottom: ${(props) => (props.marginBottom ? props.marginBottom : '20px')};
+	margin-bottom: ${(props: { marginBottom?: string }) =>
+		props.marginBottom ? props.marginBottom : '20px'};
 	flex-wrap: wrap;
 `;
 
@@ -50,7 +51,7 @@ export const Label = styled.div`
 	font-weight: 200;
 	font-size: 12px;
 	color: var(--text-secondary);
-	text-align: ${(props) => (props.right ? 'right' : 'left')};
+	text-align: ${(props: { right?: boolean }) => (props.right ? 'right' : 'left')};
 `;
 
 export const DateValue = styled.div`

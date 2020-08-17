@@ -4,8 +4,8 @@ import { SessionCtx } from '../SessionContext';
 
 const BuildingCtx = createContext({});
 
-const BuildingCtxProvider = ({ children }): JSX.Element => {
-	const { refetchCtx: refetchSessionCtx } = useContext(SessionCtx);
+const BuildingCtxProvider = ({ children }: { children: JSX.Element }): JSX.Element => {
+	const { refetchCtx: refetchSessionCtx }: any = useContext(SessionCtx);
 
 	const [ctx, setCtx] = useState({});
 	const [loading, setLoading] = useState(true);

@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
 	/* padding: 0px var(--page-padding); */
-	min-height: ${(props) => (props.height ? props.height : 'var(--header-height)')};
+	min-height: ${(props: { height?: string }) =>
+		props.height ? props.height : 'var(--header-height)'};
 	box-shadow: 0px 4px 4px 0px var(--shadow);
 
 	/* not 100%, otherwise scrollbar would leave a gap on the right side */

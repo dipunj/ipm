@@ -2,11 +2,10 @@ import { createContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import request from '../../Request';
 import SignIn from '../../../components/SignIn';
-import { saveToLS } from '../../../helpers';
 
 const SessionCtx = createContext({});
 
-const SessionCtxProvider = ({ children }) => {
+const SessionCtxProvider = ({ children }: { children: JSX.Element }) => {
 	const router = useRouter();
 	const [ctx, setCtx] = useState({});
 	const [loading, setLoading] = useState(true);

@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useReducer, Dispatch } from 'react';
 import AdmissionForm from './Form';
 
 const initialState = {
@@ -17,7 +17,7 @@ const initialState = {
 	doctor_name: '',
 };
 
-const reducer = (state, action) => {
+const reducer = (state: any, action: any) => {
 	const { fieldName, newValue } = action;
 	return {
 		...state,
@@ -26,8 +26,8 @@ const reducer = (state, action) => {
 };
 
 const NewAdmission = (): JSX.Element => {
-	const [state, dispatch] = useReducer(reducer, initialState);
-	const makeAPICall = (state) => {
+	const [state, dispatch]: [any, Dispatch<any>] = useReducer(reducer, initialState);
+	const makeAPICall = (state: any) => {
 		alert(state);
 	};
 

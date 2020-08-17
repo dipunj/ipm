@@ -1,6 +1,4 @@
-// import { useState } from 'react';
-
-import { useState, FormEvent, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Button, Dialog, FormGroup, InputGroup } from '@blueprintjs/core';
 import { Background, Column, Logo, CenterColumn, Brand, AppName } from './styles';
 import request from '../../library/Request';
@@ -17,14 +15,16 @@ const signInButtonStyles = {
 const dialogStyles = { width: 'min(300px, 100vw)' };
 
 const Landing = (): JSX.Element => {
-	const { refetchCtx } = useContext(SessionCtx);
+	const { refetchCtx }: { refetchCtx?: any } = useContext(SessionCtx);
 	const [open, setOpen] = useState(false);
 
 	const [loginId, setLoginId] = useState('');
 	const [password, setPassword] = useState('');
 
-	const handleLoginChange = (event: FormEvent<HTMLElement>) => setLoginId(event.target.value);
-	const handlePasswordChange = (event: FormEvent<HTMLElement>) => setPassword(event.target.value);
+	const handleLoginChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+		setLoginId(event.target.value);
+	const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+		setPassword(event.target.value);
 
 	const toggleModal = () => setOpen((val: boolean) => !val);
 
@@ -105,6 +105,6 @@ const Landing = (): JSX.Element => {
 	);
 };
 
-Landing.getLayout = (page) => page;
+Landing.getLayout = (page: any) => page;
 
 export default Landing;

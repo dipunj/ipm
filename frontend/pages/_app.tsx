@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
 import '../styles/index.css';
@@ -11,10 +11,10 @@ if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
 }
 
 const MyApp = (props: AppProps) => {
-	const { Component, pageProps } = props;
+	const { Component, pageProps }: any = props;
 
 	// use the getLayout function to get the layout of the page
-	const getLayout = Component.getLayout || ((page) => getDefaultLayout(page));
+	const getLayout = Component.getLayout || ((page: JSX.Element) => getDefaultLayout(page));
 
 	return (
 		<>

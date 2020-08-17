@@ -1,6 +1,7 @@
 import { Select, ItemRenderer } from '@blueprintjs/select';
 import { MenuItem, Button, Intent } from '@blueprintjs/core';
-import { FormEvent } from 'react';
+import { SyntheticEvent } from 'react';
+import { Gender } from '../../../common/types';
 
 const GSelect = Select.ofType<Gender>();
 
@@ -20,7 +21,7 @@ const renderGenderItem: ItemRenderer<Gender> = (gender: Gender, { handleClick, m
 	);
 };
 
-const genderList = ['male', 'female', 'other'];
+const genderList: Gender[] = ['male', 'female', 'other'];
 
 interface GProps {
 	id?: string;
@@ -28,7 +29,7 @@ interface GProps {
 	activeText?: string;
 	activeItem: Gender;
 	intent: Intent;
-	onItemSelect: (value: string, event: FormEvent<HTMLElement>) => void;
+	onItemSelect: (item: Gender, event?: SyntheticEvent<HTMLElement, Event>) => void;
 }
 
 const GenderSelect = (props: GProps) => {

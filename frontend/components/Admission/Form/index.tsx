@@ -1,12 +1,12 @@
 import { InputGroup, FormGroup, Button, TextArea } from '@blueprintjs/core';
-import { FormEvent, useState, useContext } from 'react';
+import { useState } from 'react';
 import { DatePicker } from '@blueprintjs/datetime';
 import GenderSelect from '../../../library/Select/Gender';
-import { BuildingCtx } from '../../../library/Context/BuildingContext';
 import WardSelect from '../../../library/Select/Ward';
 import BedSelect from '../../../library/Select/Bed';
 import { DetailBlock, BlockLabel } from './styles';
 import styles from './form.module.css';
+import { Gender } from '../../../common/types';
 
 type State = {
 	name: string;
@@ -27,7 +27,7 @@ type State = {
 interface IAdmissionForm {
 	state: State;
 	// sets the field "field" to value "value"
-	dispatch: (state: any, action: { fieldName: string; newValue: string }) => void;
+	dispatch: (action: { fieldName: string; newValue: string | Date }) => void;
 	makeAPICall: (state: State) => void;
 }
 
@@ -47,7 +47,7 @@ const initialIntent = {
 	doctor_name: 'none',
 };
 
-const nullable = {
+const nullable: any = {
 	name: false,
 	phone: false,
 	age: false,
@@ -64,30 +64,30 @@ const nullable = {
 };
 
 const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
-	const { ctx } = useContext(BuildingCtx);
-	const [intent, setIntent] = useState(initialIntent);
-	const { state, dispatch, makeAPICall } = props;
+	const [intent, setIntent]: [any, any] = useState(initialIntent);
+	const { state, dispatch, makeAPICall }: { state: any; dispatch: any; makeAPICall: any } = props;
 
-	const handleTextChange = (event: FormEvent<HTMLEvent>) => {
+	const handleTextChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		const {
 			target: { value: newValue, name: fieldName },
 		} = event;
+
 		if (newValue && intent[fieldName] === 'danger')
-			setIntent((prev) => ({ ...prev, [fieldName]: 'none' }));
+			setIntent((prev: any) => ({ ...prev, [fieldName]: 'none' }));
 
 		dispatch({ fieldName, newValue });
 	};
 
-	const handleSelectChange = (newValue, fieldName) => {
+	const handleSelectChange = (newValue: any, fieldName: string) => {
 		if (newValue && intent[fieldName] === 'danger')
-			setIntent((prev) => ({ ...prev, [fieldName]: 'none' }));
+			setIntent((prev: any) => ({ ...prev, [fieldName]: 'none' }));
 
 		dispatch({ fieldName, newValue });
 	};
 
-	const handleDateChange = (selectedDate: Date, isUserChanged: boolean, fieldName: string) => {
+	const handleDateChange = (selectedDate: Date, _isUserChanged: boolean, fieldName: string) => {
 		if (selectedDate && intent[fieldName] === 'danger')
-			setIntent((prev) => ({ ...prev, [fieldName]: 'none' }));
+			setIntent((prev: any) => ({ ...prev, [fieldName]: 'none' }));
 
 		dispatch({ fieldName, newValue: selectedDate });
 	};
@@ -96,7 +96,7 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 		const newIntent = { ...intent };
 		let properlyFilled = true;
 
-		Object.keys(state).forEach((field) => {
+		Object.keys(state).forEach((field: string) => {
 			if (!state[field] && !nullable[field]) {
 				newIntent[field] = 'danger';
 				properlyFilled = false;
@@ -327,7 +327,6 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 								<TextArea
 									id="operator-comments"
 									name="comments"
-									type="textarea"
 									fill
 									intent={intent.comments}
 									placeholder="Any note about the patient / Admission"

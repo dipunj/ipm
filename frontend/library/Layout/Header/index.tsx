@@ -38,8 +38,8 @@ const Header = (): JSX.Element => {
 	const {
 		ctx: { name, buildings },
 		refetchCtx,
-	} = useContext(SessionCtx);
-	const { isDark, toggleTheme } = useContext(ThemeCtx);
+	}: any = useContext(SessionCtx);
+	const { isDark, toggleTheme }: any = useContext(ThemeCtx);
 
 	// menu code
 	const [showMainMenu, setShowMainMenu] = useState(false);
@@ -49,7 +49,7 @@ const Header = (): JSX.Element => {
 	const allowBuildingToggle = buildings.length > 1;
 	const currentBuilding = getCookie('_ipm_sb');
 	const [selectedBuilding, setSelectedBuilding] = useState(
-		buildings.filter(({ id }) => id === currentBuilding)[0]
+		buildings.filter(({ id }: { id: string }) => id === currentBuilding)[0]
 	);
 
 	useEffect(() => {
@@ -59,7 +59,7 @@ const Header = (): JSX.Element => {
 		}
 	}, [selectedBuilding]);
 
-	const handleBuildingSelect = (building, e) => {
+	const handleBuildingSelect = (building: IBuilding, _e: any) => {
 		setCookie('_ipm_sb', building.id);
 		setSelectedBuilding(building);
 	};

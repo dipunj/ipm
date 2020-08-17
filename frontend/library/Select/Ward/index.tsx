@@ -5,9 +5,9 @@ import { BuildingCtx } from '../../Context/BuildingContext';
 
 interface Ward {
 	id: string;
-	ward_type: string;
-	ward_number: number;
+	name: string;
 	floor: number;
+	beds: any;
 	total_beds: number;
 	occupied_beds: number;
 }
@@ -43,14 +43,14 @@ interface GProps {
 const WardSelect = (props: GProps) => {
 	const {
 		ctx: { wards },
-	} = useContext(BuildingCtx);
+	}: any = useContext(BuildingCtx);
 
-	const WardList = wards.map(({ id, name, floor, beds }) => ({
+	const WardList = wards.map(({ id, name, floor, beds }: Ward) => ({
 		id,
 		name,
 		floor,
 		total_beds: beds.length,
-		occupied_beds: beds.filter((bd) => bd.is_occupied).length,
+		occupied_beds: beds.filter((bd: { is_occupied: boolean }) => bd.is_occupied).length,
 	}));
 
 	const { activeItem } = props;

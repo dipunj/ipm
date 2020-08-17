@@ -1,7 +1,15 @@
 import { InputGroup, Button } from '@blueprintjs/core';
 import { RowContainer, InputContainer } from './styles';
 
-const PageControls = ({ searchQuery, handleSearchQueryChange, doSearch }): JSX.Element => {
+const PageControls = ({
+	searchQuery,
+	handleSearchQueryChange,
+	doSearch,
+}: {
+	searchQuery: string;
+	handleSearchQueryChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	doSearch: any;
+}): JSX.Element => {
 	return (
 		<RowContainer>
 			<InputContainer>
