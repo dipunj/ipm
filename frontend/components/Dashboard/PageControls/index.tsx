@@ -16,6 +16,7 @@ const PageControls = ({
 				<InputGroup
 					intent="primary"
 					large
+					name="search"
 					type="search"
 					value={searchQuery}
 					leftIcon="search"

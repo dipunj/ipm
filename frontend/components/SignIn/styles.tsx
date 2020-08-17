@@ -20,7 +20,7 @@ export const CenterColumn = styled(Column)`
 `;
 
 export const Logo = styled.img`
-	width: 600px;
+	width: 300px;
 	height: auto;
 `;
 
