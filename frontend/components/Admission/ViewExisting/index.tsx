@@ -17,21 +17,11 @@ interface ITransaction {
 	created_by_id: string;
 }
 
-const ViewAdmission = ({ admission_id }) => {
-	const [data, setData] = useState(null);
-
-	useEffect(() => {
-		request
-			.get('/management/admission/find', {
-				params: {
-					admission_id,
-				},
-			})
-			.then((res) => {
-				setData(res.data.response.data);
-			});
-	}, []);
-
+const ViewAdmission = ({ admissionAPIResponse }) => {
+	const {
+		success,
+		response: { message, data },
+	} = admissionAPIResponse;
 	const handleModify = () => {};
 
 	if (!data) return <div>Loading...</div>;
