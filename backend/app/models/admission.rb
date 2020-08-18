@@ -36,13 +36,13 @@ class Admission < ApplicationRecord
 		{
 			include: {
 				bed: {
-					only: [:name],
+					except: [:created_at, :updated_at],
 					include: {
 						ward: {
-							only: [:name],
+							except: [:created_at, :updated_at],
 							include: {
 								building: {
-									only: [:branch_code, :address_line, :postal_code]
+									except: [:created_at, :updated_at],
 								}
 							}
 						}
