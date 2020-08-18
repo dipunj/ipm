@@ -116,6 +116,10 @@ body {
 	flex-direction: row;
 }
 
+.align-stretch {
+	align-items: stretch;
+}
+
 .column {
 	display: flex;
 	flex-direction: column;

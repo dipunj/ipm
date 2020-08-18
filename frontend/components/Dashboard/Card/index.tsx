@@ -52,7 +52,7 @@ const AdmissionCard = (props: IAdmissionCard) => {
 	} = props.data;
 
 	const showAdmissionPage = () => {
-		router.push(`/admissions/${admission_id}`);
+		router.push(`/admission/${admission_id}`);
 	};
 
 	const options = {

@@ -1,5 +1,4 @@
 import { GetServerSideProps } from 'next';
-import request from '../../../library/Request';
 
 export { default } from '../../../components/Admission/ViewExisting';
 
