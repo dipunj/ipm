@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Button } from '@blueprintjs/core';
+import { Button, Dialog, Drawer } from '@blueprintjs/core';
 import { prettyJSON } from '../../../helpers';
 import request from '../../../library/Request';
 import { Location, Label, HeaderRow, DetailBlock, Value } from './styles';
+import Transactions from './TransactionsTable';
 
 interface ITransaction {
 	id: string;
@@ -22,6 +23,12 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 		success,
 		response: { message, data },
 	} = admissionAPIResponse;
+
+	const [showTransactions, setShowTransactions] = useState(false);
+
+	const toggleTransactions = () => {
+		setShowTransactions((prev) => !prev);
+	};
 	const handleModify = () => {};
 
 	if (!data) return <div>Loading...</div>;
@@ -39,13 +46,13 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 		discharge_timestamp,
 		created_by: { name: created_by, id: created_by_id },
 		last_updated_by: { name: last_updated_by, id: last_updated_by_id },
-		patient: { name: patientName, age: patientAge, gender: patientGender, phone: patientPhone },
-		transactions,
+		patient: { name: patientName, yob: patientYob, gender: patientGender, phone: patientPhone },
+		transactionsœ,
 		purpose,
 	} = data;
 
 	const location = `${floor === 0 ? 'G' : `L${floor}`} / ${wardName} / ${bedName}`;
-
+	const patientAge = new Date().getFullYear() - patientYob;
 	const options = {
 		// weekday: 'short',
 		day: 'numeric',
@@ -62,6 +69,7 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 		? new Date(discharge_timestamp).toLocaleString('en-GB', options)
 		: '-';
 
+	const transactions = data.transactions.map((txn) => txn);
 	return (
 		<>
 			<div className="page-content">
@@ -76,7 +84,9 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 					<DetailBlock>
 						<div className="row wrap align-center full-width">
 							<Label>Patient Name</Label>
-							<Value>{patientName}</Value>
+							<Value>
+								{patientName} ({patientAge && `${patientAge}yr`} {patientGender})
+							</Value>
 						</div>
 						<div className="row wrap align-center full-width">
 							<Label>Patient Phone</Label>
@@ -128,11 +138,21 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 				</div>
 
 				<div className="row space-between">
-					<Button intent="primary">View Transactions</Button>
+					<Button intent="primary" onClick={toggleTransactions}>
+						View Transactions
+					</Button>
 					<Button intent="success">Mark As Discharged</Button>
 				</div>
 			</div>
-			{prettyJSON(data.transactions)}
+			<Drawer
+				position="right"
+				size="80vw"
+				isOpen={showTransactions}
+				onClose={toggleTransactions}
+				title={`${location} (${patientName})`}
+			>
+				<Transactions list={transactions} />
+			</Drawer>
 		</>
 	);
 };

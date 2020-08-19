@@ -2,7 +2,7 @@
 	"name": "IPM-frontend",
 	"version": "1.0.0",
 	"scripts": {
-		"dev": "next",
+		"dev": "NODE_OPTIONS='--inspect' next dev",
 		"build": "next build",
 		"start": "next start",
 		"analyze": "cross-env ANALYZE=true next build",
@@ -13,6 +13,7 @@
 		"@blueprintjs/core": "^3.30.1",
 		"@blueprintjs/datetime": "^3.18.6",
 		"@blueprintjs/select": "^3.13.6",
+		"@blueprintjs/table": "^3.8.13",
 		"@welldone-software/why-did-you-render": "^4.2.7",
 		"axios": "^0.19.2",
 		"next": "latest",
