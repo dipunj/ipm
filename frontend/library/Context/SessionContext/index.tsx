@@ -41,7 +41,7 @@ const SessionCtxProvider = ({ children }: { children: JSX.Element }) => {
 	}, []);
 
 	if (loading) {
-		return <div style={{ background: 'darkgray', height: '100vh', width: '100vw' }} />;
+		return <div style={{ height: '100vh', width: '100vw' }} />;
 	}
 	if (!loading && Object.keys(ctx).length === 0) {
 		return (

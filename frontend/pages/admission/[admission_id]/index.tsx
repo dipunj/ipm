@@ -27,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		},
 		headers: context.req ? { cookie: context.req.headers.cookie } : undefined,
 	});
-	console.log(res.data);
+	// console.log(res.data.response.data.created_by);
 	return {
 		props: { admissionAPIResponse: res.data },
 	};
