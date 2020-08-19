@@ -73,7 +73,7 @@ dummy_patients = [
 			name: 'Thor',
 			phone: '0123456789',
 			gender: 'male',
-			dob: '0500-08-25',
+			age: 28
 		},
 		admission_params: {
 			doctor_name: 'Dr. Strange',
@@ -88,7 +88,7 @@ dummy_patients = [
 			name: 'Tony Stark',
 			phone: '0255000000',
 			gender: 'male',
-			dob: '1988-09-01',
+			age: 27
 		},
 		admission_params: {
 			doctor_name: 'multiple',
@@ -102,7 +102,7 @@ dummy_patients = [
 			name: 'Clint Barton',
 			phone: '1234567888',
 			gender: 'male',
-			dob: '1975-02-25',
+			age: 32
 		},
 		admission_params: {
 			doctor_name: 'Dr. Banner',

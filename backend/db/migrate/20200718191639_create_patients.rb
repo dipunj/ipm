@@ -4,7 +4,7 @@ class CreatePatients < ActiveRecord::Migration[6.0]
       t.column   :name       , 'VARCHAR(255)', null: false
       t.column   :phone      , 'VARCHAR(15)', null: false
       t.column   :gender     , 'VARCHAR(10)'
-      t.datetime :dob
+      t.integer  :yob
       t.column   :visit_count, 'SMALLSERIAL'
       t.column   :amount_due , 'NUMERIC(100, 2)'
 

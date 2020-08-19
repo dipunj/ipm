@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "name", limit: 255, null: false
     t.string "phone", limit: 15, null: false
     t.string "gender", limit: 10
-    t.datetime "dob"
+    t.integer "yob"
     t.serial "visit_count", limit: 2, null: false
     t.decimal "amount_due", precision: 100, scale: 2
     t.datetime "created_at", precision: 6, null: false
