@@ -10,7 +10,8 @@ class Api::V1::Session::AuthController < Api::V1::BaseController
 			cookies[:_ipm_sb] = {
 				value: response[:response][:data]["buildings"][0]["id"],
 				domain: 'localhost',
-				expires: 1.week
+				expires: 1.week,
+				path: '/'
 			}
 		end
 		render json: response

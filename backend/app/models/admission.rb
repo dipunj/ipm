@@ -49,10 +49,15 @@ class Admission < ApplicationRecord
 					}
 				},
 				patient: {
-					only: [:name, :phone]
+					except: [:created_at, :updated_at]
 				},
 				transactions: {
-					except: [:created_at]
+					except: [],
+					include: {
+						created_by: {
+							only: [:id, :name]
+						}
+					}
 				},
 				admission_logs: {
 					except: []

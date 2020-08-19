@@ -1,6 +1,7 @@
 class Api::V1::Management::AdmissionController < Api::V1::BaseController
 
   before_action :set_service, :authorise_building_access
+  # before_action: :admission_belongingness
 
   def create_new_admission
     response = @service.initiate_new_admission(@current_user, admission_params, patient_params)
@@ -51,7 +52,7 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
     end
 
     def patient_params
-      params.permit(:name, :phone, :gender, :dob)
+      params.permit(:name, :phone, :gender, :age)
     end
 
     def search_params
