@@ -42,7 +42,7 @@ export const getCookie = (key: string): string | null => {
 	return null;
 };
 
-export const setCookie = (key: string, value: string): void => {
+export const setCookie = (key: string, value: string, path = '/'): void => {
 	// const jsCookies = document.cookie;
 	// const parsedCookies = jsCookies.split('; ').reduce((acc, kv) => {
 	// 	const [k, v] = kv.split(/=(.+)/);
@@ -52,5 +52,5 @@ export const setCookie = (key: string, value: string): void => {
 	// 	};
 	// }, {});
 	// parsedCookies[key] = value;
-	document.cookie = `${key}=${value}`;
+	document.cookie = `${key}=${value};path=${path}`;
 };
