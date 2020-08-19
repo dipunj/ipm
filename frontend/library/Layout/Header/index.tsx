@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import { Button, Switch, Icon, Drawer, Position, MenuItem } from '@blueprintjs/core';
 import { Select, ItemRenderer } from '@blueprintjs/select';
+import { useRouter } from 'next/router';
 import { SessionCtx } from '../../Context/SessionContext';
 import { ThemeCtx } from '../../Context/ThemeContext';
 import { Container, Greeting, Wrapper, Column, IconContainer, MenuContainer } from './styles';
@@ -39,6 +40,9 @@ const Header = (): JSX.Element => {
 		ctx: { name, buildings },
 		refetchCtx,
 	}: any = useContext(SessionCtx);
+
+	const router = useRouter();
+
 	const { isDark, toggleTheme }: any = useContext(ThemeCtx);
 
 	// menu code
@@ -59,9 +63,10 @@ const Header = (): JSX.Element => {
 		}
 	}, [selectedBuilding]);
 
-	const handleBuildingSelect = (building: IBuilding, _e: any) => {
+	const handleBuildingSelect = async (building: IBuilding, _e: any) => {
 		setCookie('_ipm_sb', building.id);
 		setSelectedBuilding(building);
+		window.history.go();
 	};
 
 	// session controls
@@ -122,6 +127,7 @@ const Header = (): JSX.Element => {
 				position={Position.TOP}
 				onClose={toggleMainMenu}
 				className={drawerClass}
+				portalClassName="main-menu-portal"
 			>
 				{menu}
 			</Drawer>
