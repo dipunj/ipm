@@ -49,7 +49,8 @@ body {
 	--highlight: #50505081;
 	--highlight-contrast: var(--text-secondary);
 
-	--border-color-light: #363636;
+	--border-color: #363636;
+	--border-color-light: #181818;
 	
 	background: var(--background) !important;
 	color: var(--text-color);
@@ -68,7 +69,8 @@ body {
 	--shadow-card-color: #999999;
 	--shadow-card: 0px 2px 4px 0px var(--shadow-card-color);
 	
-	--border-color-light: #cccccc;
+	--border-color: #cccccc;
+	--border-color-light: #ececec;
 
 	--highlight: #bfbfbf42;
 	--highlight-contrast: var(--text-secondary);
@@ -106,9 +108,11 @@ body {
 }
 
 .page-content {
-	/* border: 1px solid gray; */
-	padding: 32px;
-	border-radius: 16px;
+	border: 0.5px solid var(--border-color-light);
+	padding: 64px;
+	border-radius: 36px;
+	/* box-shadow: var(--shadow-card); */
+	margin-bottom: 160px;
 }
 
 .row {

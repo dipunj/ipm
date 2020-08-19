@@ -41,6 +41,7 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 		last_updated_by: { name: last_updated_by, id: last_updated_by_id },
 		patient: { name: patientName, age: patientAge, gender: patientGender, phone: patientPhone },
 		transactions,
+		purpose,
 	} = data;
 
 	const location = `${floor === 0 ? 'G' : `L${floor}`} / ${wardName} / ${bedName}`;
@@ -70,39 +71,58 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 						Modify Details
 					</Button>
 				</HeaderRow>
-				<DetailBlock>
-					<div className="row wrap align-center full-width">
-						<Label>Patient Name</Label>
-						<Value>{patientName}</Value>
-					</div>
-					<div className="row wrap align-center full-width">
-						<Label>Patient Phone</Label>
-						<Value>{patientPhone}</Value>
-					</div>
-				</DetailBlock>
 
-				<DetailBlock>
-					<div className="row wrap align-center full-width">
-						<Label>Guardian Name</Label>
-						<Value>{guardian_name}</Value>
-					</div>
-					<div className="row wrap align-center full-width">
-						<Label>Guardian Phone</Label>
-						<Value>{guardian_phone}</Value>
-					</div>
-				</DetailBlock>
+				<div className="row full-width space-between">
+					<DetailBlock>
+						<div className="row wrap align-center full-width">
+							<Label>Patient Name</Label>
+							<Value>{patientName}</Value>
+						</div>
+						<div className="row wrap align-center full-width">
+							<Label>Patient Phone</Label>
+							<Value>{patientPhone}</Value>
+						</div>
+					</DetailBlock>
 
-				<div className="row full-width">
-					<DetailBlock margin="48px 20% 24px 0px">
+					<DetailBlock>
 						<div className="column wrap full-width">
 							<Label>Admit Time</Label>
 							<Value noPadding>{parsedAdmitTime}</Value>
 						</div>
 					</DetailBlock>
-					<DetailBlock margin="48px 20% 24px 0px">
+				</div>
+
+				<div className="row full-width space-between">
+					<DetailBlock>
+						<div className="row wrap align-center full-width">
+							<Label>Guardian Name</Label>
+							<Value>{guardian_name}</Value>
+						</div>
+						<div className="row wrap align-center full-width">
+							<Label>Guardian Phone</Label>
+							<Value>{guardian_phone}</Value>
+						</div>
+					</DetailBlock>
+
+					<DetailBlock>
 						<div className="column wrap full-width">
 							<Label>Expected Discharge Time</Label>
 							<Value noPadding>{parsedDischargeTime}</Value>
+						</div>
+					</DetailBlock>
+				</div>
+
+				<div className="row full-width">
+					<DetailBlock>
+						<div className="column wrap full-width">
+							<Label>Doctor</Label>
+							<Value noPadding>{doctor_name}</Value>
+						</div>
+					</DetailBlock>
+					<DetailBlock>
+						<div className="column wrap full-width">
+							<Label>Purpose</Label>
+							<Value noPadding>{purpose}</Value>
 						</div>
 					</DetailBlock>
 				</div>
@@ -112,7 +132,7 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 					<Button intent="success">Mark As Discharged</Button>
 				</div>
 			</div>
-			{prettyJSON(data)}
+			{prettyJSON(data.transactions)}
 		</>
 	);
 };

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Card = styled.div`
 	display: flex;
 	flex-direction: column;
-	border: 1px solid var(--border-color-light);
+	border: 1px solid var(--border-color);
 	border-radius: 16px;
 	padding: 24px;
 	margin-bottom: 36px;
@@ -12,6 +12,7 @@ export const Card = styled.div`
 
 	&:hover {
 		box-shadow: var(--shadow-card);
+		/* box-shadow: unset; */
 	}
 `;
 
