@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button, Dialog, Drawer } from '@blueprintjs/core';
 import { prettyJSON } from '../../../helpers';
 import request from '../../../library/Request';
-import { Location, Label, HeaderRow, DetailBlock, Value } from './styles';
+import { Location, Label, HeaderRow, DetailBlock, Value, Row, Item } from './styles';
 import Transactions from './TransactionsTable';
 
 interface ITransaction {
@@ -49,6 +49,7 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 		patient: { name: patientName, yob: patientYob, gender: patientGender, phone: patientPhone },
 		transactionsœ,
 		purpose,
+		comment,
 	} = data;
 
 	const location = `${floor === 0 ? 'G' : `L${floor}`} / ${wardName} / ${bedName}`;
@@ -70,6 +71,8 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 		: '-';
 
 	const transactions = data.transactions.map((txn) => txn);
+
+	const isMobile = window.innerWidth < 500;
 	return (
 		<>
 			<div className="page-content">
@@ -80,76 +83,73 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 					</Button>
 				</HeaderRow>
 
-				<div className="row full-width space-between">
+				<Row>
 					<DetailBlock>
-						<div className="row wrap align-center full-width">
+						<Item>
 							<Label>Patient Name</Label>
 							<Value>
 								{patientName} ({patientAge && `${patientAge}yr`} {patientGender})
 							</Value>
-						</div>
-						<div className="row wrap align-center full-width">
+						</Item>
+						<Item>
 							<Label>Patient Phone</Label>
 							<Value>{patientPhone}</Value>
-						</div>
+						</Item>
 					</DetailBlock>
-
 					<DetailBlock>
-						<div className="column wrap full-width">
-							<Label>Admit Time</Label>
-							<Value noPadding>{parsedAdmitTime}</Value>
-						</div>
-					</DetailBlock>
-				</div>
-
-				<div className="row full-width space-between">
-					<DetailBlock>
-						<div className="row wrap align-center full-width">
+						<Item>
 							<Label>Guardian Name</Label>
 							<Value>{guardian_name}</Value>
-						</div>
-						<div className="row wrap align-center full-width">
+						</Item>
+						<Item>
 							<Label>Guardian Phone</Label>
 							<Value>{guardian_phone}</Value>
-						</div>
+						</Item>
 					</DetailBlock>
-
+				</Row>
+				<Row>
 					<DetailBlock>
-						<div className="column wrap full-width">
+						<Item>
+							<Label>Admit Time</Label>
+							<Value>{parsedAdmitTime}</Value>
+						</Item>
+						<Item>
 							<Label>Expected Discharge Time</Label>
-							<Value noPadding>{parsedDischargeTime}</Value>
-						</div>
+							<Value>{parsedDischargeTime}</Value>
+						</Item>
 					</DetailBlock>
-				</div>
-
-				<div className="row full-width">
 					<DetailBlock>
-						<div className="column wrap full-width">
+						<Item>
 							<Label>Doctor</Label>
 							<Value noPadding>{doctor_name}</Value>
-						</div>
-					</DetailBlock>
-					<DetailBlock>
-						<div className="column wrap full-width">
+						</Item>
+						<Item>
 							<Label>Purpose</Label>
 							<Value noPadding>{purpose}</Value>
-						</div>
+						</Item>
+						<Item>
+							<Label>Comment</Label>
+							<Value noPadding>{comment}</Value>
+						</Item>
 					</DetailBlock>
-				</div>
-
-				<div className="row space-between">
-					<Button intent="primary" onClick={toggleTransactions}>
+				</Row>
+				<div className="row wrap space-between">
+					<Button intent="primary" onClick={toggleTransactions} fill={isMobile}>
 						View Transactions
 					</Button>
-					<Button intent="success">Mark As Discharged</Button>
+					<Button intent="success" fill={isMobile}>
+						Mark As Discharged
+					</Button>
 				</div>
 			</div>
+
 			<Drawer
 				position="right"
-				size="80vw"
+				size={isMobile ? '100vw' : '80vw'}
 				isOpen={showTransactions}
 				onClose={toggleTransactions}
 				title={`${location} (${patientName})`}
+				className="custom-background"
 			>
 				<Transactions list={transactions} />
 			</Drawer>
