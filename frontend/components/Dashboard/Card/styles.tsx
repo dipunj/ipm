@@ -12,7 +12,7 @@ export const Card = styled.div`
 
 	&:hover {
 		box-shadow: var(--shadow-card);
-		/* box-shadow: unset; */
+		border: 1px solid var(--background);
 	}
 `;
 

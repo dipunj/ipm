@@ -87,7 +87,6 @@ body {
 }
 
 .main-menu {
-	background: var(--background) !important;
 	padding-top: var(--header-height);
 }
 
@@ -117,7 +116,7 @@ body {
 	padding: 64px;
 	border-radius: 36px;
 	/* box-shadow: var(--shadow-card); */
-	margin-bottom: 160px;
+	margin: 60px 0px;
 }
 
 .row {
@@ -167,4 +166,8 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+.custom-background {
+	background: var(--background) !important;
 }

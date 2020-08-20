@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const PageWrapper = styled.div`
 	padding: 0px var(--page-padding);
-	padding-top: calc(var(--header-height) + 80px);
+	padding-top: var(--header-height);
 	/* min-height: 200vh; */
 	min-height: calc(100vh - var(--header-height));
 	display: flex;

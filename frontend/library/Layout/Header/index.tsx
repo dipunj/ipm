@@ -77,7 +77,9 @@ const Header = (): JSX.Element => {
 		}
 	};
 
-	const drawerClass = `main-menu ${isDark ? 'bp3-dark dark-styled' : 'light-styled'}`;
+	const drawerClass = `main-menu custom-background ${
+		isDark ? 'bp3-dark dark-styled' : 'light-styled'
+	}`;
 	const menu = <MenuContainer>menu</MenuContainer>;
 
 	return (

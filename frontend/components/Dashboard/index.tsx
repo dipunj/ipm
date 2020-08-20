@@ -63,15 +63,15 @@ const AdmissionsOverview = (): JSX.Element => {
 
 	return (
 		<>
-			<h1 className="page-title">Current Admissions</h1>
-			<PageControls
-				{...{
-					doSearch: () => fetchCurrentAdmissions(),
-					searchQuery,
-					handleSearchQueryChange,
-				}}
-			/>
 			<div className="page-content">
+				<h1 className="page-title">Current Admissions</h1>
+				<PageControls
+					{...{
+						doSearch: () => fetchCurrentAdmissions(),
+						searchQuery,
+						handleSearchQueryChange,
+					}}
+				/>
 				<FlexWrapper>{content}</FlexWrapper>
 			</div>
 		</>

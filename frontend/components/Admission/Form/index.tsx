@@ -119,8 +119,8 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 
 	return (
 		<>
-			<h1 className="page-title">{title}</h1>
 			<div className="page-content">
+				<h1 className="page-title">{title}</h1>
 				<div className="column full-width">
 					<DetailBlock>
 						<BlockLabel>Patient Details</BlockLabel>

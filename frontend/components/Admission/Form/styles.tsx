@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const DetailBlock = styled.div`
-	border: 1px solid var(--border-color-light);
+	border: 1px solid var(--border-color);
 	position: relative;
 	border-radius: 24px;
 	padding: 32px;
