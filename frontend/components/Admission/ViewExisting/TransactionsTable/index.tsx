@@ -1,5 +1,6 @@
 import { Table, Column, Cell } from '@blueprintjs/table';
 import { Icon } from '@blueprintjs/core';
+import { TableContainer } from './styles';
 
 interface ITransactions {
 	list: {
@@ -70,11 +71,13 @@ const Transactions = (props: ITransactions): JSX.Element => {
 		},
 	];
 	return (
-		<Table numRows={list.length}>
-			{ColumnNames.map((col) => (
-				<Column key={col.name} name={col.name} cellRenderer={col.cellRender} />
-			))}
-		</Table>
+		<TableContainer>
+			<Table numRows={list.length}>
+				{ColumnNames.map((col) => (
+					<Column key={col.name} name={col.name} cellRenderer={col.cellRender} />
+				))}
+			</Table>
+		</TableContainer>
 	);
 };
 
