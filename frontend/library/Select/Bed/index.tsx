@@ -12,7 +12,7 @@ interface Bed {
 
 const BSelect = Select.ofType<Bed>();
 
-const renderWardItem: ItemRenderer<Bed> = (bed: Bed, { handleClick, modifiers }) => {
+const renderBedItem: ItemRenderer<Bed> = (bed: Bed, { handleClick, modifiers }) => {
 	if (!modifiers.matchesPredicate) {
 		return null;
 	}
@@ -70,7 +70,7 @@ const BedSelect = (props: BProps) => {
 			  );
 
 	return (
-		<BSelect {...props} itemRenderer={renderWardItem} items={BedList} filterable={false}>
+		<BSelect {...props} itemRenderer={renderBedItem} items={BedList} filterable={false}>
 			<Button
 				intent={props.intent}
 				text={props.activeItem ? props.activeItem.name : 'Select'}

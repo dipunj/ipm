@@ -54,7 +54,6 @@ const WardSelect = (props: GProps) => {
 	}));
 
 	const { activeItem } = props;
-	console.log(activeItem);
 	const activeItemString = activeItem ? activeItem.name : 'Select';
 
 	return (
