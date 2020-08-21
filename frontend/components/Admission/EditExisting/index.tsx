@@ -5,6 +5,14 @@ import request from '../../../library/Request';
 
 const reducer = (state: any, action: any) => {
 	const { fieldName, newValue } = action;
+	if (fieldName === 'ward') {
+		return {
+			...state,
+			bed: null,
+			[fieldName]: newValue,
+		};
+	}
+
 	return {
 		...state,
 		[fieldName]: newValue,
@@ -25,19 +33,23 @@ const EditExistingAdmission = ({ data }): JSX.Element => {
 		bed: data.bed,
 		admit_timestamp: new Date(data.admit_timestamp),
 		discharge_timestamp: data.discharge_timestamp ? new Date(data.discharge_timestamp) : null,
-		comments: data.comments,
+		comment: data.comment,
 		purpose: data.purpose,
 		doctor_name: data.doctor_name,
 	});
 
 	const makeAPICall = async (state: any) => {
 		const { ward, bed, ...params } = state;
+
 		params.bed_id = bed.id;
+
+		params.admission_id = data.id;
+		params.patient_id = data.patient.id;
 
 		const response = await request.post('/management/admission/update', { ...params });
 		if (response.data.success && response.data.is_authenticated) {
 			// TODO: show toast here
-			router.push('/');
+			router.push(`/admission/${data.id}`);
 		}
 	};
 

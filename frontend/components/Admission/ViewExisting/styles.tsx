@@ -45,12 +45,3 @@ export const Value = styled.div`
 	font-family: Helvetica, sans-serif;
 	font-weight: 100;
 `;
-
-export const EditText = styled.div.attrs({
-	className: 'page-title',
-})`
-	position: relative;
-	left: 56px;
-	flex-grow: 1;
-	margin: 0px;
-`;

@@ -14,13 +14,21 @@ const initialState = {
 	bed: null,
 	admit_timestamp: new Date(),
 	discharge_timestamp: null,
-	comments: '',
+	comment: '',
 	purpose: '',
 	doctor_name: '',
 };
 
 const reducer = (state: any, action: any) => {
 	const { fieldName, newValue } = action;
+	if (fieldName === 'ward') {
+		return {
+			...state,
+			bed: null,
+			[fieldName]: newValue,
+		};
+	}
+
 	return {
 		...state,
 		[fieldName]: newValue,

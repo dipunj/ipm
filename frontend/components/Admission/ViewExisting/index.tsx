@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Button, Drawer, Alert } from '@blueprintjs/core';
-import { Location, Label, HeaderRow, DetailBlock, Value, Row, Item, EditText } from './styles';
+import { Location, Label, HeaderRow, DetailBlock, Value, Row, Item } from './styles';
 import Transactions from './TransactionsTable';
-import AdmissionForm from '../Form';
 import EditExistingAdmission from '../EditExisting';
 
 interface ITransaction {
@@ -85,8 +84,10 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 	if (showModify) {
 		return (
 			<div className="page-content">
-				<HeaderRow justifyContent="flex-start">
-					<EditText>Edit Admission</EditText>
+				<HeaderRow>
+					<div className="page-title" style={{ margin: 0 }}>
+						Edit Admission
+					</div>
 					<Button onClick={handleModify} minimal rightIcon="cross">
 						Cancel
 					</Button>
@@ -101,7 +102,7 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 				<HeaderRow>
 					<Location>{location}</Location>
 					<Button onClick={handleModify} minimal rightIcon="edit">
-						Modify Details
+						Modify
 					</Button>
 				</HeaderRow>
 
