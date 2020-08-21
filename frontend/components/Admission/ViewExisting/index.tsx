@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { Button, Dialog, Drawer } from '@blueprintjs/core';
-import { prettyJSON } from '../../../helpers';
-import request from '../../../library/Request';
-import { Location, Label, HeaderRow, DetailBlock, Value, Row, Item } from './styles';
+import { useState } from 'react';
+import { Button, Drawer, Alert } from '@blueprintjs/core';
+import { Location, Label, HeaderRow, DetailBlock, Value, Row, Item, EditText } from './styles';
 import Transactions from './TransactionsTable';
+import AdmissionForm from '../Form';
+import EditExistingAdmission from '../EditExisting';
 
 interface ITransaction {
 	id: string;
@@ -25,11 +25,19 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 	} = admissionAPIResponse;
 
 	const [showTransactions, setShowTransactions] = useState(false);
+	const [showDischargeConfirmation, setShowDischargeConfirmation] = useState(false);
+	const [showModify, setShowModify] = useState(false);
 
 	const toggleTransactions = () => {
 		setShowTransactions((prev) => !prev);
 	};
-	const handleModify = () => {};
+	const handleModify = () => {
+		setShowModify((prev) => !prev);
+	};
+	const toggleDischargeConfirmation = () => setShowDischargeConfirmation((prev) => !prev);
+	const makeDischargeCall = () => {
+		alert('make api call');
+	};
 
 	if (!data) return <div>Loading...</div>;
 
@@ -73,6 +81,20 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 	const transactions = data.transactions.map((txn) => txn);
 
 	const isMobile = window.innerWidth < 500;
+
+	if (showModify) {
+		return (
+			<div className="page-content">
+				<HeaderRow justifyContent="flex-start">
+					<EditText>Edit Admission</EditText>
+					<Button onClick={handleModify} minimal rightIcon="cross">
+						Cancel
+					</Button>
+				</HeaderRow>
+				<EditExistingAdmission data={data} />
+			</div>
+		);
+	}
 	return (
 		<>
 			<div className="page-content">
@@ -137,7 +159,7 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 					<Button intent="primary" onClick={toggleTransactions} fill={isMobile}>
 						View Transactions
 					</Button>
-					<Button intent="success" fill={isMobile}>
+					<Button intent="success" onClick={toggleDischargeConfirmation} fill={isMobile}>
 						Mark As Discharged
 					</Button>
 				</div>
@@ -153,6 +175,17 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 			>
 				<Transactions list={transactions} />
 			</Drawer>
+			<Alert
+				isOpen={showDischargeConfirmation}
+				onCancel={toggleDischargeConfirmation}
+				onConfirm={makeDischargeCall}
+				cancelButtonText="Cancel"
+				confirmButtonText="Confirm"
+				intent="danger"
+				icon="confirm"
+			>
+				<p>Are you sure? This action cannot be reversed!</p>
+			</Alert>
 		</>
 	);
 };

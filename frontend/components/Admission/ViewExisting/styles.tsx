@@ -28,7 +28,8 @@ export const Item = styled.div`
 export const HeaderRow = styled.div`
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	justify-content: ${(props: { justifyContent?: string }) =>
+		props.justifyContent || 'space-between'};
 	align-items: center;
 	margin-bottom: 48px;
 `;
@@ -43,4 +44,13 @@ export const Value = styled.div`
 	font-size: 20px;
 	font-family: Helvetica, sans-serif;
 	font-weight: 100;
+`;
+
+export const EditText = styled.div.attrs({
+	className: 'page-title',
+})`
+	position: relative;
+	left: 56px;
+	flex-grow: 1;
+	margin: 0px;
 `;
