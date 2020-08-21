@@ -14,7 +14,7 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
   end
 
   def update_admission
-    response = @service.update_admission(@current_user, admission_id, admission_params)
+    response = @service.update_admission(@current_user, admission_id, admission_params, patient_id, patient_params)
     render json: response
   end
 
@@ -37,6 +37,10 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
 
     def admission_id
       params.permit(:admission_id)[:admission_id]
+    end
+
+    def patient_id
+      params.permit(:patient_id)[:patient_id]
     end
 
     def building_id

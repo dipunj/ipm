@@ -35,9 +35,11 @@ module Management
 			return ResponseHelper.json(true, admission.as_json(Admission.with_all_data), "#{patient.name} has been admitted at #{bed.name} in #{bed.ward.name}")
 		end
 
-		def self.update_admission(operator, admission_id, params)
+		def self.update_admission(operator, admission_id, params, patient_id, patient_params)
 			raise 'Please select a valid admission' if admission_id.nil?
+			raise 'Invalid patient ID' if patient_id.nil?
 			admission = Admission.find_by(id: admission_id)
+			patient = Patient.find_by(id: patient_id)
 
 			# implies that the patient is being shifted from one bed to other
 			bed = nil
@@ -58,10 +60,17 @@ module Management
 			update_params[:bed_id]                 = bed.id unless bed.nil?
 			update_params[:last_updated_by_id]     = operator.id
 
-			Admission.transaction do
+			ActiveRecord::Base.transaction do
 				log_params = admission.as_json.deep_symbolize_keys.except(:id, :created_at, :updated_at)
 				log_params[:admission_id] = admission.id
+				log_params[:patient_name] = patient_params[:name]
+				log_params[:patient_phone] = patient_params[:phone]
+				log_params[:patient_gender] = patient_params[:gender]
+				patient_params[:yob] = Time.now.year - patient_params[:age]
+				log_params[:patient_age] = patient_params[:yob]
 				log_entry = AdmissionLog.create!(log_params)
+
+				patient.update!(patient_params.except(:patient_id, :age))
 				admission.update!(update_params)
 			end
 			return ResponseHelper.json(true, admission.as_json(Admission.with_all_data), nil)

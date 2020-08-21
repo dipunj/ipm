@@ -24,6 +24,10 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "doctor_name", limit: 255, null: false
     t.string "purpose", limit: 255
     t.string "comment", limit: 255
+    t.string "patient_name", limit: 255, null: false
+    t.string "patient_age", limit: 255, null: false
+    t.string "patient_phone", limit: 255, null: false
+    t.string "patient_gender", limit: 255, null: false
     t.string "guardian_name", limit: 255, null: false
     t.string "guardian_phone", limit: 15, null: false
     t.uuid "bed_id", null: false
