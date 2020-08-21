@@ -16,6 +16,10 @@
 	margin-right: 20%;
 }
 
+.commentSibling {
+	margin-right: 20%;
+}
+
 .datepicker {
 	background: var(--background) !important;
 	border: 1px solid var(--border-color-light);
