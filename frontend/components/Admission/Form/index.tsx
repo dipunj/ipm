@@ -19,7 +19,7 @@ type State = {
 	bed: any;
 	admit_timestamp: Date;
 	discharge_timestamp: Date;
-	comments: string;
+	comment: string;
 	purpose: string;
 	doctor_name: string;
 };
@@ -43,7 +43,7 @@ const initialIntent = {
 	bed: 'none',
 	admit_timestamp: 'none',
 	discharge_timestamp: 'none',
-	comments: 'none',
+	comment: 'none',
 	purpose: 'none',
 	doctor_name: 'none',
 };
@@ -59,7 +59,7 @@ const nullable: any = {
 	bed: false,
 	admit_timestamp: false,
 	discharge_timestamp: true,
-	comments: true,
+	comment: true,
 	purpose: true,
 	doctor_name: true,
 };
@@ -326,19 +326,19 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 							<FormGroup
 								className={styles.halfColumn}
 								label="Comments"
-								intent={intent.comments}
-								labelFor="operator-comments"
+								intent={intent.comment}
+								labelFor="operator-comment"
 							>
 								<TextArea
-									id="operator-comments"
-									name="comments"
+									id="operator-comment"
+									name="comment"
 									fill
 									// large
 									rows={4}
 									style={{ resize: 'vertical' }}
-									intent={intent.comments}
+									intent={intent.comment}
 									placeholder="Any note about the patient / Admission"
-									value={state.comments}
+									value={state.comment}
 									onChange={handleTextChange}
 								/>
 							</FormGroup>
