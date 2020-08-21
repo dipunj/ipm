@@ -153,6 +153,10 @@ body {
 	width: 50%;
 }
 
+.quarter-width {
+	width: 25%;
+}
+
 .align-center {
 	align-items: center;
 }
