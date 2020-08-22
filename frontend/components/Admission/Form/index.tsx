@@ -289,7 +289,7 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 						>
 							<DatePicker
 								canClearSelection={false}
-								className={styles.datepicker}
+								className="custom-datepicker"
 								highlightCurrentDay
 								value={state.admit_timestamp}
 								timePickerProps={{
@@ -310,7 +310,7 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 							helperText="(Can be updated later)"
 						>
 							<DatePicker
-								className={styles.datepicker}
+								className="custom-datepicker"
 								highlightCurrentDay
 								value={state.discharge_timestamp}
 								onChange={(val, iuc) =>
