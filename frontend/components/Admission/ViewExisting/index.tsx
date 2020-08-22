@@ -1,6 +1,16 @@
 import { useState } from 'react';
-import { Button, Drawer, Alert } from '@blueprintjs/core';
-import { Location, Label, HeaderRow, DetailBlock, Value, Row, Item } from './styles';
+import { Button, Drawer, Alert, Popover, FormGroup, H4 } from '@blueprintjs/core';
+import { DatePicker } from '@blueprintjs/datetime';
+import {
+	Location,
+	Label,
+	HeaderRow,
+	DetailBlock,
+	Value,
+	Row,
+	Item,
+	AlertContainer,
+} from './styles';
 import Transactions from './TransactionsTable';
 import EditExistingAdmission from '../EditExisting';
 
@@ -23,21 +33,6 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 		response: { message, data },
 	} = admissionAPIResponse;
 
-	const [showTransactions, setShowTransactions] = useState(false);
-	const [showDischargeConfirmation, setShowDischargeConfirmation] = useState(false);
-	const [showModify, setShowModify] = useState(false);
-
-	const toggleTransactions = () => {
-		setShowTransactions((prev) => !prev);
-	};
-	const handleModify = () => {
-		setShowModify((prev) => !prev);
-	};
-	const toggleDischargeConfirmation = () => setShowDischargeConfirmation((prev) => !prev);
-	const makeDischargeCall = () => {
-		alert('make api call');
-	};
-
 	if (!data) return <div>Loading...</div>;
 
 	const {
@@ -58,6 +53,35 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 		purpose,
 		comment,
 	} = data;
+
+	const [showTransactions, setShowTransactions] = useState(false);
+	const [showDischargeConfirmation, setShowDischargeConfirmation] = useState(false);
+	const [showModify, setShowModify] = useState(false);
+
+	const [actualDischargeTimeStamp, setActualDischargeTimeStamp] = useState(
+		discharge_timestamp || new Date()
+	);
+
+	const toggleTransactions = () => {
+		setShowTransactions((prev) => !prev);
+	};
+
+	const handleModify = () => {
+		setShowModify((prev) => !prev);
+	};
+
+	const handleDateChange = (selectedDate: Date) => {
+		setActualDischargeTimeStamp(selectedDate);
+	};
+
+	const toggleDischargeConfirmation = () => {
+		setActualDischargeTimeStamp(discharge_timestamp || new Date());
+		setShowDischargeConfirmation((prev) => !prev);
+	};
+
+	const makeDischargeCall = () => {
+		alert('make api call');
+	};
 
 	const location = `${floor === 0 ? 'G' : `L${floor}`} / ${wardName} / ${bedName}`;
 	const patientAge = new Date().getFullYear() - patientYob;
@@ -181,11 +205,36 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 				onCancel={toggleDischargeConfirmation}
 				onConfirm={makeDischargeCall}
 				cancelButtonText="Cancel"
-				confirmButtonText="Confirm"
+				confirmButtonText="Confirm Discharge"
 				intent="danger"
 				icon="confirm"
+				style={{ minWidth: '36vw' }}
 			>
-				<p>Are you sure? This action cannot be reversed!</p>
+				<H4>Are you sure? This action cannot be reversed!</H4>
+				<AlertContainer>
+					<FormGroup
+						className="row align-center space-evenly full-width"
+						label="Discharge Time:"
+						labelFor="discharge-timestamp"
+					>
+						<Popover>
+							<Button intent="none">
+								{actualDischargeTimeStamp.toLocaleString('en-GB', options)}
+							</Button>
+							<DatePicker
+								id="discharge-timestamp"
+								canClearSelection={false}
+								highlightCurrentDay
+								value={actualDischargeTimeStamp}
+								timePickerProps={{
+									useAmPm: true,
+									onChange: (time) => handleDateChange(time),
+								}}
+								onChange={(val, _) => handleDateChange(val)}
+							/>
+						</Popover>
+					</FormGroup>
+				</AlertContainer>
 			</Alert>
 		</>
 	);

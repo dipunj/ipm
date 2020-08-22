@@ -45,3 +45,8 @@ export const Value = styled.div`
 	font-family: Helvetica, sans-serif;
 	font-weight: 100;
 `;
+
+export const AlertContainer = styled.div`
+	padding: 24px;
+	border-radius: 24px;
+`;
