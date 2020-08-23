@@ -66,8 +66,9 @@ module Management
 				log_params[:patient_name] = patient_params[:name]
 				log_params[:patient_phone] = patient_params[:phone]
 				log_params[:patient_gender] = patient_params[:gender]
+
 				patient_params[:yob] = Time.now.year - patient_params[:age]
-				log_params[:patient_age] = patient_params[:yob]
+				log_params[:patient_yob] = patient_params[:yob]
 				log_entry = AdmissionLog.create!(log_params)
 
 				patient.update!(patient_params.except(:patient_id, :age))

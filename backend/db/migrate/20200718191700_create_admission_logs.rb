@@ -12,7 +12,7 @@ class CreateAdmissionLogs < ActiveRecord::Migration[6.0]
       t.column     :comment                  , 'VARCHAR(255)'
 
       t.column     :patient_name             , 'VARCHAR(255)', null: false
-      t.column     :patient_age              , 'VARCHAR(255)', null: false
+      t.integer    :patient_yob              , null: false
       t.column     :patient_phone            , 'VARCHAR(255)', null: false
       t.column     :patient_gender           , 'VARCHAR(255)', null: false
       t.column     :guardian_name            , 'VARCHAR(255)', null: false

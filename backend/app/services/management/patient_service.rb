@@ -14,7 +14,7 @@ module Management
 				gender: params[:gender],
 			}
 			patient = Patient.find_by(find_params)
-			create_params = find_params.merge({yob: (Time.current.year - params[:age])})
+			create_params = find_params.merge({yob: (Time.current.year - params[:age].to_i)})
 
 			patient = Patient.create!(create_params) if patient.nil?
 
