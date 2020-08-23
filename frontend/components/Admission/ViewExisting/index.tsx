@@ -49,7 +49,7 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 		created_by: { name: created_by, id: created_by_id },
 		last_updated_by: { name: last_updated_by, id: last_updated_by_id },
 		patient: { name: patientName, yob: patientYob, gender: patientGender, phone: patientPhone },
-		transactionsœ,
+		transactions,
 		purpose,
 		comment,
 	} = data;
@@ -103,7 +103,7 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 		? new Date(discharge_timestamp).toLocaleString('en-GB', options)
 		: '-';
 
-	const transactions = data.transactions.map((txn) => txn);
+	const transactionList = transactions.map((txn) => txn);
 
 	const isMobile = window.innerWidth < 500;
 
@@ -200,7 +200,7 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 				title={`${location} (${patientName})`}
 				className="custom-background"
 			>
-				<Transactions list={transactions} />
+				<Transactions list={transactionList} />
 			</Drawer>
 			<Alert
 				isOpen={showDischargeConfirmation}
