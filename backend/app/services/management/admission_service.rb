@@ -84,6 +84,23 @@ module Management
 			return ResponseHelper.json(admission.present?, admission.as_json(Admission.with_all_data), nil)
 		end
 
+		def self.discharge_admission(operator, admission_id, params)
+			undo_discharge = params[:undo_discharge]
+			#check admin privilege to undo a discharge
+
+			total = TransactionService.compute_total(operator, admission_id, true)
+			if total[:total_bill] != total[:amount_received] || total[:amount_receivable] != 0
+				raise 'Cannot discharge, as there are outstanding transactions. Ledger Not Balanced!'
+			else
+				admission = Admission.find(admission_id)
+				admission.update!({
+									  discharge_timestamp: params[:discharge_timestamp] || Time.now,
+									  is_discharged: true
+								  })
+				return ResponseHelper.json(true, admission.as_json(Admission.with_overview_data), nil)
+			end
+		end
+
 		def self.list_current_admissions(operator, building_id, params, search_params)
 			records_per_page = (params[:records_per_page] || 10).to_i
 			page = params[:page].nil? ? 0 : (params[:page].to_i - 1)
