@@ -59,7 +59,7 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 	const [showModify, setShowModify] = useState(false);
 
 	const [actualDischargeTimeStamp, setActualDischargeTimeStamp] = useState(
-		discharge_timestamp || new Date()
+		discharge_timestamp ? new Date(discharge_timestamp) : new Date()
 	);
 
 	const toggleTransactions = () => {
@@ -75,7 +75,9 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 	};
 
 	const toggleDischargeConfirmation = () => {
-		setActualDischargeTimeStamp(discharge_timestamp || new Date());
+		setActualDischargeTimeStamp(
+			discharge_timestamp ? new Date(discharge_timestamp) : new Date()
+		);
 		setShowDischargeConfirmation((prev) => !prev);
 	};
 
@@ -214,7 +216,7 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 				<AlertContainer>
 					<FormGroup
 						className="row align-center space-evenly full-width"
-						label="Discharge Time:"
+						label="Discharge DateTime:"
 						labelFor="discharge-timestamp"
 					>
 						<Popover>

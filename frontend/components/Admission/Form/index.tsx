@@ -313,6 +313,12 @@ const AdmissionForm = (props: IAdmissionForm): JSX.Element => {
 								className="custom-datepicker"
 								highlightCurrentDay
 								value={state.discharge_timestamp}
+								showActionsBar
+								timePickerProps={{
+									useAmPm: true,
+									onChange: (time) =>
+										handleDateChange(time, false, 'discharge_timestamp'),
+								}}
 								onChange={(val, iuc) =>
 									handleDateChange(val, iuc, 'discharge_timestamp')
 								}
