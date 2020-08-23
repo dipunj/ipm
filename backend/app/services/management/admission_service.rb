@@ -51,7 +51,7 @@ module Management
 			update_params                      = {}
 
 			update_params[:admit_timestamp]        = params[:admit_timestamp]     if params[:admit_timestamp].present?
-			update_params[:discharge_timestamp]    = params[:discharge_timestamp] if params[:discharge_timestamp].present?
+			update_params[:discharge_timestamp]    = params[:discharge_timestamp] # since discharge time can be null untill is_discharged is false
 			update_params[:doctor_name]            = params[:doctor_name]         if params[:doctor_name].present?
 			update_params[:purpose]                = params[:purpose]             if params[:purpose].present?
 			update_params[:comment]                = params[:comment]             if params[:comment].present?

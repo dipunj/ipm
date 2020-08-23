@@ -46,6 +46,29 @@ module Management
 			end
 		end
 
+		def self.compute_total(operator, admission_id, internal)
+			transactions = Transaction.where(admission_id: admission_id).order(created_at: :asc)
+			credit_txn = transactions.where(is_credit: true)
+			debit_txn = transactions.where(is_credit: false)
+			total_bill = credit_txn.pluck(:value) - debit_txn.pluck(:value)
+
+
+			amount_receivable = credit_txn.where(is_settled: false)
+			amount_payable = debit_txn.where(is_settled: false)
+
+			amount_received = credit_txn.where(is_settled: true)
+			amount_payed = debit_txn.where(is_settled: true)
+
+			total = {
+				total_bill: total_bill,
+				amount_receivable: amount_receivable - amount_payable,
+				amount_received: amount_received - amount_payed
+			}
+			return total if internal
+
+			return ResponseHelper.json(true, total, nil)
+		end
+
 		def self.list_all_in_admission(operator, admission_id)
 			admission = Admission.find_by(id: admission_id)
 			raise 'Invalid admission ID' if admission.nil?

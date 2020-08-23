@@ -28,6 +28,10 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
     render json: response
   end
 
+  def discharge
+    response = @service.discharge_admission(@current_user, admission_id, discharge_params)
+  end
+
 
   private
 
@@ -53,6 +57,10 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
 
     def admission_params
       params.permit(:admit_timestamp, :discharge_timestamp, :doctor_name,:purpose,:comment, :bed_id, :guardian_name, :guardian_phone)
+    end
+
+    def discharge_params
+      params.permit(:discharge_timestamp, :undo_discharge)
     end
 
     def patient_params
