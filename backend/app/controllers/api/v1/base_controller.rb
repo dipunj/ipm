@@ -1,6 +1,11 @@
 class Api::V1::BaseController < ApplicationController
 
 	before_action :authenticate!
+	rescue_from Exception, :with => :custom_handle_exceptions
+
+	def custom_handle_exceptions(exception)
+		render json: ResponseHelper.json(false, Rails.env.development? && exception.backtrace, exception.message || exception.class.to_s)
+	end
 
 	def authorise_building_access
 		error_message = nil
@@ -42,6 +47,7 @@ class Api::V1::BaseController < ApplicationController
 			}
 		} unless current_user[:account_type] == AccountTypes::ADMIN
 	end
+
 
 	private
 
