@@ -24,7 +24,7 @@ interface ITransaction {
 	purpose: string;
 	reverses_transaction_id: string;
 	admission_id: string;
-	created_by_id: string;
+	updated_by_id: string;
 }
 
 const ViewAdmission = ({ admissionAPIResponse }) => {
@@ -46,8 +46,7 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 		is_discharged,
 		admit_timestamp,
 		discharge_timestamp,
-		created_by: { name: created_by, id: created_by_id },
-		last_updated_by: { name: last_updated_by, id: last_updated_by_id },
+		updated_by: { name: updated_by, id: updated_by_id },
 		patient: { name: patientName, yob: patientYob, gender: patientGender, phone: patientPhone },
 		transactions,
 		purpose,

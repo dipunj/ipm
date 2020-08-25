@@ -13,7 +13,7 @@ interface ITransactions {
 		purpose: string;
 		reverses_transaction_id?: string;
 		admission_id: string;
-		created_by: {
+		updated_by: {
 			id: string;
 			name: string;
 		};
@@ -34,7 +34,7 @@ const Transactions = (props: ITransactions): JSX.Element => {
 		{
 			name: 'Created By',
 			cellRender: (rowIndex: number) => {
-				return <Cell>{list[rowIndex].created_by.name}</Cell>;
+				return <Cell>{list[rowIndex].updated_by.name}</Cell>;
 			},
 		},
 		{
