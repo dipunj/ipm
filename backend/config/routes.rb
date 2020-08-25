@@ -8,7 +8,7 @@ Rails.application.routes.draw do
         get 'visitor/delete'
 
 		post 'transaction/create'            => 'transaction#create'
-		post 'transaction/undo'              => 'transaction#undo'
+		post 'transaction/modify'            => 'transaction#modify'
 		get  'transaction/list'              => 'transaction#list_all_in_admission'
 
 		post 'admission/new'                  => 'admission#create_new_admission'

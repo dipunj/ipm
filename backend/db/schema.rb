@@ -32,14 +32,12 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "guardian_phone", limit: 15, null: false
     t.uuid "bed_id", null: false
     t.uuid "patient_id", null: false
-    t.uuid "created_by_id", null: false
-    t.uuid "last_updated_by_id", null: false
+    t.uuid "updated_by_id", null: false
     t.datetime "created_at", null: false
     t.index ["admission_id"], name: "index_admission_logs_on_admission_id"
     t.index ["bed_id"], name: "index_admission_logs_on_bed_id"
-    t.index ["created_by_id"], name: "index_admission_logs_on_created_by_id"
-    t.index ["last_updated_by_id"], name: "index_admission_logs_on_last_updated_by_id"
     t.index ["patient_id"], name: "index_admission_logs_on_patient_id"
+    t.index ["updated_by_id"], name: "index_admission_logs_on_updated_by_id"
   end
 
   create_table "admissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -53,15 +51,13 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "guardian_phone", limit: 15
     t.uuid "bed_id", null: false
     t.uuid "patient_id", null: false
-    t.uuid "created_by_id", null: false
-    t.uuid "last_updated_by_id", null: false
+    t.uuid "updated_by_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["bed_id"], name: "index_admissions_on_bed_id"
-    t.index ["created_by_id"], name: "index_admissions_on_created_by_id"
-    t.index ["last_updated_by_id"], name: "index_admissions_on_last_updated_by_id"
     t.index ["patient_id", "admit_timestamp"], name: "index_admissions_on_patient_id_and_admit_timestamp", unique: true
     t.index ["patient_id"], name: "index_admissions_on_patient_id"
+    t.index ["updated_by_id"], name: "index_admissions_on_updated_by_id"
   end
 
   create_table "beds", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -104,20 +100,37 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.index ["name", "phone"], name: "index_patients_on_name_and_phone", unique: true
   end
 
+  create_table "transaction_logs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.boolean "is_deleted"
+    t.boolean "is_credit"
+    t.string "payment_mode", limit: 30
+    t.string "currency", limit: 4
+    t.decimal "value", precision: 100, scale: 2
+    t.boolean "is_settled"
+    t.text "purpose"
+    t.uuid "admission_id", null: false
+    t.uuid "updated_by_id", null: false
+    t.uuid "transaction_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["admission_id"], name: "index_transaction_logs_on_admission_id"
+    t.index ["transaction_id"], name: "index_transaction_logs_on_transaction_id"
+    t.index ["updated_by_id"], name: "index_transaction_logs_on_updated_by_id"
+  end
+
   create_table "transactions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.boolean "is_deleted"
     t.boolean "is_credit", null: false
     t.string "payment_mode", limit: 30, null: false
     t.string "currency", limit: 4, null: false
     t.decimal "value", precision: 100, scale: 2, null: false
     t.boolean "is_settled"
     t.text "purpose"
-    t.uuid "reverses_transaction_id"
     t.uuid "admission_id", null: false
-    t.uuid "created_by_id"
-    t.datetime "created_at", null: false
+    t.uuid "updated_by_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["admission_id"], name: "index_transactions_on_admission_id"
-    t.index ["created_by_id"], name: "index_transactions_on_created_by_id"
-    t.index ["reverses_transaction_id"], name: "index_transactions_on_reverses_transaction_id"
+    t.index ["updated_by_id"], name: "index_transactions_on_updated_by_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -165,15 +178,15 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
   add_foreign_key "admission_logs", "admissions"
   add_foreign_key "admission_logs", "beds"
   add_foreign_key "admission_logs", "patients"
-  add_foreign_key "admission_logs", "users", column: "created_by_id"
-  add_foreign_key "admission_logs", "users", column: "last_updated_by_id"
+  add_foreign_key "admission_logs", "users", column: "updated_by_id"
   add_foreign_key "admissions", "beds"
   add_foreign_key "admissions", "patients"
-  add_foreign_key "admissions", "users", column: "created_by_id"
-  add_foreign_key "admissions", "users", column: "last_updated_by_id"
+  add_foreign_key "admissions", "users", column: "updated_by_id"
   add_foreign_key "beds", "wards"
+  add_foreign_key "transaction_logs", "admissions"
+  add_foreign_key "transaction_logs", "transactions"
+  add_foreign_key "transaction_logs", "users", column: "updated_by_id"
   add_foreign_key "transactions", "admissions"
-  add_foreign_key "transactions", "transactions", column: "reverses_transaction_id"
-  add_foreign_key "transactions", "users", column: "created_by_id"
+  add_foreign_key "transactions", "users", column: "updated_by_id"
   add_foreign_key "wards", "buildings"
 end

@@ -118,7 +118,6 @@ dummy_transactions = [
 		is_credit: true,
 		is_settled: true,
 		payment_mode: 'fund_transfer',
-		currency: 'INR',
 		value: 11000000000.25,
 		purpose: 'Security Deposit'
 	},
@@ -126,7 +125,6 @@ dummy_transactions = [
 		is_credit: true,
 		is_settled: true,
 		payment_mode: 'cash',
-		currency: 'INR',
 		value: 2000,
 		purpose: 'Consultancy Fee'
 	},
@@ -134,7 +132,6 @@ dummy_transactions = [
 		is_credit: true,
 		is_settled: false,
 		payment_mode: 'card',
-		currency: 'INR',
 		value: '3000',
 		purpose: 'Anti-insanity injection vile'
 	}
