@@ -27,8 +27,7 @@ module Management
 				guardian_phone:      params[:guardian_phone],
 				bed_id:              bed.id,
 				patient_id:          patient.id,
-				created_by_id:       operator.id,
-				last_updated_by_id:  operator.id
+				updated_by_id:       operator.id,
 			}
 
 			admission = Admission.create!(admission_params)
@@ -50,31 +49,34 @@ module Management
 				bed = nil if bed && bed.id == admission[:bed_id]
 			end
 
-			update_params                      = {}
-
-			update_params[:admit_timestamp]        = params[:admit_timestamp]     if params[:admit_timestamp].present?
-			update_params[:discharge_timestamp]    = params[:discharge_timestamp] # since discharge time can be null untill is_discharged is false
-			update_params[:doctor_name]            = params[:doctor_name]         if params[:doctor_name].present?
-			update_params[:purpose]                = params[:purpose]             if params[:purpose].present?
-			update_params[:comment]                = params[:comment]             if params[:comment].present?
-			update_params[:guardian_name]          = params[:guardian_name]       if params[:guardian_name].present?
-			update_params[:guardian_phone]         = params[:guardian_phone]      if params[:guardian_phone].present?
-			update_params[:bed_id]                 = bed.id unless bed.nil?
-			update_params[:last_updated_by_id]     = operator.id
+			admission_params = {
+				admit_timestamp:     params[:admit_timestamp]     || admission.admit_timestamp,
+				discharge_timestamp: params[:discharge_timestamp],
+				doctor_name:         params[:doctor_name]         || admission.doctor_name,
+				purpose:             params[:purpose]             || admission.purpose,
+				comment:             params[:comment]             || admission.comment,
+				guardian_name:       params[:guardian_name]       || admission.guardian_name,
+				guardian_phone:      params[:guardian_phone]      || admission.guardian_phone,
+				bed_id:              bed.present? && bed.id       || admission.bed_id,
+				updated_by_id:       operator.id
+			}
 
 			ActiveRecord::Base.transaction do
+
+				# copy of admission before new changes
 				log_params = admission.as_json.deep_symbolize_keys.except(:id, :created_at, :updated_at)
-				log_params[:admission_id] = admission.id
-				log_params[:patient_name] = patient_params[:name]
-				log_params[:patient_phone] = patient_params[:phone]
-				log_params[:patient_gender] = patient_params[:gender]
 
-				patient_params[:yob] = Time.now.year - patient_params[:age]
-				log_params[:patient_yob] = patient_params[:yob]
-				log_entry = AdmissionLog.create!(log_params)
+				# admission log also saves patient details
+				log_params[:patient_name] = patient[:name]
+				log_params[:patient_phone] = patient[:phone]
+				log_params[:patient_gender] = patient[:gender]
+				log_params[:patient_yob] = patient[:yob]
 
-				patient.update!(patient_params.except(:patient_id, :age))
-				admission.update!(update_params)
+				admission.admission_logs.create!(log_params)
+				admission.update!(admission_params)
+
+				patient_params[:yob] = Time.now.year - patient_params[:age].to_i
+				patient.update!(patient_params.except(:age))
 			end
 			return ResponseHelper.json(true, admission.as_json(Admission.with_all_data), nil)
 		end
@@ -104,17 +106,18 @@ module Management
 		end
 
 		def self.list_current_admissions(operator, building_id, params, search_params)
-			records_per_page = (params[:records_per_page] || 10).to_i
-			page = params[:page].nil? ? 0 : (params[:page].to_i - 1)
-			current = Admission.where(is_discharged: false)
+			records_per_page    = (params[:records_per_page] || 10).to_i
+			page                = params[:page].nil? ? 0 : (params[:page].to_i - 1)
+			current             = Admission.where(is_discharged: false)
+
 			if building_id.present?
-				current =  current.joins(bed: [ward: [:building]]).where(beds: { wards: { building_id: building_id } })
-				count = current.length
+				current         = current.joins(bed: [ward: [:building]]).where(beds: { wards: { building_id: building_id } })
+				count           = current.length
 				if search_params[:query].present?
 					regex_query = "%#{search_params[:query].downcase}%"
-					current = current.joins(:patient).where('LOWER(patients.name) LIKE ? OR patients.phone LIKE ?', regex_query, regex_query)
+					current     = current.joins(:patient).where('LOWER(patients.name) LIKE ? OR patients.phone LIKE ?', regex_query, regex_query)
 				end
-				current = current.limit(records_per_page).offset(page*records_per_page)
+				current         = current.limit(records_per_page).offset(page*records_per_page)
 			else
 				raise 'Invalid Building ID'
 			end
