@@ -1,5 +1,5 @@
 module ResponseHelper
-	def self.json(success, data, message, auth=true)
+	def self.json(success, data, message=nil, auth=true)
 		{
 			success: success,
 			is_authenticated: auth,
