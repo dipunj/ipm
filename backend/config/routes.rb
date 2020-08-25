@@ -15,7 +15,7 @@ Rails.application.routes.draw do
         get 'admission/find'                  => 'admission#find_admission_by_id'
 		post 'admission/update'               => 'admission#update_admission'
         get 'admission/current'               => 'admission#list_current_admissions'
-		get 'admission/list_by_patient'
+		post 'admission/discharge'            => 'admission#discharge'
 	  end
 	  namespace :setup do
         post       'building/create'       => 'building#create'

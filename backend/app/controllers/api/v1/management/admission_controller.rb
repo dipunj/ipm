@@ -30,6 +30,7 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
 
   def discharge
     response = @service.discharge_admission(@current_user, admission_id, discharge_params)
+    render json: response
   end
 
 

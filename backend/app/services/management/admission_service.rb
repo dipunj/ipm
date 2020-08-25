@@ -36,10 +36,12 @@ module Management
 		end
 
 		def self.update_admission(operator, admission_id, params, patient_id, patient_params)
+
 			raise 'Please select a valid admission' if admission_id.nil?
 			raise 'Invalid patient ID' if patient_id.nil?
+
 			admission = Admission.find_by(id: admission_id)
-			patient = Patient.find_by(id: patient_id)
+			patient   = Patient.find_by(id: patient_id)
 
 			# implies that the patient is being shifted from one bed to other
 			bed = nil
@@ -89,8 +91,8 @@ module Management
 			#check admin privilege to undo a discharge
 
 			total = TransactionService.compute_total(operator, admission_id, true)
-			if total[:total_bill] != total[:amount_received] || total[:amount_receivable] != 0
-				raise 'Cannot discharge, as there are outstanding transactions. Ledger Not Balanced!'
+			if (total[:total_bill] != total[:amount_received]) || total[:amount_receivable] != 0
+				raise 'Cannot discharge, since there are outstanding transactions. Please settle the ledger'
 			else
 				admission = Admission.find(admission_id)
 				admission.update!({
@@ -132,9 +134,9 @@ module Management
 			# 1
 
 			result = []
-			patient_matches = Patient.where("name LIKE ? OR phone LIKE ?", regex_query).collect(&:admissions)
+			patient_matches  = Patient.where("name LIKE ? OR phone LIKE ?", regex_query).collect(&:admissions)
 			guardian_matches = Admission.where("guardian_name LIKE ? OR guardian_phone LIKE ?", regex_query, regex_query)
-			visitor_matches = Visitor.where("name LIKE ? OR phone LIKE ?", regex_query, regex_query)
+			visitor_matches  = Visitor.where("name LIKE ? OR phone LIKE ?", regex_query, regex_query)
 		end
 	end
 end
