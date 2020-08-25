@@ -1,8 +1,7 @@
 class Admission < ApplicationRecord
 	belongs_to :patient
 	belongs_to :bed
-	belongs_to :created_by     , class_name: 'User'
-	belongs_to :last_updated_by, class_name: 'User'
+	belongs_to :updated_by     , class_name: 'User'
 
 	has_one :ward, through: :bed
 	has_many :transactions
@@ -17,7 +16,7 @@ class Admission < ApplicationRecord
 
 	def self.with_overview_data
 		{
-			except: [:comment, :patient_id, :created_at, :updated_at, :created_by_id, :last_updated_by_id, :bed_id],
+			except: [:comment, :patient_id, :created_at, :updated_at, :updated_by_id, :bed_id],
 			include: {
 				bed: {
 					only: [:name]
@@ -54,7 +53,7 @@ class Admission < ApplicationRecord
 				transactions: {
 					except: [],
 					include: {
-						created_by: {
+						updated_by: {
 							only: [:id, :name]
 						}
 					}
@@ -62,10 +61,7 @@ class Admission < ApplicationRecord
 				admission_logs: {
 					except: []
 				},
-				created_by: {
-					only: [:id, :name]
-				},
-				last_updated_by: {
+				updated_by: {
 					only: [:id, :name]
 				}
 			}
