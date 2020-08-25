@@ -15,13 +15,13 @@ class CreateAdmissionLogs < ActiveRecord::Migration[6.0]
       t.integer    :patient_yob              , null: false
       t.column     :patient_phone            , 'VARCHAR(255)', null: false
       t.column     :patient_gender           , 'VARCHAR(255)', null: false
+
       t.column     :guardian_name            , 'VARCHAR(255)', null: false
       t.column     :guardian_phone           , 'VARCHAR(15)' , null: false
 
       t.references :bed                   , type: :uuid, foreign_key: true, null: false
       t.references :patient               , type: :uuid, foreign_key: true, null: false
-      t.references :created_by            , type: :uuid, foreign_key: { to_table: :users }, null: false
-      t.references :last_updated_by       , type: :uuid, foreign_key: { to_table: :users }, null: false
+      t.references :updated_by            , type: :uuid, foreign_key: { to_table: :users }, null: false
 
       # represents the time at which a log entry was created
       t.datetime :created_at, null: false
