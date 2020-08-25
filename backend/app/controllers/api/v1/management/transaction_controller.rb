@@ -7,9 +7,13 @@ class Api::V1::Management::TransactionController < Api::V1::BaseController
     render json: response
   end
 
-  def undo
-    response = @service.undo_transaction(@current_user, transaction_id, undo_params)
+  def modify
+    response = @service.modify_transaction(@current_user, transaction_id, transaction_params)
     render json: response
+  end
+
+  def delete
+    response = @service.delete_transaction(@current_user, transaction_id)
   end
 
   def list_all_in_admission
@@ -28,14 +32,10 @@ class Api::V1::Management::TransactionController < Api::V1::BaseController
     end
 
     def transaction_params
-      params.permit(:is_credit, :payment_mode, :currency, :value, :purpose, :is_settled)
+      params.permit(:is_credit, :payment_mode, :value, :is_settled, :purpose)
     end
 
     def transaction_id
       params.permit(:transaction_id)[:transaction_id]
-    end
-
-    def undo_params
-      params.permit(:payment_mode, :is_settled)
     end
 end
