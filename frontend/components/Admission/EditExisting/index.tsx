@@ -2,6 +2,7 @@ import { useReducer, Dispatch } from 'react';
 import { useRouter } from 'next/router';
 import AdmissionForm from '../Form';
 import request from '../../../library/Request';
+import { handleErrorToast, handleSuccessToast } from '../../../library/Toaster';
 
 const reducer = (state: any, action: any) => {
 	const { fieldName, newValue } = action;
@@ -46,10 +47,14 @@ const EditExistingAdmission = ({ data }): JSX.Element => {
 		params.admission_id = data.id;
 		params.patient_id = data.patient.id;
 
-		const response = await request.post('/management/admission/update', { ...params });
-		if (response.data.success && response.data.is_authenticated) {
-			// TODO: show toast here
-			router.push(`/admission/${data.id}`);
+		try {
+			const response = await request.post('/management/admission/update', { ...params });
+			if (response.data.success && response.data.is_authenticated) {
+				handleSuccessToast(response);
+				router.push(`/admission/${data.id}`);
+			}
+		} catch (error) {
+			handleErrorToast(error);
 		}
 	};
 

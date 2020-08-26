@@ -2,6 +2,7 @@ import { useReducer, Dispatch } from 'react';
 import { useRouter } from 'next/router';
 import AdmissionForm from './Form';
 import request from '../../library/Request';
+import { handleSuccessToast, handleErrorToast } from '../../library/Toaster';
 
 const initialState = {
 	name: '',
@@ -42,10 +43,14 @@ const NewAdmission = (): JSX.Element => {
 		const { ward, bed, ...params } = state;
 		params.bed_id = bed.id;
 
-		const response = await request.post('/management/admission/new', { ...params });
-		if (response.data.success && response.data.is_authenticated) {
-			// TODO: show toast here
-			router.push('/');
+		try {
+			const response = await request.post('/management/admission/new', { ...params });
+			if (response.data.success && response.data.is_authenticated) {
+				router.push('/');
+				handleSuccessToast(response);
+			}
+		} catch (error) {
+			handleErrorToast(error);
 		}
 	};
 

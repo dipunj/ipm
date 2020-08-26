@@ -4,6 +4,7 @@ import request from '../../library/Request';
 import AdmissionCard from './Card';
 import { FlexWrapper } from './styles';
 import Pagination from '../../library/Pagination';
+import { handleErrorToast } from '../../library/Toaster';
 
 const AdmissionsOverview = (): JSX.Element => {
 	const [loading, setLoading] = useState(true);
@@ -27,7 +28,7 @@ const AdmissionsOverview = (): JSX.Element => {
 			setResponse(apiResponse.data.response.data);
 			setLoading(false);
 		} catch (error) {
-			// TODO: show toast here
+			handleErrorToast(error);
 		}
 	};
 

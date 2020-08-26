@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 import request from '../../Request';
 import { SessionCtx } from '../SessionContext';
+import { handleErrorToast } from '../../Toaster';
 
 const BuildingCtx = createContext({});
 
@@ -22,7 +23,7 @@ const BuildingCtxProvider = ({ children }: { children: JSX.Element }): JSX.Eleme
 			setLoading(false);
 		} catch (error) {
 			setLoading(false);
-			// TODO: add toast here
+			handleErrorToast(error);
 		}
 	};
 
