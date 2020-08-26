@@ -4,7 +4,7 @@ class Api::V1::BaseController < ApplicationController
 	rescue_from Exception, :with => :custom_handle_exceptions
 
 	def custom_handle_exceptions(exception)
-		render json: ResponseHelper.json(false, Rails.env.development? && exception.backtrace, exception.message || exception.class.to_s)
+		render json: ResponseHelper.json(false, Rails.env.development? && exception.backtrace, exception.message || exception.class.to_s), status: 500
 	end
 
 	def authorise_building_access

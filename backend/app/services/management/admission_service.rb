@@ -40,6 +40,8 @@ module Management
 			raise 'Invalid patient ID' if patient_id.nil?
 
 			admission = Admission.find_by(id: admission_id)
+			raise 'Please reopen admission to modify it' if admission.is_discharged
+
 			patient   = Patient.find_by(id: patient_id)
 
 			# implies that the patient is being shifted from one bed to other
@@ -78,7 +80,7 @@ module Management
 				patient_params[:yob] = Time.now.year - patient_params[:age].to_i
 				patient.update!(patient_params.except(:age))
 			end
-			return ResponseHelper.json(true, admission.as_json(Admission.with_all_data), nil)
+			return ResponseHelper.json(true, admission.as_json(Admission.with_all_data), 'Updated Successfully')
 		end
 
 		def self.find_admission_by_id(operator, admission_id)
@@ -89,19 +91,34 @@ module Management
 		end
 
 		def self.discharge_admission(operator, admission_id, params)
+			raise 'Invalid admission ID' if admission_id.blank?
+
+			admission = Admission.find(admission_id)
 			undo_discharge = params[:undo_discharge]
-			#check admin privilege to undo a discharge
+
+			if undo_discharge
+				if !admission.is_discharged
+					raise 'Admission is active, cannot reopen an already open admission'
+				else
+					bed_occupied = Admission.where(bed_id: admission.bed_id, is_discharged: false).length > 0
+					raise "An admission is already active on #{admission.bed.name} at #{admission.ward.name}" if bed_occupied
+					admission.update!({
+										  is_discharged: false,
+										  discharge_timestamp: nil
+									  })
+					return ResponseHelper.json(true, admission.as_json(Admission.with_overview_data), 'Reopened Admission')
+				end
+			end
 
 			total = TransactionService.compute_total(operator, admission_id, true)
 			if (total[:total_bill] != total[:amount_received]) || total[:amount_receivable] != 0
 				raise 'Cannot discharge, since there are outstanding transactions. Please settle the ledger'
 			else
-				admission = Admission.find(admission_id)
 				admission.update!({
 									  discharge_timestamp: params[:discharge_timestamp] || Time.now,
 									  is_discharged: true
 								  })
-				return ResponseHelper.json(true, admission.as_json(Admission.with_overview_data), nil)
+				return ResponseHelper.json(true, admission.as_json(Admission.with_overview_data), "Patient Discharged. Bed #{admission.bed.name} at #{admission.ward.name} is empty now")
 			end
 		end
 
