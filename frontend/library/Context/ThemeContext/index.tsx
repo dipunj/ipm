@@ -18,12 +18,9 @@ const ThemeCtxProvider = ({ children }: { children: JSX.Element }): JSX.Element 
 		await setIsDark(newTheme);
 		// saveToLS('prefers_dark', newTheme);
 
-		const response = await request.post('/session/auth/theme', {
+		request.post('/session/auth/theme', {
 			prefers_dark: !isDark,
 		});
-		if (!response.data.success) {
-			// TODO: Toast an error here
-		}
 	};
 
 	useEffect(() => {

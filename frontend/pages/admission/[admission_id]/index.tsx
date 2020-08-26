@@ -16,6 +16,7 @@ export { default } from '../../../components/Admission/ViewExisting';
 // };
 
 // TODO: CHECK why are cookies not being sent to backend on ssr
+// because we need to explicitly tell axios to send them in header
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const {
 		params: { admission_id },

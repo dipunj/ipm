@@ -16,24 +16,20 @@ const SessionCtxProvider = ({ children }: { children: JSX.Element }) => {
 			await setLoading(true);
 
 			// must be asynchronous to avoid a flash of signin page, since setLoading(false) would execute before the api call is complete, causing a render with SigIn being rendered for a moment
-			await request
-				.get('/session/auth/status')
-				.then((res) => {
-					if (res.data.success && res.data.is_authenticated) {
-						setCtx({ ...res.data.response.data });
-						// saveToLS('prefers_dark', res.data.response.data.prefers_dark);
-					} else {
-						// TODO: Create toast here
-						router.push('/');
+			const response = await request.get('/session/auth/status');
 
-						// crucial for logout
-						setCtx({});
-					}
-				})
-				.catch((err) => console.log(err));
+			if (response.data.success && response.data.is_authenticated) {
+				setCtx({ ...response.data.response.data });
+				// saveToLS('prefers_dark', response.data.response.data.prefers_dark);
+			} else {
+				router.push('/');
+				// crucial for logout
+				setCtx({});
+			}
 			setLoading(false);
-		} catch (e) {
-			console.log(e);
+		} catch (error) {
+			setLoading(false);
+			handleErrorToast(error);
 		}
 	};
 

@@ -65,7 +65,7 @@ const AdmissionsOverview = (): JSX.Element => {
 	return (
 		<>
 			<div className="page-content">
-				<h1 className="page-title">Current Admissions</h1>
+				<h1 className="page-title">Active Admissions</h1>
 				<PageControls
 					{...{
 						doSearch: () => fetchCurrentAdmissions(),
