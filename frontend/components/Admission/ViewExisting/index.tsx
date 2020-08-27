@@ -88,20 +88,18 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 
 	const location = `${floor === 0 ? 'G' : `L${floor}`} / ${wardName} / ${bedName}`;
 	const patientAge = new Date().getFullYear() - patientYob;
-	const options = {
-		// weekday: 'short',
+	const dateFormatOptions = {
 		day: 'numeric',
 		month: 'short',
 		year: 'numeric',
 		hour12: true,
 		hour: 'numeric',
 		minute: 'numeric',
-		// timeZoneName: 'long',
 	};
 
-	const parsedAdmitTime = new Date(admit_timestamp).toLocaleString('en-GB', options);
+	const parsedAdmitTime = new Date(admit_timestamp).toLocaleString('en-GB', dateFormatOptions);
 	const parsedDischargeTime = discharge_timestamp
-		? new Date(discharge_timestamp).toLocaleString('en-GB', options)
+		? new Date(discharge_timestamp).toLocaleString('en-GB', dateFormatOptions)
 		: '-';
 
 	const transactionList = transactions.map((txn) => txn);
@@ -128,9 +126,11 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 			<div className="page-content">
 				<HeaderRow>
 					<Location>{location}</Location>
-					<Button onClick={handleModify} minimal rightIcon="edit">
-						Modify
-					</Button>
+					{!data.is_discharged && (
+						<Button onClick={handleModify} minimal rightIcon="edit">
+							Modify
+						</Button>
+					)}
 				</HeaderRow>
 
 				<Row>
@@ -185,10 +185,14 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 				</Row>
 				<div className="row wrap space-between">
 					<Button intent="primary" onClick={toggleTransactions} fill={isMobile}>
-						View Transactions
+						Transactions
 					</Button>
-					<Button intent="success" onClick={toggleDischargeConfirmation} fill={isMobile}>
-						Mark As Discharged
+					<Button
+						intent={data.is_discharged ? 'warning' : 'success'}
+						onClick={toggleDischargeConfirmation}
+						fill={isMobile}
+					>
+						{data.is_discharged ? 'Reopen Admission' : 'Mark As Discharged'}
 					</Button>
 				</div>
 			</div>
@@ -203,42 +207,63 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 			>
 				<Transactions list={transactionList} />
 			</Drawer>
-			<Alert
-				isOpen={showDischargeConfirmation}
-				onCancel={toggleDischargeConfirmation}
-				onConfirm={makeDischargeCall}
-				cancelButtonText="Cancel"
-				confirmButtonText="Confirm Discharge"
-				intent="danger"
-				icon="confirm"
-				style={{ minWidth: '36vw' }}
-			>
-				<H4>Are you sure? This action cannot be reversed!</H4>
-				<AlertContainer>
-					<FormGroup
-						className="row align-center space-evenly full-width"
-						label="Discharge DateTime:"
-						labelFor="discharge-timestamp"
-					>
-						<Popover>
-							<Button intent="none">
-								{actualDischargeTimeStamp.toLocaleString('en-GB', options)}
-							</Button>
-							<DatePicker
-								id="discharge-timestamp"
-								canClearSelection={false}
-								highlightCurrentDay
-								value={actualDischargeTimeStamp}
-								timePickerProps={{
-									useAmPm: true,
-									onChange: (time) => handleDateChange(time),
-								}}
-								onChange={(val, _) => handleDateChange(val)}
-							/>
-						</Popover>
-					</FormGroup>
-				</AlertContainer>
-			</Alert>
+			{data.is_discharged ? (
+				<Alert
+					isOpen={showDischargeConfirmation}
+					onCancel={toggleDischargeConfirmation}
+					onConfirm={makeDischargeCall}
+					cancelButtonText="Cancel"
+					confirmButtonText="Reopen Admission"
+					intent="danger"
+					icon="confirm"
+					style={{ minWidth: '36vw' }}
+				>
+					<H4>
+						Admission can only be reopened if the associated bed is empty. <br />
+						Ensure that the bed is empty. Proceed?
+					</H4>
+				</Alert>
+			) : (
+				<Alert
+					isOpen={showDischargeConfirmation}
+					onCancel={toggleDischargeConfirmation}
+					onConfirm={makeDischargeCall}
+					cancelButtonText="Cancel"
+					confirmButtonText="Confirm Discharge"
+					intent="danger"
+					icon="confirm"
+					style={{ minWidth: '36vw' }}
+				>
+					<H4>Are you sure? This action cannot be reversed!</H4>
+					<AlertContainer>
+						<FormGroup
+							className="row align-center space-evenly full-width"
+							label="Discharge DateTime:"
+							labelFor="discharge-timestamp"
+						>
+							<Popover>
+								<Button intent="none">
+									{actualDischargeTimeStamp.toLocaleString(
+										'en-GB',
+										dateFormatOptions
+									)}
+								</Button>
+								<DatePicker
+									id="discharge-timestamp"
+									canClearSelection={false}
+									highlightCurrentDay
+									value={actualDischargeTimeStamp}
+									timePickerProps={{
+										useAmPm: true,
+										onChange: (time) => handleDateChange(time),
+									}}
+									onChange={(val, _) => handleDateChange(val)}
+								/>
+							</Popover>
+						</FormGroup>
+					</AlertContainer>
+				</Alert>
+			)}
 		</>
 	);
 };
