@@ -82,8 +82,21 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 		setShowDischargeConfirmation((prev) => !prev);
 	};
 
-	const makeDischargeCall = () => {
-		alert('make api call');
+	const makeDischargeCall = async () => {
+		try {
+			const params = {
+				admission_id: data.id,
+				discharge_timestamp: actualDischargeTimeStamp,
+				undo_discharge: data.is_discharged,
+			};
+
+			const response = await request.post('/management/admission/discharge', { ...params });
+			if (response.data.success && response.data.is_authenticated) {
+				handleSuccessToast(response, { onDismiss: () => window.location.reload() });
+			}
+		} catch (error) {
+			handleErrorToast(error);
+		}
 	};
 
 	const location = `${floor === 0 ? 'G' : `L${floor}`} / ${wardName} / ${bedName}`;
