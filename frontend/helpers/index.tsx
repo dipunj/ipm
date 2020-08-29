@@ -54,3 +54,23 @@ export const setCookie = (key: string, value: string, path = '/'): void => {
 	// parsedCookies[key] = value;
 	document.cookie = `${key}=${value};path=${path}`;
 };
+
+export const dateFormatOptions = {
+	day: 'numeric',
+	month: 'short',
+	year: 'numeric',
+	hour12: true,
+	hour: 'numeric',
+	minute: 'numeric',
+};
+
+export const getCurrencySymbol = (locale, currency) =>
+	(0)
+		.toLocaleString(locale, {
+			style: 'currency',
+			currency,
+			minimumFractionDigits: 0,
+			maximumFractionDigits: 0,
+		})
+		.replace(/\d/g, '')
+		.trim();
