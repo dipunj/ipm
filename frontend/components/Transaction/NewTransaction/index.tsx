@@ -1,17 +1,20 @@
 import { InputGroup, Checkbox, Button } from '@blueprintjs/core';
 import { SyntheticEvent, useState } from 'react';
+import { useRouter } from 'next/router';
 import PaymentModeSelect from '../Select/PaymentMode';
 import TransactionTypeSelect from '../Select/TransactionType';
 import { NewTxnContainer, TxnDiv } from './styles';
-import { getCurrencySymbol } from '../../../../helpers';
-import request from '../../../../library/Request';
+import { getCurrencySymbol } from '../../../helpers';
+import request from '../../../library/Request';
 
 interface INewTransaction {
 	admission_id: string;
 }
 
 const NewTransaction = (props: INewTransaction): JSX.Element => {
-	const { admission_id } = props;
+	const {
+		query: { admission_id },
+	} = useRouter();
 	const [newTransaction, setNewTransaction] = useState({
 		id: null,
 		purpose: null,

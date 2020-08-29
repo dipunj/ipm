@@ -40,7 +40,13 @@ const PaymentTypeSelect = (props: PMProps): JSX.Element => {
 	const intent = activeItem ? 'primary' : 'none';
 
 	return (
-		<PMSelect {...props} itemRenderer={renderPMItem} items={PaymentModeList} filterable={false}>
+		<PMSelect
+			popoverProps={{ position: 'top' }}
+			{...props}
+			itemRenderer={renderPMItem}
+			items={PaymentModeList}
+			filterable={false}
+		>
 			<Button outlined fill intent={intent} minimal text={activeItemString} icon="dot" />
 		</PMSelect>
 	);

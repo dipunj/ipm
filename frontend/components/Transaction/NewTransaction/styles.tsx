@@ -12,8 +12,8 @@ export const NewTxnContainer = styled.div.attrs({
 	height: 72px;
 	position: fixed;
 	bottom: 0px;
-	right: 0px;
-	width: 80vw;
+	left: 0px;
+	width: 100%;
 	padding: 16px;
 	box-shadow: 0px -4px 4px 0px var(--shadow);
 	background: var(--background);

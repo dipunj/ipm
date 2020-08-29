@@ -46,6 +46,7 @@ const TransactionTypeSelect = (props: PMProps): JSX.Element => {
 	return (
 		<TxnTypeSelect
 			{...props}
+			popoverProps={{ position: 'top' }}
 			itemRenderer={renderTTItem}
 			items={TransactionTypeList}
 			filterable={false}

@@ -4,6 +4,7 @@ export const TableContainer = styled.div`
 	max-width: 80vw;
 	overflow-y: auto;
 	margin-bottom: 72px;
+	min-height: 150vh;
 
 	@media screen and (max-width: 500px) {
 		max-width: 100vw;
