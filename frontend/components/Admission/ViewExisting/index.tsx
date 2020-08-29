@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button, Drawer, Alert, Popover, FormGroup, H4 } from '@blueprintjs/core';
 import { DatePicker } from '@blueprintjs/datetime';
+import { useRouter } from 'next/router';
 import {
 	Location,
 	Label,
@@ -11,10 +12,11 @@ import {
 	Item,
 	AlertContainer,
 } from './styles';
-import Transactions from './TransactionsTable';
+import Transactions from '../../Transaction';
 import EditExistingAdmission from '../EditExisting';
 import { handleErrorToast, handleSuccessToast } from '../../../library/Toaster';
 import request from '../../../library/Request';
+import { dateFormatOptions } from '../../../helpers';
 
 interface ITransaction {
 	id: string;
@@ -35,9 +37,11 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 		response: { message, data },
 	} = admissionAPIResponse;
 
+	const router = useRouter();
 	if (!data) return <div>Loading...</div>;
 
 	const {
+		id: admission_id,
 		bed: {
 			name: bedName,
 			ward: { name: wardName, floor },
@@ -50,12 +54,10 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 		discharge_timestamp,
 		updated_by: { name: updated_by, id: updated_by_id },
 		patient: { name: patientName, yob: patientYob, gender: patientGender, phone: patientPhone },
-		transactions,
 		purpose,
 		comment,
 	} = data;
 
-	const [showTransactions, setShowTransactions] = useState(false);
 	const [showDischargeConfirmation, setShowDischargeConfirmation] = useState(false);
 	const [showModify, setShowModify] = useState(false);
 
@@ -63,8 +65,8 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 		discharge_timestamp ? new Date(discharge_timestamp) : new Date()
 	);
 
-	const toggleTransactions = () => {
-		setShowTransactions((prev) => !prev);
+	const goToTransactions = () => {
+		router.push('/transactions/[admission_id]', `/transactions/${admission_id}`);
 	};
 
 	const handleModify = () => {
@@ -101,21 +103,11 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 
 	const location = `${floor === 0 ? 'G' : `L${floor}`} / ${wardName} / ${bedName}`;
 	const patientAge = new Date().getFullYear() - patientYob;
-	const dateFormatOptions = {
-		day: 'numeric',
-		month: 'short',
-		year: 'numeric',
-		hour12: true,
-		hour: 'numeric',
-		minute: 'numeric',
-	};
 
 	const parsedAdmitTime = new Date(admit_timestamp).toLocaleString('en-GB', dateFormatOptions);
 	const parsedDischargeTime = discharge_timestamp
 		? new Date(discharge_timestamp).toLocaleString('en-GB', dateFormatOptions)
 		: '-';
-
-	const transactionList = transactions.map((txn) => txn);
 
 	const isMobile = window.innerWidth < 500;
 
@@ -197,7 +189,7 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 					</DetailBlock>
 				</Row>
 				<div className="row wrap space-between">
-					<Button intent="primary" onClick={toggleTransactions} fill={isMobile}>
+					<Button intent="primary" onClick={goToTransactions} fill={isMobile}>
 						Transactions
 					</Button>
 					<Button
@@ -209,17 +201,6 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 					</Button>
 				</div>
 			</div>
-
-			<Drawer
-				position="right"
-				size={isMobile ? '100vw' : '80vw'}
-				isOpen={showTransactions}
-				onClose={toggleTransactions}
-				title={`${location} (${patientName})`}
-				className="custom-background"
-			>
-				<Transactions list={transactionList} />
-			</Drawer>
 			{data.is_discharged ? (
 				<Alert
 					isOpen={showDischargeConfirmation}

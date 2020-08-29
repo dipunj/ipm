@@ -51,7 +51,7 @@ const EditExistingAdmission = ({ data }): JSX.Element => {
 			const response = await request.post('/management/admission/update', { ...params });
 			if (response.data.success && response.data.is_authenticated) {
 				handleSuccessToast(response);
-				router.push(`/admission/${data.id}`);
+				router.reload();
 			}
 		} catch (error) {
 			handleErrorToast(error);
