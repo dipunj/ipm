@@ -83,7 +83,7 @@ module Management
 			# transactions = transactions.where(is_deleted: false) if operator is not admin/manager
 			transactions = transactions.order(created_at: :asc)
 
-			return ResponseHelper.json(true, transactions.as_json, nil)
+			return ResponseHelper.json(true, transactions.as_json(Transaction.with_data), nil)
 		end
 	end
 end
