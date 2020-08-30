@@ -1,6 +1,6 @@
 import { Cell, EditableCell } from '@blueprintjs/table';
 import { Checkbox } from '@blueprintjs/core';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TransactionTypeSelect from '../Select/TransactionType';
 import PaymentModeSelect from '../Select/PaymentMode';
 import { PaymentMode_Value2Display } from '../Select/PaymentMode/data';
@@ -200,6 +200,7 @@ const useLayout = (list: Transaction[]): any => {
 								intent="none"
 								className="row center"
 								value={modifyData.value}
+								onConfirm={onModifyDataChange('value')}
 							/>
 						);
 					}
@@ -223,8 +224,8 @@ const useLayout = (list: Transaction[]): any => {
 								key={`${rowIndex},purpose`}
 								intent="none"
 								className="row center"
+								onConfirm={onModifyDataChange('purpose')}
 								value={modifyData.purpose}
-								onChange={onModifyDataChange('purpose')}
 							/>
 						);
 					}
