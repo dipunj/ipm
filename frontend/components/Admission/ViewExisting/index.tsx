@@ -12,36 +12,34 @@ import {
 	Item,
 	AlertContainer,
 } from './styles';
-import Transactions from '../../Transaction';
 import EditExistingAdmission from '../EditExisting';
 import { handleErrorToast, handleSuccessToast } from '../../../library/Toaster';
 import request from '../../../library/Request';
 import { dateFormatOptions } from '../../../helpers';
+import useFetch from '../../../library/hooks/fetch';
+import ViewAdmissionSkeleton from './skeleton';
 
-interface ITransaction {
-	id: string;
-	is_credit: boolean;
-	payment_mode: string;
-	currency: string;
-	value: string;
-	is_settled: boolean;
-	purpose: string;
-	reverses_transaction_id: string;
-	admission_id: string;
-	updated_by_id: string;
-}
-
-const ViewAdmission = ({ admissionAPIResponse }) => {
-	const {
-		success,
-		response: { message, data },
-	} = admissionAPIResponse;
+const ViewAdmission = ({ admission_id }) => {
+	// const {
+	// 	success,
+	// 	response: { message, data },
+	// } = admissionAPIResponse;
 
 	const router = useRouter();
-	if (!data) return <div>Loading...</div>;
+
+	const { loading, success, data, message } = useFetch('/management/admission/find', {
+		params: { admission_id },
+	});
+
+	const [showDischargeConfirmation, setShowDischargeConfirmation] = useState(false);
+	const [showModify, setShowModify] = useState(false);
+	const [actualDischargeTimeStamp, setActualDischargeTimeStamp] = useState(new Date());
+
+	if (loading) {
+		return <ViewAdmissionSkeleton />;
+	}
 
 	const {
-		id: admission_id,
 		bed: {
 			name: bedName,
 			ward: { name: wardName, floor },
@@ -57,13 +55,6 @@ const ViewAdmission = ({ admissionAPIResponse }) => {
 		purpose,
 		comment,
 	} = data;
-
-	const [showDischargeConfirmation, setShowDischargeConfirmation] = useState(false);
-	const [showModify, setShowModify] = useState(false);
-
-	const [actualDischargeTimeStamp, setActualDischargeTimeStamp] = useState(
-		discharge_timestamp ? new Date(discharge_timestamp) : new Date()
-	);
 
 	const goToTransactions = () => {
 		router.push('/transactions/[admission_id]', `/transactions/${admission_id}`);

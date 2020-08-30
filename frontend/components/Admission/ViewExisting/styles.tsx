@@ -41,6 +41,7 @@ export const Label = styled.div`
 export const Value = styled.div`
 	/* flex: 1; */
 	/* padding-left: ${(props: { noPadding?: boolean }) => (props.noPadding ? '0' : '20px')}; */
+	max-width: 400px;
 	font-size: 20px;
 	font-family: Helvetica, sans-serif;
 	font-weight: 100;
