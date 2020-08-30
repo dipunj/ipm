@@ -145,11 +145,11 @@ const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 					<DetailBlock>
 						<Item>
 							<Label>Guardian Name</Label>
-							<Value>{guardian_name}</Value>
+							<Value>{guardian_name || '-'}</Value>
 						</Item>
 						<Item>
 							<Label>Guardian Phone</Label>
-							<Value>{guardian_phone}</Value>
+							<Value>{guardian_phone || '-'}</Value>
 						</Item>
 					</DetailBlock>
 				</Row>
@@ -157,25 +157,25 @@ const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 					<DetailBlock>
 						<Item>
 							<Label>Admit Time</Label>
-							<Value>{parsedAdmitTime}</Value>
+							<Value>{parsedAdmitTime || '-'}</Value>
 						</Item>
 						<Item>
 							<Label>Expected Discharge Time</Label>
-							<Value>{parsedDischargeTime}</Value>
+							<Value>{parsedDischargeTime || '-'}</Value>
 						</Item>
 					</DetailBlock>
 					<DetailBlock>
 						<Item>
 							<Label>Doctor</Label>
-							<Value noPadding>{doctor_name}</Value>
+							<Value noPadding>{doctor_name || '-'}</Value>
 						</Item>
 						<Item>
 							<Label>Purpose</Label>
-							<Value noPadding>{purpose}</Value>
+							<Value noPadding>{purpose || '-'}</Value>
 						</Item>
 						<Item>
 							<Label>Comment</Label>
-							<Value noPadding>{comment}</Value>
+							<Value noPadding>{comment || '-'}</Value>
 						</Item>
 					</DetailBlock>
 				</Row>
