@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import request from '../../../library/Request';
+// import request from '../../../library/Request';
 
 // export const getServerSideProps: GetServerSideProps = async (context) => {
 // 	const {
@@ -18,14 +18,17 @@ import request from '../../../library/Request';
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { params } = context;
 
-	const res = await request.get('/management/transaction/list', {
-		params: {
+	// const res = await request.get('/management/transaction/list', {
+	// 	params: {
+	// 		admission_id: params?.admission_id,
+	// 	},
+	// 	headers: context.req ? { cookie: context.req.headers.cookie } : undefined,
+	// });
+	return {
+		props: {
+			// transactionsAPIResponse: res.data,
 			admission_id: params?.admission_id,
 		},
-		headers: context.req ? { cookie: context.req.headers.cookie } : undefined,
-	});
-	return {
-		props: { transactionsAPIResponse: res.data, admission_id: params?.admission_id },
 	};
 };
 
