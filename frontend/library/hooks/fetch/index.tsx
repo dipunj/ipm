@@ -8,6 +8,7 @@ interface IApiResponse {
 	success: boolean | null;
 	message: string | null;
 	data?: any;
+	refetch: () => void;
 }
 
 const useFetch = (
@@ -46,6 +47,7 @@ const useFetch = (
 		success: response.success,
 		message: response.message,
 		data: response.data,
+		refetch: fetchData,
 	};
 };
 
