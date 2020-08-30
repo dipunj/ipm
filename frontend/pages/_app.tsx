@@ -29,7 +29,7 @@ const MyApp = (props: AppProps) => {
 					content="minimum-scale=1, initial-scale=1, width=device-width"
 				/>
 			</Head>
-			<Providers>{getLayout(<Component {...pageProps} />)}</Providers>
+			{getLayout(<Component {...pageProps} />)}
 		</>
 	);
 };
