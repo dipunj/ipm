@@ -1,9 +1,9 @@
 import { Select, ItemRenderer } from '@blueprintjs/select';
-import { MenuItem, Button, Intent } from '@blueprintjs/core';
+import { MenuItem, Button } from '@blueprintjs/core';
 import { SyntheticEvent } from 'react';
 import PaymentModeList, { PaymentMode_Value2Display } from './data';
 
-interface IPaymentMode {
+export interface IPaymentMode {
 	displayText: string;
 	value: string;
 }
@@ -29,20 +29,22 @@ const renderPMItem: ItemRenderer<IPaymentMode> = (
 };
 
 interface PMProps {
-	activeItem: string;
+	activeItem: string | null;
 	onItemSelect: (item: IPaymentMode, event?: SyntheticEvent<HTMLElement, Event>) => void;
 }
 
 const PaymentTypeSelect = (props: PMProps): JSX.Element => {
-	const { activeItem } = props;
-	const activeItemString = activeItem ? PaymentMode_Value2Display[activeItem] : 'Payment Mode';
+	const { activeItem, onItemSelect } = props;
+	const activeItemString: string = activeItem
+		? PaymentMode_Value2Display[activeItem]
+		: 'Payment Mode';
 
 	const intent = activeItem ? 'primary' : 'none';
 
 	return (
 		<PMSelect
 			popoverProps={{ position: 'top' }}
-			{...props}
+			onItemSelect={onItemSelect}
 			itemRenderer={renderPMItem}
 			items={PaymentModeList}
 			filterable={false}

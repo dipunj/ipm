@@ -20,7 +20,28 @@ const reducer = (state: any, action: any) => {
 	};
 };
 
-const EditExistingAdmission = ({ data }): JSX.Element => {
+interface IAdmissionData {
+	id: string;
+	patient: {
+		id: string;
+		name: string;
+		phone: string;
+		yob: number;
+		gender: string;
+	};
+	guardian_name: string;
+	guardian_phone: string;
+	bed: {
+		ward: any;
+	};
+	admit_timestamp: Date;
+	discharge_timestamp: Date;
+	comment: string;
+	purpose: string;
+	doctor_name: string;
+}
+
+const EditExistingAdmission = ({ data }: { data: IAdmissionData }): JSX.Element => {
 	const router = useRouter();
 
 	const [state, dispatch]: [any, Dispatch<any>] = useReducer(reducer, {

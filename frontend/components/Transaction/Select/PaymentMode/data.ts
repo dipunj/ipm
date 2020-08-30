@@ -1,4 +1,4 @@
-export const PaymentMode_Value2Display = {
+export const PaymentMode_Value2Display: { [key: string]: string } = {
 	cash: 'Cash',
 	card: 'Card',
 	mobile: 'UPI/Mobile',

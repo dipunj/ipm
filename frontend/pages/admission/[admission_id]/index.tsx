@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 
 export { default } from '../../../components/Admission/ViewExisting';
 
@@ -21,25 +21,10 @@ export { default } from '../../../components/Admission/ViewExisting';
 // TODO: CHECK why are cookies not being sent to backend on ssr
 // because we need to explicitly tell axios to send them in header
 
-export const getStaticPaths = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 	return {
-		paths: ['/admission/[admission_id]'],
-		fallback: true,
-	};
-};
-
-export const getStaticProps: GetStaticProps = async (context) => {
-	const {
-		params: { admission_id },
-	} = context;
-
-	// const res = await request.get('/management/admission/find', {
-	// 	params: {
-	// 		admission_id,
-	// 	},
-	// 	headers: context.req ? { cookie: context.req.headers.cookie } : undefined,
-	// });
-	return {
-		props: { admission_id },
+		props: {
+			admission_id: params?.admission_id,
+		},
 	};
 };

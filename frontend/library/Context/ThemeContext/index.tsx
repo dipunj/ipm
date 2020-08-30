@@ -4,7 +4,7 @@ import request from '../../Request';
 
 const ThemeCtx = createContext({});
 
-const ThemeCtxProvider = ({ children }: { children: JSX.Element }): JSX.Element => {
+const ThemeCtxProvider = ({ children }: { children: JSX.Element[] }): JSX.Element => {
 	const {
 		ctx: { prefers_dark },
 	}: any = useContext(SessionCtx);

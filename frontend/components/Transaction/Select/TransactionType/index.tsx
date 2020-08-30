@@ -1,9 +1,8 @@
 import { Select, ItemRenderer } from '@blueprintjs/select';
-import { MenuItem, Button, Intent } from '@blueprintjs/core';
-import { SyntheticEvent } from 'react';
+import { MenuItem, Button } from '@blueprintjs/core';
 import TransactionTypeList, { TransactionType_Value2Display } from './data';
 
-interface ITransactionType {
+export interface ITransactionType {
 	displayText: string;
 	value: string;
 }
@@ -29,12 +28,12 @@ const renderTTItem: ItemRenderer<ITransactionType> = (
 };
 
 interface PMProps {
-	activeItem: boolean;
-	onItemSelect: (item: ITransactionType, event?: SyntheticEvent<HTMLElement, Event>) => void;
+	activeItem: boolean | null;
+	onItemSelect: any;
 }
 
 const TransactionTypeSelect = (props: PMProps): JSX.Element => {
-	const { activeItem } = props;
+	const { onItemSelect, activeItem } = props;
 
 	const activeItemString =
 		activeItem !== null
@@ -45,7 +44,7 @@ const TransactionTypeSelect = (props: PMProps): JSX.Element => {
 
 	return (
 		<TxnTypeSelect
-			{...props}
+			onItemSelect={onItemSelect}
 			popoverProps={{ position: 'top' }}
 			itemRenderer={renderTTItem}
 			items={TransactionTypeList}

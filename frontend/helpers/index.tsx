@@ -64,7 +64,7 @@ export const dateFormatOptions = {
 	minute: 'numeric',
 };
 
-export const getCurrencySymbol = (locale, currency) =>
+export const getCurrencySymbol = (locale: string, currency: string): string =>
 	(0)
 		.toLocaleString(locale, {
 			style: 'currency',

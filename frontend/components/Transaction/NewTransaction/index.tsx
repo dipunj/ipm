@@ -1,27 +1,35 @@
 import { InputGroup, Checkbox, Button } from '@blueprintjs/core';
-import { SyntheticEvent, useState } from 'react';
+import { SyntheticEvent, useState, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { useRouter } from 'next/router';
 import PaymentModeSelect from '../Select/PaymentMode';
-import TransactionTypeSelect from '../Select/TransactionType';
+import TransactionTypeSelect, { ITransactionType } from '../Select/TransactionType';
 import { NewTxnContainer, TxnDiv } from './styles';
 import { getCurrencySymbol } from '../../../helpers';
 import request from '../../../library/Request';
 
 interface INewTransaction {
-	admission_id: string;
+	id: string | null;
+	purpose: string | null;
+	payment_mode: string | null;
+	value: number;
+	is_credit: boolean | null;
+	is_settled?: boolean | undefined;
 }
 
-const NewTransaction = (props: INewTransaction): JSX.Element => {
+const NewTransaction = (): JSX.Element => {
 	const {
 		query: { admission_id },
 	} = useRouter();
-	const [newTransaction, setNewTransaction] = useState({
+	const [newTransaction, setNewTransaction]: [
+		INewTransaction,
+		Dispatch<SetStateAction<any>>
+	] = useState({
 		id: null,
 		purpose: null,
 		payment_mode: null,
 		value: 0.0,
 		is_credit: null,
-		is_settled: null,
+		is_settled: undefined,
 	});
 
 	const handleCreate = async () => {
@@ -36,18 +44,18 @@ const NewTransaction = (props: INewTransaction): JSX.Element => {
 		}
 	};
 
-	const onInputChange = (fieldName?: string) => {
+	const onInputChange = (fieldName?: string): any => {
 		switch (fieldName) {
 			case 'payment_mode':
-				return (item: any, event?: SyntheticEvent<HTMLElement, Event>) => {
-					setNewTransaction((prev) => ({
+				return (item: ITransactionType, _event?: SyntheticEvent<HTMLElement, Event>) => {
+					setNewTransaction((prev: INewTransaction) => ({
 						...prev,
 						[fieldName]: item.value,
 					}));
 				};
 			case 'transaction_type':
-				return (item: any, event?: SyntheticEvent<HTMLElement, Event>) => {
-					setNewTransaction((prev) => ({
+				return (item: ITransactionType, _event?: SyntheticEvent<HTMLElement, Event>) => {
+					setNewTransaction((prev: INewTransaction) => ({
 						...prev,
 						is_credit: item.value === 'credit',
 					}));
@@ -57,7 +65,7 @@ const NewTransaction = (props: INewTransaction): JSX.Element => {
 					const {
 						target: { checked },
 					} = event;
-					setNewTransaction((prev) => ({
+					setNewTransaction((prev: INewTransaction) => ({
 						...prev,
 						is_settled: checked,
 					}));
@@ -68,7 +76,7 @@ const NewTransaction = (props: INewTransaction): JSX.Element => {
 					const {
 						target: { name, value },
 					} = event;
-					setNewTransaction((prev) => ({
+					setNewTransaction((prev: INewTransaction) => ({
 						...prev,
 						[name]: value,
 					}));

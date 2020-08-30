@@ -1,10 +1,9 @@
 import { Table, Column, Cell } from '@blueprintjs/table';
-import { Checkbox, FormGroup, TextArea } from '@blueprintjs/core';
-import { useState, ChangeEvent } from 'react';
+import { Checkbox } from '@blueprintjs/core';
+import { useState } from 'react';
 import { TableContainer } from './styles';
 import { PaymentMode_Value2Display } from './Select/PaymentMode/data';
 import NewTransaction from './NewTransaction';
-import { prettyJSON } from '../../helpers';
 
 interface Transaction {
 	id: string;
@@ -21,19 +20,6 @@ interface Transaction {
 		name: string;
 	};
 	created_at: Date;
-}
-
-interface ITransaction {
-	id: string;
-	is_credit: boolean;
-	payment_mode: string;
-	currency: string;
-	value: string;
-	is_settled: boolean;
-	purpose: string;
-	reverses_transaction_id: string;
-	admission_id: string;
-	updated_by_id: string;
 }
 
 interface ITransactions {
@@ -59,7 +45,7 @@ const INRCurrency = new Intl.NumberFormat('en-IN', {
 	minimumFractionDigits: 2,
 });
 
-const withCurrency = (value: number | string) => INRCurrency.format(value);
+const withCurrency = (value: string) => INRCurrency.format(parseFloat(value));
 
 const getLayout = (list: Transaction[]) => [
 	{

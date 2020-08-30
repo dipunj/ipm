@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Drawer, Alert, Popover, FormGroup, H4 } from '@blueprintjs/core';
+import { Button, Alert, Popover, FormGroup, H4 } from '@blueprintjs/core';
 import { DatePicker } from '@blueprintjs/datetime';
 import { useRouter } from 'next/router';
 import {
@@ -19,7 +19,7 @@ import { dateFormatOptions } from '../../../helpers';
 import useFetch from '../../../library/hooks/fetch';
 import ViewAdmissionSkeleton from './skeleton';
 
-const ViewAdmission = ({ admission_id }) => {
+const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 	// const {
 	// 	success,
 	// 	response: { message, data },
@@ -27,7 +27,7 @@ const ViewAdmission = ({ admission_id }) => {
 
 	const router = useRouter();
 
-	const { loading, success, data, message } = useFetch('/management/admission/find', {
+	const { loading, data } = useFetch('/management/admission/find', {
 		params: { admission_id },
 	});
 
@@ -50,7 +50,7 @@ const ViewAdmission = ({ admission_id }) => {
 		is_discharged,
 		admit_timestamp,
 		discharge_timestamp,
-		updated_by: { name: updated_by, id: updated_by_id },
+		// updated_by: { name: updated_by, id: updated_by_id },
 		patient: { name: patientName, yob: patientYob, gender: patientGender, phone: patientPhone },
 		purpose,
 		comment,
@@ -80,7 +80,7 @@ const ViewAdmission = ({ admission_id }) => {
 			const params = {
 				admission_id: data.id,
 				discharge_timestamp: actualDischargeTimeStamp,
-				undo_discharge: data.is_discharged,
+				undo_discharge: is_discharged,
 			};
 
 			const response = await request.post('/management/admission/discharge', { ...params });
@@ -122,7 +122,7 @@ const ViewAdmission = ({ admission_id }) => {
 			<div className="page-content">
 				<HeaderRow>
 					<Location>{location}</Location>
-					{!data.is_discharged && (
+					{!is_discharged && (
 						<Button onClick={handleModify} minimal rightIcon="edit">
 							Modify
 						</Button>
@@ -184,15 +184,15 @@ const ViewAdmission = ({ admission_id }) => {
 						Transactions
 					</Button>
 					<Button
-						intent={data.is_discharged ? 'warning' : 'success'}
+						intent={is_discharged ? 'warning' : 'success'}
 						onClick={toggleDischargeConfirmation}
 						fill={isMobile}
 					>
-						{data.is_discharged ? 'Reopen Admission' : 'Mark As Discharged'}
+						{is_discharged ? 'Reopen Admission' : 'Mark As Discharged'}
 					</Button>
 				</div>
 			</div>
-			{data.is_discharged ? (
+			{is_discharged ? (
 				<Alert
 					isOpen={showDischargeConfirmation}
 					onCancel={toggleDischargeConfirmation}
@@ -234,7 +234,6 @@ const ViewAdmission = ({ admission_id }) => {
 									)}
 								</Button>
 								<DatePicker
-									id="discharge-timestamp"
 									canClearSelection={false}
 									highlightCurrentDay
 									value={actualDischargeTimeStamp}
