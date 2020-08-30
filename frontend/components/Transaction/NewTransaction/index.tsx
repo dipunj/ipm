@@ -7,7 +7,7 @@ import { NewTxnContainer, TxnDiv } from './styles';
 import { getCurrencySymbol } from '../../../helpers';
 import request from '../../../library/Request';
 
-interface INewTransaction {
+export interface INewTransaction {
 	id: string | null;
 	purpose: string | null;
 	payment_mode: string | null;
@@ -16,7 +16,7 @@ interface INewTransaction {
 	is_settled?: boolean | undefined;
 }
 
-const NewTransaction = (): JSX.Element => {
+const NewTransaction = ({ refetch }: { refetch: () => void }): JSX.Element => {
 	const {
 		query: { admission_id },
 	} = useRouter();
@@ -40,7 +40,7 @@ const NewTransaction = (): JSX.Element => {
 		const response = await request.post('/management/transaction/create', { ...params });
 
 		if (response.data.success && response.data.is_authenticated) {
-			// refetchList
+			refetch();
 		}
 	};
 
@@ -100,12 +100,14 @@ const NewTransaction = (): JSX.Element => {
 			</TxnDiv>
 			<TxnDiv>
 				<TransactionTypeSelect
+					popoverPosition="top"
 					activeItem={newTransaction.is_credit}
 					onItemSelect={onInputChange('transaction_type')}
 				/>
 			</TxnDiv>
 			<TxnDiv>
 				<PaymentModeSelect
+					popoverPosition="top"
 					activeItem={newTransaction.payment_mode}
 					onItemSelect={onInputChange('payment_mode')}
 				/>
@@ -123,7 +125,7 @@ const NewTransaction = (): JSX.Element => {
 			</TxnDiv>
 			<TxnDiv>
 				<Button fill intent="primary" onClick={handleCreate}>
-					Add
+					Add Transaction
 				</Button>
 			</TxnDiv>
 		</NewTxnContainer>
