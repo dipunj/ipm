@@ -1,5 +1,5 @@
 import { Select, ItemRenderer } from '@blueprintjs/select';
-import { MenuItem, Button } from '@blueprintjs/core';
+import { MenuItem, Button, PopoverPosition } from '@blueprintjs/core';
 import { SyntheticEvent } from 'react';
 import PaymentModeList, { PaymentMode_Value2Display } from './data';
 
@@ -31,10 +31,19 @@ const renderPMItem: ItemRenderer<IPaymentMode> = (
 interface PMProps {
 	activeItem: string | null;
 	onItemSelect: (item: IPaymentMode, event?: SyntheticEvent<HTMLElement, Event>) => void;
+	showButton?: boolean;
+	children?: JSX.Element[];
+	popoverPosition: PopoverPosition;
 }
 
-const PaymentTypeSelect = (props: PMProps): JSX.Element => {
-	const { activeItem, onItemSelect } = props;
+const PaymentModeSelect = (props: PMProps): JSX.Element => {
+	const {
+		popoverPosition = 'auto',
+		showButton = true,
+		children,
+		activeItem,
+		onItemSelect,
+	} = props;
 	const activeItemString: string = activeItem
 		? PaymentMode_Value2Display[activeItem]
 		: 'Payment Mode';
@@ -43,15 +52,19 @@ const PaymentTypeSelect = (props: PMProps): JSX.Element => {
 
 	return (
 		<PMSelect
-			popoverProps={{ position: 'top' }}
+			popoverProps={{ position: popoverPosition }}
 			onItemSelect={onItemSelect}
 			itemRenderer={renderPMItem}
 			items={PaymentModeList}
 			filterable={false}
 		>
-			<Button outlined fill intent={intent} minimal text={activeItemString} icon="dot" />
+			{!showButton ? (
+				children
+			) : (
+				<Button outlined fill intent={intent} minimal text={activeItemString} icon="dot" />
+			)}{' '}
 		</PMSelect>
 	);
 };
 
-export default PaymentTypeSelect;
+export default PaymentModeSelect;
