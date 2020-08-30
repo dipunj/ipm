@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		headers: context.req ? { cookie: context.req.headers.cookie } : undefined,
 	});
 	return {
-		props: { transactionsAPIResponse: res.data },
+		props: { transactionsAPIResponse: res.data, admission_id: params?.admission_id },
 	};
 };
 

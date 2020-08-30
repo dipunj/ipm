@@ -50,6 +50,7 @@ const PaymentModeSelect = (props: PMProps): JSX.Element => {
 
 	const intent = activeItem ? 'primary' : 'none';
 
+	const selectedItem = PaymentModeList.filter((pm) => pm.value === activeItem)[0];
 	return (
 		<PMSelect
 			popoverProps={{ position: popoverPosition }}
@@ -57,6 +58,7 @@ const PaymentModeSelect = (props: PMProps): JSX.Element => {
 			itemRenderer={renderPMItem}
 			items={PaymentModeList}
 			filterable={false}
+			activeItem={selectedItem}
 		>
 			{!showButton ? (
 				children

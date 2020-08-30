@@ -5,6 +5,7 @@ import TransactionTypeList, { TransactionType_Value2Display } from './data';
 export interface ITransactionType {
 	displayText: string;
 	value: string;
+	helperText?: string;
 }
 
 const TxnTypeSelect = Select.ofType<ITransactionType>();
@@ -44,13 +45,13 @@ const TransactionTypeSelect = (props: PMProps): JSX.Element => {
 		activeItem,
 	} = props;
 
+	const value = activeItem ? 'credit' : 'debit';
 	const activeItemString =
-		activeItem !== null
-			? TransactionType_Value2Display[activeItem ? 'credit' : 'debit']
-			: 'Transaction Type';
+		activeItem !== null ? TransactionType_Value2Display[value] : 'Transaction Type';
 
 	const intent = activeItem !== null ? (activeItem ? 'success' : 'danger') : 'none';
 
+	const selectedItem = TransactionTypeList.filter((tt) => tt.value === value)[0];
 	return (
 		<TxnTypeSelect
 			onItemSelect={onItemSelect}
@@ -58,6 +59,7 @@ const TransactionTypeSelect = (props: PMProps): JSX.Element => {
 			itemRenderer={renderTTItem}
 			items={TransactionTypeList}
 			filterable={false}
+			activeItem={selectedItem}
 		>
 			{!showButton ? (
 				children
