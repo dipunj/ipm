@@ -37,7 +37,7 @@ const Transactions = ({ admission_id }: { admission_id: string }): JSX.Element =
 
 Transactions.getLayout = (page) => (
 	<Providers>
-		<Header />
+		{/* <Header /> */}
 		{page}
 	</Providers>
 );

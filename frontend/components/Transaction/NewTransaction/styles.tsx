@@ -9,7 +9,7 @@ export const TxnDiv = styled.div`
 export const NewTxnContainer = styled.div.attrs({
 	className: 'row align-stretch full-width space-evenly',
 })`
-	height: 72px;
+	height: var(--header-height);
 	position: fixed;
 	bottom: 0px;
 	left: 0px;
