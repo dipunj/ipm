@@ -1,11 +1,13 @@
 import { Cell, EditableCell } from '@blueprintjs/table';
 import { Checkbox } from '@blueprintjs/core';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import TransactionTypeSelect from '../Select/TransactionType';
 import PaymentModeSelect from '../Select/PaymentMode';
 import { PaymentMode_Value2Display } from '../Select/PaymentMode/data';
-import { dateFormatOptions } from '../../../helpers';
+import { dateFormatOptions, withCurrency } from '../../../helpers';
 import { INewTransaction } from '../NewTransaction';
+import request from '../../../library/Request';
+import { handleErrorToast } from '../../../library/Toaster';
 
 export interface Transaction {
 	id: string;
@@ -33,15 +35,7 @@ const defaultTransactionData: INewTransaction = {
 	is_settled: undefined,
 };
 
-const INRCurrency = new Intl.NumberFormat('en-IN', {
-	style: 'currency',
-	currency: 'INR',
-	minimumFractionDigits: 2,
-});
-
-const withCurrency = (value: string) => INRCurrency.format(parseFloat(value));
-
-const useLayout = (list: Transaction[]): any => {
+const useLayout = (list: Transaction[], refetch: () => void): any => {
 	const [modifyRow, setModifyRow] = useState(-1);
 	const [modifyData, setModifyData] = useState(defaultTransactionData);
 

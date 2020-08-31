@@ -74,3 +74,11 @@ export const getCurrencySymbol = (locale: string, currency: string): string =>
 		})
 		.replace(/\d/g, '')
 		.trim();
+
+export const systemCurrency = new Intl.NumberFormat('en-IN', {
+	style: 'currency',
+	currency: 'INR',
+	minimumFractionDigits: 2,
+});
+
+export const withCurrency = (value: string) => systemCurrency.format(parseFloat(value));
