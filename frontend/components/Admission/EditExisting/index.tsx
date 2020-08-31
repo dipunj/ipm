@@ -20,7 +20,7 @@ const reducer = (state: any, action: any) => {
 	};
 };
 
-interface IAdmissionData {
+export interface IAdmissionData {
 	id: string;
 	patient: {
 		id: string;
