@@ -50,14 +50,14 @@ class Admission < ApplicationRecord
 				patient: {
 					except: [:created_at, :updated_at]
 				},
-				transactions: {
-					except: [],
-					include: {
-						updated_by: {
-							only: [:id, :name]
-						}
-					}
-				},
+				# transactions: {
+				# 	except: [],
+				# 	include: {
+				# 		updated_by: {
+				# 			only: [:id, :name]
+				# 		}
+				# 	}
+				# },
 				admission_logs: {
 					except: []
 				},

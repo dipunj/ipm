@@ -40,7 +40,6 @@ module Management
 
 			Transaction.transaction do
 				log_params = transaction.as_json.deep_symbolize_keys.except!(:id, :created_at, :updated_at)
-				byebug
 				transaction.transaction_logs.create!(log_params)
 
 				params[:updated_by_id] = operator.id
@@ -82,8 +81,14 @@ module Management
 			transactions = Transaction.where(admission_id: admission_id)
 			# transactions = transactions.where(is_deleted: false) if operator is not admin/manager
 			transactions = transactions.order(created_at: :asc)
+			totals = compute_total(operator, admission_id, true)
 
-			return ResponseHelper.json(true, transactions.as_json(Transaction.with_data), nil)
+			response = {
+				list: transactions.as_json(Transaction.with_data),
+				totals: totals,
+				admission_info: admission.as_json(Admission.with_overview_data)
+			}
+			return ResponseHelper.json(true, response,  nil)
 		end
 	end
 end
