@@ -39,6 +39,23 @@ const useLayout = (list: Transaction[], refetch: () => void): any => {
 	const [modifyRow, setModifyRow] = useState(-1);
 	const [modifyData, setModifyData] = useState(defaultTransactionData);
 
+	const makeUpdate = async () => {
+		try {
+			const { id: transaction_id, ...params } = modifyData;
+			const response = await request.post('/management/transaction/modify', {
+				transaction_id,
+				...params,
+			});
+			if (response.data.success && response.data.is_authenticated) {
+				await refetch();
+				setModifyRow(-1);
+				setModifyData(defaultTransactionData);
+			}
+		} catch (error) {
+			handleErrorToast(error);
+		}
+	};
+
 	const setEditRow = async (rowIndex: number) => {
 		if (rowIndex < 0) {
 			setModifyRow(-1);
