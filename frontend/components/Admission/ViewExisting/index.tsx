@@ -28,7 +28,7 @@ const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 
 	const router = useRouter();
 
-	const { loading, data } = useFetch('/management/admission/find', {
+	const { loading, data, refetch } = useFetch('/management/admission/find', {
 		params: { admission_id },
 	});
 
