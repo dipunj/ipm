@@ -30,6 +30,7 @@ interface IAdmissionCard {
 		bed: {
 			name: string;
 		};
+		is_discharged: boolean;
 		admit_timestamp: Date;
 		discharge_timestamp: Date | null;
 		guardian_name: string;
@@ -47,6 +48,7 @@ const AdmissionCard = (props: IAdmissionCard) => {
 		guardian_phone,
 		bed: { name: bed },
 		ward: { name: ward, floor },
+		is_discharged,
 		admit_timestamp,
 		discharge_timestamp,
 	} = props.data;
@@ -92,7 +94,9 @@ const AdmissionCard = (props: IAdmissionCard) => {
 					<TimeValue>{`(${admissionTime.trim()})`}</TimeValue>
 				</Column>
 				<Column>
-					<Label>Expected Discharge Time*</Label>
+					<Label>
+						{!is_discharged && 'Expected'} Discharge Time {!is_discharged && '*'}
+					</Label>
 					<DateValue>{dischargeDate}</DateValue>
 				</Column>
 				<Column>

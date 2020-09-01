@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import PageControls from './PageControls';
+import PageControls from '../PageControls';
 import request from '../../../library/Request';
-import AdmissionCard from './Card';
+import AdmissionCard from '../Card';
 import { FlexWrapper } from './styles';
 import Pagination from '../../../library/Pagination';
 import { handleErrorToast } from '../../../library/Toaster';

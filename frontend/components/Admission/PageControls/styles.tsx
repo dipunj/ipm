@@ -13,6 +13,10 @@ export const InputContainer = styled.div`
 	/* but position absolute forces it out of the flow */
 	/* width: 30%;
 	position: absolute; */
-	min-width: 30%;
-	margin-right: 36px;
+	/* min-width: 30%; */
+	flex: 1;
+`;
+
+export const ControlsContainer = styled.div`
+	margin-left: 36px;
 `;
