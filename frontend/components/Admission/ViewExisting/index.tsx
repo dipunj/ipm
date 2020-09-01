@@ -18,6 +18,7 @@ import request from '../../../library/Request';
 import { dateFormatOptions } from '../../../helpers';
 import useFetch from '../../../library/hooks/fetch';
 import ViewAdmissionSkeleton from './skeleton';
+import DischargeConfirmation from '../DischargeConfirmation';
 
 const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 	// const {
@@ -64,10 +65,6 @@ const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 		setShowModify((prev) => !prev);
 	};
 
-	const handleDateChange = (selectedDate: Date) => {
-		setActualDischargeTimeStamp(selectedDate);
-	};
-
 	const toggleDischargeConfirmation = () => {
 		setActualDischargeTimeStamp(
 			discharge_timestamp ? new Date(discharge_timestamp) : new Date()
@@ -85,7 +82,9 @@ const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 
 			const response = await request.post('/management/admission/discharge', { ...params });
 			if (response.data.success && response.data.is_authenticated) {
-				handleSuccessToast(response, { onDismiss: () => window.location.reload() });
+				setShowDischargeConfirmation(false);
+				refetch();
+				handleSuccessToast(response);
 			}
 		} catch (error) {
 			handleErrorToast(error);
@@ -209,44 +208,13 @@ const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 					</H4>
 				</Alert>
 			) : (
-				<Alert
-					isOpen={showDischargeConfirmation}
-					onCancel={toggleDischargeConfirmation}
-					onConfirm={makeDischargeCall}
-					cancelButtonText="Cancel"
-					confirmButtonText="Confirm Discharge"
-					intent="danger"
-					icon="confirm"
-					style={{ minWidth: '36vw' }}
-				>
-					<H4>Are you sure? This action cannot be reversed!</H4>
-					<AlertContainer>
-						<FormGroup
-							className="row align-center space-evenly full-width"
-							label="Discharge DateTime:"
-							labelFor="discharge-timestamp"
-						>
-							<Popover>
-								<Button intent="none">
-									{actualDischargeTimeStamp.toLocaleString(
-										'en-GB',
-										dateFormatOptions
-									)}
-								</Button>
-								<DatePicker
-									canClearSelection={false}
-									highlightCurrentDay
-									value={actualDischargeTimeStamp}
-									timePickerProps={{
-										useAmPm: true,
-										onChange: (time) => handleDateChange(time),
-									}}
-									onChange={(val, _) => handleDateChange(val)}
-								/>
-							</Popover>
-						</FormGroup>
-					</AlertContainer>
-				</Alert>
+				<DischargeConfirmation
+					admission_id={data.id}
+					showAlert={showDischargeConfirmation}
+					toggleAlert={toggleDischargeConfirmation}
+					reopenAdmission={is_discharged}
+					successCallback={refetch}
+				/>
 			)}
 		</>
 	);
