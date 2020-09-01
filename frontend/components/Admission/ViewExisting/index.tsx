@@ -159,7 +159,10 @@ const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 							<Value>{parsedAdmitTime || '-'}</Value>
 						</Item>
 						<Item>
-							<Label>{is_discharged ? 'Actual' : 'Expected'} Discharge Time</Label>
+							<Label>
+								{!is_discharged && 'Expected'} Discharge Time{' '}
+								{!is_discharged && '*'}
+							</Label>
 							<Value>{parsedDischargeTime || '-'}</Value>
 						</Item>
 					</DetailBlock>

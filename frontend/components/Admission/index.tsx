@@ -39,6 +39,7 @@ const reducer = (state: any, action: any) => {
 const NewAdmission = (): JSX.Element => {
 	const router = useRouter();
 	const [state, dispatch]: [any, Dispatch<any>] = useReducer(reducer, initialState);
+
 	const makeAPICall = async (state: any) => {
 		const { ward, bed, ...params } = state;
 		params.bed_id = bed.id;

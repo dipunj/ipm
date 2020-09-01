@@ -20,10 +20,11 @@ const SessionCtxProvider = ({ children }: { children: JSX.Element }) => {
 
 			if (response.data.success && response.data.is_authenticated) {
 				setCtx({ ...response.data.response.data });
+				// router.push('/admission/active');
 				// saveToLS('prefers_dark', response.data.response.data.prefers_dark);
 			} else {
 				router.push('/');
-				// crucial for logout
+				// following is crucial for logout screen to appear
 				setCtx({});
 			}
 			setLoading(false);
