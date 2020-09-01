@@ -18,8 +18,8 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
     render json: response
   end
 
-  def list_current_admissions
-    response = @service.list_current_admissions(@current_user, building_id, pagination_params, search_params)
+  def list_admissions
+    response = @service.list_admissions(@current_user, building_id, pagination_params, search_params)
     render json: response
   end
 
@@ -69,6 +69,6 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
     end
 
     def search_params
-      params.permit(:query)
+      params.permit(:query, :is_discharged, :from_date, :to_date)
     end
 end

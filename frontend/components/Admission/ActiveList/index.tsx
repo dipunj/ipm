@@ -18,8 +18,9 @@ const AdmissionsOverview = (): JSX.Element => {
 	const fetchCurrentAdmissions = async (page = 1) => {
 		setLoading(true);
 		try {
-			const apiResponse = await request.get('/management/admission/current', {
+			const apiResponse = await request.get('/management/admission/list', {
 				params: {
+					is_discharged: false,
 					query: searchQuery,
 					page,
 					records_per_page: recordsPerPage,

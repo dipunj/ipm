@@ -1,5 +1,4 @@
 module Management
-
 	class AdmissionService
 
 		def self.initiate_new_admission(operator, params, patient_params)
@@ -122,25 +121,31 @@ module Management
 			end
 		end
 
-		def self.list_current_admissions(operator, building_id, params, search_params)
-			records_per_page    = (params[:records_per_page] || 10).to_i
-			page                = params[:page].nil? ? 0 : (params[:page].to_i - 1)
-			current             = Admission.where(is_discharged: false)
+		def self.list_admissions(operator, building_id, pagination_params, params)
+			records_per_page           = (pagination_params[:records_per_page] || 10).to_i
+			page                       = pagination_params[:page].nil? ? 0 : (pagination_params[:page].to_i - 1)
+			admission_list             = Admission.all
+			admission_list             = admission_list
+											 .where(is_discharged: params[:is_discharged]) if params[:is_discharged].present?
 
-			if building_id.present?
-				current         = current.joins(bed: [ward: [:building]]).where(beds: { wards: { building_id: building_id } })
-				count           = current.length
-				if search_params[:query].present?
-					regex_query = "%#{search_params[:query].downcase}%"
-					current     = current.joins(:patient).where('LOWER(patients.name) LIKE ? OR patients.phone LIKE ?', regex_query, regex_query)
-				end
-				current         = current.limit(records_per_page).offset(page*records_per_page)
-			else
-				raise 'Invalid Building ID'
+			raise 'Invalid Building ID' unless building_id.present?
+
+			admission_list             = admission_list
+											 .joins(bed: [ward: [:building]])
+											 .where(beds: { wards: { building_id: building_id } })
+			count                      = admission_list.length
+
+			if params[:query].present?
+				regex_query            = "%#{params[:query].downcase}%"
+				admission_list         = admission_list
+											 .joins(:patient)
+											 .where('LOWER(patients.name) LIKE ? OR patients.phone LIKE ?', regex_query, regex_query)
 			end
 
-
-			return ResponseHelper.json(true, {page: page.to_i+1, count: count, result: current.as_json(Admission.with_overview_data)}, nil)
+			admission_list         = admission_list
+										 .where('discharge_timestamp between ? and ?', params[:from_date], params[:to_date]) if params[:from_date].present? && params[:to_date].present?
+			admission_list             = admission_list.limit(records_per_page).offset(page*records_per_page)
+			return ResponseHelper.json(true, {page: page.to_i+1, count: count, result: admission_list.as_json(Admission.with_overview_data)}, nil)
 		end
 
 		def self.search_admissions(operator, params)
