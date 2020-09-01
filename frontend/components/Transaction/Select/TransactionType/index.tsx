@@ -45,7 +45,7 @@ const TransactionTypeSelect = (props: PMProps): JSX.Element => {
 		activeItem,
 	} = props;
 
-	const value = activeItem ? 'credit' : 'debit';
+	const value = typeof activeItem === 'boolean' ? (activeItem ? 'credit' : 'debit') : 'credit';
 	const activeItemString =
 		activeItem !== null ? TransactionType_Value2Display[value] : 'Transaction Type';
 

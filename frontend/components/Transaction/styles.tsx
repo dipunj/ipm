@@ -5,6 +5,7 @@ export const TableContainer = styled.div`
 	/* margin-bottom: 72px; */
 	height: 99%;
 	border: 1px solid var(--border-color);
+	min-width: 72vw;
 	width: 72vw;
 `;
 
@@ -18,5 +19,7 @@ export const TableWrapper = styled.div`
 export const TableLayout = styled.div.attrs({
 	className: 'row',
 })`
-	height: calc(100vh - var(--header-height));
+	height: calc(100vh - 2 * var(--header-height));
+	margin-top: var(--header-height);
+	width: 100vw;
 `;
