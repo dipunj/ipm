@@ -32,4 +32,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	};
 };
 
-export { default } from '../../../components/Transaction';
+export { default } from '../../../../components/Transaction';

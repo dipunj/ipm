@@ -47,7 +47,7 @@ const NewAdmission = (): JSX.Element => {
 		try {
 			const response = await request.post('/management/admission/new', { ...params });
 			if (response.data.success && response.data.is_authenticated) {
-				router.push('/');
+				router.push('/admission/active');
 				handleSuccessToast(response);
 			}
 		} catch (error) {

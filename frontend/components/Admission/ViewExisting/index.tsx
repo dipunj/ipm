@@ -58,7 +58,10 @@ const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 	} = data;
 
 	const goToTransactions = () => {
-		router.push('/transactions/[admission_id]', `/transactions/${admission_id}`);
+		router.push(
+			'/admission/[admission_id]/transactions',
+			`/admission/${admission_id}/transactions`
+		);
 	};
 
 	const handleModify = () => {
