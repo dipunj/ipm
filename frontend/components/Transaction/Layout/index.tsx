@@ -341,7 +341,7 @@ const useLayout = (list: Transaction[], refetch: () => void): any => {
 											<H5>Confirm deletion</H5>
 											<div className="bp3-alert-body">
 												Are you sure you want to delete this transaction?
-												You won't be able to recover it.
+												You won't be able to undo it.
 											</div>
 											<div className="bp3-alert-footer">
 												<Button
