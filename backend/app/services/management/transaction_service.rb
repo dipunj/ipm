@@ -22,15 +22,6 @@ module Management
 			ResponseHelper.json(true, transaction.as_json, 'Created new transaction')
 		end
 
-		def self.delete_transaction(operator, transaction_id)
-			raise 'Invalid transaction delete'   if transaction_id.blank?
-
-			target_txn = Transaction.find(transaction_id)
-			raise ActiveRecord::RecordNotFound, 'No such Transaction' if target_txn.nil?
-
-			target_txn.update!(is_deleted: true, updated_by_id: operator.id)
-			return ResponseHelper.json(true, target_txn.as_json)
-		end
 
 		def self.modify_transaction(operator, transaction_id, params)
 			raise 'Invalid Transaction' if transaction_id.blank?
@@ -49,7 +40,7 @@ module Management
 		end
 
 		def self.compute_total(operator, admission_id, internal=false)
-			transactions = Transaction.where(admission_id: admission_id).order(created_at: :asc)
+			transactions = Transaction.where(admission_id: admission_id, is_deleted: false).order(created_at: :asc)
 			credit_txn = transactions.where(is_credit: true)
 			debit_txn = transactions.where(is_credit: false)
 
@@ -79,7 +70,13 @@ module Management
 			raise 'Invalid admission ID' if admission.nil?
 
 			transactions = Transaction.where(admission_id: admission_id)
-			# transactions = transactions.where(is_deleted: false) if operator is not admin/manager
+
+
+			# TODO : add the following condition
+			# if operator is not admin/manager
+			transactions = transactions.where(is_deleted: false)
+
+
 			transactions = transactions.order(created_at: :asc)
 			totals = compute_total(operator, admission_id, true)
 

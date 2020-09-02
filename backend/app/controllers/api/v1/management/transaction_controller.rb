@@ -12,10 +12,6 @@ class Api::V1::Management::TransactionController < Api::V1::BaseController
     render json: response
   end
 
-  def delete
-    response = @service.delete_transaction(@current_user, transaction_id)
-  end
-
   def list_all_in_admission
     response = @service.list_all_in_admission(@current_user, admission_id)
     render json: response
@@ -32,7 +28,7 @@ class Api::V1::Management::TransactionController < Api::V1::BaseController
     end
 
     def transaction_params
-      params.permit(:is_credit, :payment_mode, :value, :is_settled, :purpose)
+      params.permit(:is_credit, :payment_mode, :value, :is_settled, :purpose, :is_deleted)
     end
 
     def transaction_id

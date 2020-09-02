@@ -56,6 +56,24 @@ const useLayout = (list: Transaction[], refetch: () => void): any => {
 		}
 	};
 
+	const makeDelete = async (rowIndex: number) => {
+		try {
+			const { id: transaction_id } = list[rowIndex];
+			const response = await request.post('/management/transaction/modify', {
+				transaction_id,
+				is_deleted: true,
+			});
+
+			if (response.data.success && response.data.is_authenticated) {
+				await refetch();
+				setModifyRow(-1);
+				setModifyData(defaultTransactionData);
+			}
+		} catch (error) {
+			handleErrorToast(error);
+		}
+	};
+
 	const setEditRow = async (rowIndex: number) => {
 		if (rowIndex < 0) {
 			setModifyRow(-1);
@@ -293,15 +311,17 @@ const useLayout = (list: Transaction[], refetch: () => void): any => {
 									className="row full-width space-between"
 									style={{ width: '100px' }}
 								>
-									<div>
-										<a onClick={() => setEditRow(-1)}>Cancel</a>
-									</div>
-									<div>
-										<a onClick={() => makeUpdate()}>Update</a>
-									</div>
+									<a onClick={() => setEditRow(-1)}>Cancel</a>
+									<a onClick={() => makeUpdate()}>Submit</a>
 								</div>
 							) : (
-								<a onClick={() => setEditRow(rowIndex)}>Modify</a>
+								<div
+									className="row full-width space-between"
+									style={{ width: '100px' }}
+								>
+									<a onClick={() => setEditRow(rowIndex)}>Modify</a>
+									<a onClick={() => makeDelete(rowIndex)}>Delete</a>
+								</div>
 							)}
 						</Cell>
 					);
