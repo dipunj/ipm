@@ -211,7 +211,7 @@ const useLayout = (list: Transaction[], refetch: () => void): any => {
 								intent="none"
 								className="row center"
 								value={modifyData.value}
-								onConfirm={onModifyDataChange('value')}
+								onChange={onModifyDataChange('value')}
 							/>
 						);
 					}
@@ -235,7 +235,7 @@ const useLayout = (list: Transaction[], refetch: () => void): any => {
 								key={`${rowIndex},purpose`}
 								intent="none"
 								className="row center"
-								onConfirm={onModifyDataChange('purpose')}
+								onChange={onModifyDataChange('purpose')}
 								value={modifyData.purpose}
 							/>
 						);

@@ -1,7 +1,7 @@
 import { InputGroup, Button, Popover, Position } from '@blueprintjs/core';
 import { DateRangePicker, DateRange } from '@blueprintjs/datetime';
 import { RowContainer, InputContainer, ControlsContainer } from './styles';
-import { shortDateOptions, dateOptions } from '../../../helpers';
+import { shortDateOptions } from '../../../helpers';
 
 interface IPageControls {
 	searchQuery: string;
