@@ -1,11 +1,13 @@
 import { useContext, useState, useEffect } from 'react';
-import { Button, Switch, Icon, Drawer, Position, MenuItem } from '@blueprintjs/core';
+import { Button, Switch, Icon, Drawer, Position, MenuItem, Popover } from '@blueprintjs/core';
 import { Select, ItemRenderer } from '@blueprintjs/select';
+import { useRouter } from 'next/router';
 import { SessionCtx } from '../../Context/SessionContext';
 import { ThemeCtx } from '../../Context/ThemeContext';
 import { Container, Greeting, Wrapper, Column, IconContainer, MenuContainer } from './styles';
 import request from '../../Request';
 import { getCookie, setCookie } from '../../../helpers';
+import ProfileOptions from '../../../components/Profile/Menu';
 
 const switchStyle = { marginBottom: 0, marginRight: '16px' };
 const BuildingSelect = Select.ofType<any>();
@@ -39,6 +41,8 @@ const Header = (): JSX.Element => {
 		ctx: { name, buildings },
 		refetchCtx,
 	}: any = useContext(SessionCtx);
+
+	const router = useRouter();
 
 	const { isDark, toggleTheme }: any = useContext(ThemeCtx);
 
@@ -79,6 +83,8 @@ const Header = (): JSX.Element => {
 	}`;
 	const menu = <MenuContainer>menu</MenuContainer>;
 
+	const goToHome = () => router.push('/');
+
 	return (
 		<Wrapper>
 			<Container>
@@ -86,7 +92,13 @@ const Header = (): JSX.Element => {
 					<IconContainer onClick={toggleMainMenu}>
 						<Icon icon="menu" />
 					</IconContainer>
-					Hi, <Greeting>{name}</Greeting>
+					Hi,
+					<Popover content={<ProfileOptions />} position="bottom">
+						<Greeting>{name}</Greeting>
+					</Popover>
+					<IconContainer onClick={goToHome}>
+						<Icon icon="home" />
+					</IconContainer>
 				</Column>
 				<Column>
 					<BuildingSelect
