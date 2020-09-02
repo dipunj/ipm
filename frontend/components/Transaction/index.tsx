@@ -1,5 +1,6 @@
 import { Table, Column } from '@blueprintjs/table';
 import { Button } from '@blueprintjs/core';
+import { useState } from 'react';
 import { TableContainer, TableWrapper, TableLayout } from './styles';
 import NewTransaction from './NewTransaction';
 import useFetch from '../../library/hooks/fetch';
@@ -14,6 +15,14 @@ const Transactions = ({ admission_id }: { admission_id: string }): JSX.Element =
 		params: { admission_id },
 	});
 
+	const [columnWidths, setColumnWidths] = useState([80, 100, 120, 100, 180, 145, 120, 140]);
+	const handleColumnWidthChange = (index: number, size: number) => {
+		setColumnWidths((prev) => {
+			const replica = [...prev];
+			replica[index] = size;
+			return replica;
+		});
+	};
 	const { columns } = useLayout(data?.list, refetch);
 
 	if (loading) {
@@ -32,7 +41,11 @@ const Transactions = ({ admission_id }: { admission_id: string }): JSX.Element =
 		<TableWrapper>
 			<TableLayout>
 				<TableContainer>
-					<Table numRows={data.list.length}>
+					<Table
+						numRows={data.list.length}
+						columnWidths={columnWidths}
+						onColumnWidthChanged={handleColumnWidthChange}
+					>
 						{columns.map((col) => (
 							<Column key={col.name} name={col.name} cellRenderer={col.cellRender} />
 						))}
