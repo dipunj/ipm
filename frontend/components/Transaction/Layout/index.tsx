@@ -1,6 +1,6 @@
 import { Cell, EditableCell } from '@blueprintjs/table';
-import { Checkbox } from '@blueprintjs/core';
-import { useState } from 'react';
+import { Checkbox, Popover, Alert, Button, H5, Classes } from '@blueprintjs/core';
+import { useState, useEffect } from 'react';
 import TransactionTypeSelect from '../Select/TransactionType';
 import PaymentModeSelect from '../Select/PaymentMode';
 import { PaymentMode_Value2Display } from '../Select/PaymentMode/data';
@@ -37,6 +37,7 @@ const defaultTransactionData: INewTransaction = {
 
 const useLayout = (list: Transaction[], refetch: () => void): any => {
 	const [modifyRow, setModifyRow] = useState(-1);
+	const [deleteRow, setDeleteRow] = useState(-1);
 	const [modifyData, setModifyData] = useState(defaultTransactionData);
 
 	const makeUpdate = async () => {
@@ -56,9 +57,9 @@ const useLayout = (list: Transaction[], refetch: () => void): any => {
 		}
 	};
 
-	const makeDelete = async (rowIndex: number) => {
+	const makeDelete = async () => {
 		try {
-			const { id: transaction_id } = list[rowIndex];
+			const { id: transaction_id } = list[deleteRow];
 			const response = await request.post('/management/transaction/modify', {
 				transaction_id,
 				is_deleted: true,
@@ -67,6 +68,7 @@ const useLayout = (list: Transaction[], refetch: () => void): any => {
 			if (response.data.success && response.data.is_authenticated) {
 				await refetch();
 				setModifyRow(-1);
+				setDeleteRow(-1);
 				setModifyData(defaultTransactionData);
 			}
 		} catch (error) {
@@ -128,6 +130,10 @@ const useLayout = (list: Transaction[], refetch: () => void): any => {
 				};
 		}
 	};
+
+	useEffect(() => {
+		console.log(deleteRow);
+	}, [deleteRow]);
 
 	return {
 		columns: [
@@ -301,28 +307,59 @@ const useLayout = (list: Transaction[], refetch: () => void): any => {
 			{
 				name: 'Actions',
 				cellRender: (rowIndex: number) => {
-					return (
-						<Cell
-							intent={list[rowIndex].is_settled ? 'success' : 'danger'}
-							className="row"
-						>
-							{rowIndex === modifyRow ? (
+					if (rowIndex === modifyRow) {
+						return (
+							<Cell
+								intent={list[rowIndex].is_settled ? 'success' : 'danger'}
+								className="row"
+							>
 								<div
 									className="row full-width space-between"
 									style={{ width: '100px' }}
 								>
 									<a onClick={() => setEditRow(-1)}>Cancel</a>
-									<a onClick={() => makeUpdate()}>Submit</a>
+									<a onClick={() => makeUpdate()}>Update</a>
 								</div>
-							) : (
-								<div
-									className="row full-width space-between"
-									style={{ width: '100px' }}
+							</Cell>
+						);
+					}
+					return (
+						<Cell
+							intent={list[rowIndex].is_settled ? 'success' : 'danger'}
+							className="row"
+						>
+							<div
+								className="row full-width space-between"
+								style={{ width: '100px' }}
+							>
+								<a onClick={() => setEditRow(rowIndex)}>Modify</a>
+								<Popover
+									position="auto-start"
+									isOpen={deleteRow === rowIndex}
+									content={
+										<div className="bp3-alert">
+											<H5>Confirm deletion</H5>
+											<div className="bp3-alert-body">
+												Are you sure you want to delete this transaction?
+												You won't be able to recover it.
+											</div>
+											<div className="bp3-alert-footer">
+												<Button
+													className="bp3-popover-dismiss"
+													onClick={() => setDeleteRow(-1)}
+												>
+													Cancel
+												</Button>
+												<Button intent="danger" onClick={makeDelete}>
+													Delete
+												</Button>
+											</div>
+										</div>
+									}
 								>
-									<a onClick={() => setEditRow(rowIndex)}>Modify</a>
-									<a onClick={() => makeDelete(rowIndex)}>Delete</a>
-								</div>
-							)}
+									<a onClick={() => setDeleteRow(rowIndex)}>Delete</a>
+								</Popover>
+							</div>
 						</Cell>
 					);
 				},
