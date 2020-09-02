@@ -7,6 +7,7 @@ import useLayout from './Layout';
 import Providers from '../../library/Providers';
 import Header from '../../library/Layout/Header';
 import TotalOverview from './TotalOverview';
+import Loader from '../../library/Loader';
 
 const Transactions = ({ admission_id }: { admission_id: string }): JSX.Element => {
 	const { loading, data, refetch } = useFetch('/management/transaction/list', {
@@ -16,7 +17,15 @@ const Transactions = ({ admission_id }: { admission_id: string }): JSX.Element =
 	const { columns } = useLayout(data?.list, refetch);
 
 	if (loading) {
-		return <div>loading...</div>;
+		return (
+			<TableWrapper>
+				<TableLayout>
+					<div className="row full-height full-width center">
+						<Loader />
+					</div>
+				</TableLayout>
+			</TableWrapper>
+		);
 	}
 
 	return (

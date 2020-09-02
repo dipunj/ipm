@@ -6,6 +6,7 @@ import AdmissionCard from '../Card';
 import { FlexWrapper } from './styles';
 import Pagination from '../../../library/Pagination';
 import { handleErrorToast } from '../../../library/Toaster';
+import Loader from '../../../library/Loader';
 
 const PastAdmissions = (): JSX.Element => {
 	const [loading, setLoading] = useState(true);
@@ -54,7 +55,7 @@ const PastAdmissions = (): JSX.Element => {
 	let content = null;
 
 	if (loading) {
-		content = <div>Loading...</div>;
+		content = <Loader />;
 	} else if (!loading && response.result.length === 0) {
 		content = <div>No Admissions</div>;
 	} else {
