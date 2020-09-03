@@ -93,3 +93,55 @@ export const systemCurrency = new Intl.NumberFormat('en-IN', {
 });
 
 export const withCurrency = (value: string) => systemCurrency.format(parseFloat(value));
+
+interface IPasswordValidation {
+	message: string;
+	exp: RegExp;
+	satisfy?: boolean;
+}
+export const validatePassword = (
+	pass: string,
+	conditions?: IPasswordValidation[]
+): IPasswordValidation[] => {
+	// the regex matches
+	/*
+	 * At least one upper case English letter, (?=.*?[A-Z])
+	 * At least one lower case English letter, (?=.*?[a-z])
+	 * At least one digit, (?=.*?[0-9])
+	 * At least one special character, (?=.*?[#?!@$%^&*-])
+	 * Minimum eight in length .{8,} (with the anchors)
+	 */
+
+	const conditionArray: IPasswordValidation[] = conditions || [
+		{
+			// upper case letter
+			message: 'At least one upper case English letter',
+			exp: /[A-Z]/,
+		},
+		{
+			// lower case letter
+			message: 'At least one lower case letter',
+			exp: /[a-z]/,
+		},
+		{
+			// number letter
+			message: 'At least one digit',
+			exp: /[0-9]/,
+		},
+		{
+			// special character
+			message: 'At least one special character',
+			exp: /[#?!@$%^&*-]/,
+		},
+		{
+			// minimum length = 8 characters
+			message: 'Minimum 8 characters',
+			exp: /^.{8,}$/,
+		},
+	];
+
+	return conditionArray.reduce(
+		(acc, cnd) => [...acc, { ...cnd, satisfy: cnd.exp.test(pass) }],
+		[]
+	);
+};
