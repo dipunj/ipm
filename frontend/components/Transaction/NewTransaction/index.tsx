@@ -6,6 +6,7 @@ import TransactionTypeSelect, { ITransactionType } from '../Select/TransactionTy
 import { NewTxnContainer, TxnDiv } from './styles';
 import { getCurrencySymbol } from '../../../helpers';
 import request from '../../../library/Request';
+import { handleErrorToast } from '../../../library/Toaster';
 
 export interface INewTransaction {
 	id: string | null;
@@ -27,20 +28,24 @@ const NewTransaction = ({ refetch }: { refetch: () => void }): JSX.Element => {
 		id: null,
 		purpose: null,
 		payment_mode: null,
-		value: 0.0,
+		value: '',
 		is_credit: null,
 		is_settled: undefined,
 	});
 
 	const handleCreate = async () => {
-		const params = {
-			admission_id,
-			...newTransaction,
-		};
-		const response = await request.post('/management/transaction/create', { ...params });
+		try {
+			const params = {
+				admission_id,
+				...newTransaction,
+			};
+			const response = await request.post('/management/transaction/create', { ...params });
 
-		if (response.data.success && response.data.is_authenticated) {
-			refetch();
+			if (response.data.success && response.data.is_authenticated) {
+				refetch();
+			}
+		} catch (error) {
+			handleErrorToast(error);
 		}
 	};
 
@@ -90,11 +95,19 @@ const NewTransaction = ({ refetch }: { refetch: () => void }): JSX.Element => {
 				<InputGroup
 					name="value"
 					type="number"
+					min={0}
 					placeholder="Transaction Value"
 					onChange={onInputChange()}
 					style={{ textAlign: 'right' }}
+					value={newTransaction.value}
+					step={100}
 					leftElement={
-						<div className="row center">{getCurrencySymbol('en-IN', 'INR')}</div>
+						<div
+							style={{ cursor: 'default', background: 'var(--background-secondary)' }}
+							className="row center bp3-input"
+						>
+							{getCurrencySymbol('en-IN', 'INR')}
+						</div>
 					}
 				/>
 			</TxnDiv>
@@ -117,7 +130,7 @@ const NewTransaction = ({ refetch }: { refetch: () => void }): JSX.Element => {
 					checked={newTransaction.is_settled}
 					onChange={onInputChange('is_settled')}
 					style={{ marginBottom: '0' }}
-					label="Transaction Settled?"
+					label="Settled"
 				/>
 			</TxnDiv>
 			<TxnDiv>
