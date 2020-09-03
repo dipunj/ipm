@@ -13,7 +13,7 @@ interface IApiResponse {
 
 const useFetch = (
 	url: string,
-	options: AxiosRequestConfig | undefined,
+	options?: AxiosRequestConfig | undefined,
 	handleError = handleErrorToast
 ): IApiResponse => {
 	const [loading, setLoading] = useState(true);

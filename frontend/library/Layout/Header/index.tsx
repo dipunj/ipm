@@ -128,7 +128,7 @@ const Header = (): JSX.Element => {
 						innerLabelChecked="dark"
 						style={switchStyle}
 					/>
-					<Button intent="danger" onClick={handleLogout}>
+					<Button rightIcon="log-out" intent="danger" onClick={handleLogout}>
 						Sign Out
 					</Button>
 				</Column>
