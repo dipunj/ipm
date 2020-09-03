@@ -83,7 +83,7 @@ const Header = (): JSX.Element => {
 	}`;
 	const menu = <MenuContainer>menu</MenuContainer>;
 
-	const goToHome = () => router.push('/');
+	const goToHome = () => (window.location.pathname = '/');
 
 	return (
 		<Wrapper>
