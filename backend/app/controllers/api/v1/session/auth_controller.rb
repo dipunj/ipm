@@ -4,6 +4,7 @@ class Api::V1::Session::AuthController < Api::V1::BaseController
 	skip_before_action :authenticate!, only: [:login]
 
 	def login
+		reset_session
 		response = @service.authenticate(login_params)
 		if ENV["AUTH_MODE"] == 'cookie'
 			session[:user_id] = response[:response][:data]["id"]

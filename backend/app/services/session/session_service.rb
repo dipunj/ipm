@@ -38,7 +38,7 @@ module Session
 				password_confirmation: params[:password_confirmation]
 			}
 			if current_user.update!(password_params)
-				ResponseHelper.json(true, nil, 'Password Changed Successfully')
+				ResponseHelper.json(true, nil, 'Password Changed Successfully! Please login again.')
 			end
 		end
 
