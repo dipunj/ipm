@@ -39,6 +39,7 @@ body {
 
 .dark-styled {
 	--background: #0e0e0e;
+	--background-highlight: #00000064;
 	
 	--text-color: #ffffff;
 	--text-secondary: #bebebe;
@@ -62,7 +63,8 @@ body {
 .light-styled {
 	
 	--background: #ffffff;
-	
+	--background-highlight: #00000016;
+
 	--text-color: #000000;
 	--text-secondary: #949494;
 
@@ -186,4 +188,12 @@ body {
 	border-radius: 16px;
 	width: max-content;
 	padding: 16px;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
 }
