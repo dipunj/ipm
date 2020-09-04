@@ -25,17 +25,6 @@ const Container = styled.div`
 	flex-wrap: wrap;
 `;
 
-const MenuContainer = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin: 36px;
-	padding: 12px;
-	border: 1px solid var(--text-secondary);
-	border-radius: 20px;
-	background-color: inherit;
-`;
-
 const Column = styled.div`
 	display: flex;
 	align-items: center;
@@ -67,4 +56,4 @@ const IconContainer = styled.div`
 		background-color: var(--shadow);
 	}
 `;
-export { Wrapper, Container, Column, Greeting, IconContainer, MenuContainer };
+export { Wrapper, Container, Column, Greeting, IconContainer };

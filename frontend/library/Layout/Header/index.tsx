@@ -4,10 +4,11 @@ import { Select, ItemRenderer } from '@blueprintjs/select';
 import { useRouter } from 'next/router';
 import { SessionCtx } from '../../Context/SessionContext';
 import { ThemeCtx } from '../../Context/ThemeContext';
-import { Container, Greeting, Wrapper, Column, IconContainer, MenuContainer } from './styles';
+import { Container, Greeting, Wrapper, Column, IconContainer } from './styles';
 import request from '../../Request';
 import { getCookie, setCookie } from '../../../helpers';
 import ProfileOptions from '../../../components/Profile/Menu';
+import MainMenu from '../../../components/Menu';
 
 const switchStyle = { marginBottom: 0, marginRight: '16px' };
 const BuildingSelect = Select.ofType<any>();
@@ -38,7 +39,7 @@ const renderBuildingItem: ItemRenderer<IBuilding> = (
 
 const Header = (): JSX.Element => {
 	const {
-		ctx: { name, buildings },
+		ctx: { name, buildings, account_type, image_url },
 		refetchCtx,
 	}: any = useContext(SessionCtx);
 
@@ -79,7 +80,6 @@ const Header = (): JSX.Element => {
 	const drawerClass = `main-menu custom-background ${
 		isDark ? 'bp3-dark dark-styled' : 'light-styled'
 	}`;
-	const menu = <MenuContainer>menu</MenuContainer>;
 
 	const goToHome = () => (window.location.pathname = '/');
 
@@ -141,7 +141,7 @@ const Header = (): JSX.Element => {
 				className={drawerClass}
 				portalClassName="main-menu-portal"
 			>
-				{menu}
+				<MainMenu accountType={account_type} toggleMenu={closeMainMenu} />
 			</Drawer>
 		</Wrapper>
 	);
