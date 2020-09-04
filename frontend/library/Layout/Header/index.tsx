@@ -42,14 +42,12 @@ const Header = (): JSX.Element => {
 		refetchCtx,
 	}: any = useContext(SessionCtx);
 
-	const router = useRouter();
-
 	const { isDark, toggleTheme }: any = useContext(ThemeCtx);
 
 	// menu code
 	const [showMainMenu, setShowMainMenu] = useState(false);
-	const toggleMainMenu = () => setShowMainMenu((showMainMenu) => !showMainMenu);
-
+	const toggleMainMenu = () => setShowMainMenu((prev) => !prev);
+	const closeMainMenu = () => setShowMainMenu(false);
 	// building controls
 	const allowBuildingToggle = buildings.length > 1;
 	const currentBuilding = getCookie('_ipm_sb');
@@ -93,7 +91,10 @@ const Header = (): JSX.Element => {
 						<Icon icon="menu" />
 					</IconContainer>
 					Hi,
-					<Popover content={<ProfileOptions />} position="bottom">
+					<Popover
+						content={<ProfileOptions closeMenu={closeMainMenu} />}
+						position="bottom"
+					>
 						<Greeting>{name}</Greeting>
 					</Popover>
 					<IconContainer onClick={goToHome}>
