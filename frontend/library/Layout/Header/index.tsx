@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
-import { Button, Switch, Icon, Drawer, Position, MenuItem, Popover } from '@blueprintjs/core';
-import { Select, ItemRenderer } from '@blueprintjs/select';
+import { Button, Switch, Icon, Drawer, Position, Popover } from '@blueprintjs/core';
 import { useRouter } from 'next/router';
 import { SessionCtx } from '../../Context/SessionContext';
 import { ThemeCtx } from '../../Context/ThemeContext';
@@ -9,33 +8,9 @@ import request from '../../Request';
 import { getCookie, setCookie } from '../../../helpers';
 import ProfileOptions from '../../../components/Profile/Menu';
 import MainMenu from '../../../components/Menu';
+import BuildingSelect from '../../Select/Building';
 
 const switchStyle = { marginBottom: 0, marginRight: '16px' };
-const BuildingSelect = Select.ofType<any>();
-
-interface IBuilding {
-	id: string;
-	city: string;
-	branch_code: string;
-}
-
-const renderBuildingItem: ItemRenderer<IBuilding> = (
-	building: IBuilding,
-	{ handleClick, modifiers }
-) => {
-	if (!modifiers.matchesPredicate) {
-		return null;
-	}
-	return (
-		<MenuItem
-			active={modifiers.active}
-			key={building.id}
-			label={building.branch_code}
-			onClick={handleClick}
-			text={<div style={{ textTransform: 'capitalize' }}>{building.city}</div>}
-		/>
-	);
-};
 
 const Header = (): JSX.Element => {
 	const {
@@ -105,21 +80,9 @@ const Header = (): JSX.Element => {
 					<BuildingSelect
 						disabled={!allowBuildingToggle}
 						items={buildings}
-						itemRenderer={renderBuildingItem}
 						onItemSelect={handleBuildingSelect}
 						activeItem={selectedBuilding}
-						filterable={false}
-					>
-						<Button
-							disabled={!allowBuildingToggle}
-							text={
-								<div style={{ textTransform: 'capitalize' }}>
-									{`${selectedBuilding.city} / ${selectedBuilding.branch_code}`}
-								</div>
-							}
-							rightIcon="double-caret-vertical"
-						/>
-					</BuildingSelect>
+					/>
 				</Column>
 				<Column>
 					<Switch
