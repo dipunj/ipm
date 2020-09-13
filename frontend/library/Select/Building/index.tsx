@@ -1,15 +1,16 @@
-import { Select, ItemRenderer } from '@blueprintjs/select';
+import { Select, ItemRenderer, MultiSelect } from '@blueprintjs/select';
 import { Button, MenuItem } from '@blueprintjs/core';
 import { useContext, SyntheticEvent } from 'react';
 import { SessionCtx } from '../../Context/SessionContext';
 
-interface IBuilding {
+export interface IBuilding {
 	id: string;
 	city: string;
 	branch_code: string;
 }
 
 const BLDSelect = Select.ofType<IBuilding>();
+const MultiBLDSelect = MultiSelect.ofType<IBuilding>();
 
 const renderBuildingItem: ItemRenderer<IBuilding> = (
 	building: IBuilding,
@@ -29,38 +30,75 @@ const renderBuildingItem: ItemRenderer<IBuilding> = (
 	);
 };
 
+const multiSelectTagRenderer = (building: IBuilding): string => {
+	return `${building.city}-${building.branch_code}`;
+};
+
 interface IBuildingSelectProps {
+	multiSelect?: boolean;
 	disabled?: boolean;
 	items?: IBuilding[];
 	onItemSelect: (item: IBuilding, event?: SyntheticEvent<HTMLElement, Event> | undefined) => void;
 	activeItem: IBuilding;
 }
 
-const BuildingSelect = (props: IBuildingSelectProps) => {
+interface IBuildingMultiSelectProps {
+	multiSelect?: boolean;
+	items?: IBuilding[];
+	onItemSelect: (item: IBuilding, event?: SyntheticEvent<HTMLElement, Event> | undefined) => void;
+	multiSelectTagRemove: (_tag: string, index: number) => void;
+	activeItemList: IBuilding[];
+	clearButton?: JSX.Element;
+	fill: boolean;
+}
+
+const BuildingSelect = (props: IBuildingSelectProps | IBuildingMultiSelectProps) => {
 	const {
 		ctx: { buildings },
 	}: any = useContext(SessionCtx);
 
-	const { disabled = false, items = buildings, onItemSelect, activeItem } = props;
+	const { items = buildings, multiSelect = false } = props;
+
+	if (!multiSelect) {
+		const { disabled = false, onItemSelect, activeItem } = props;
+		return (
+			<BLDSelect
+				disabled={disabled}
+				items={items}
+				itemRenderer={renderBuildingItem}
+				onItemSelect={onItemSelect}
+				activeItem={activeItem}
+				filterable={false}
+			>
+				<Button
+					disabled={disabled}
+					text={
+						<div style={{ textTransform: 'capitalize' }}>
+							{`${activeItem.city} / ${activeItem.branch_code}`}
+						</div>
+					}
+					rightIcon="double-caret-vertical"
+				/>
+			</BLDSelect>
+		);
+	}
+
+	const { onItemSelect, fill, activeItemList, multiSelectTagRemove, clearButton } = props;
+
 	return (
-		<BLDSelect
-			disabled={disabled}
+		<MultiBLDSelect
 			items={items}
+			fill={fill}
 			itemRenderer={renderBuildingItem}
 			onItemSelect={onItemSelect}
-			activeItem={activeItem}
-			filterable={false}
-		>
-			<Button
-				disabled={disabled}
-				text={
-					<div style={{ textTransform: 'capitalize' }}>
-						{`${activeItem.city} / ${activeItem.branch_code}`}
-					</div>
-				}
-				rightIcon="double-caret-vertical"
-			/>
-		</BLDSelect>
+			itemsEqual="id"
+			tagRenderer={multiSelectTagRenderer}
+			selectedItems={activeItemList}
+			tagInputProps={{
+				onRemove: multiSelectTagRemove,
+				rightElement: clearButton,
+			}}
+		/>
 	);
 };
 
