@@ -21,7 +21,7 @@ const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 			{
 				position: 2,
 				icon: 'filter-list',
-				name: 'Current Admissions',
+				name: 'Active Admissions',
 				onClick: () => handleRedirect('/admission/active'),
 			},
 			{
@@ -52,7 +52,7 @@ const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 			{
 				position: 2,
 				icon: 'filter-list',
-				name: 'Current Admissions',
+				name: 'Active Admissions',
 				onClick: () => handleRedirect('/admission/active'),
 			},
 			{

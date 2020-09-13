@@ -159,8 +159,16 @@ body {
 	width: 50%;
 }
 
+.min-half-width {
+	min-width: 50%;
+}
+
 .quarter-width {
 	width: 25%;
+}
+
+.min-quarter-width {
+	min-width: 25%;
 }
 
 .align-center {
@@ -188,6 +196,14 @@ body {
 	border-radius: 16px;
 	width: max-content;
 	padding: 16px;
+}
+
+.flex-grow {
+	flex-grow: 1;
+}
+
+.mr-input{
+	margin-right: 32px;
 }
 
 input[type=number]::-webkit-inner-spin-button, 
