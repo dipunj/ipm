@@ -1,7 +1,7 @@
 module Setup
 	class UserService < SetupService
 
-		def self.create_new_user(params)
+		def self.create_new_user(params, building_params)
 			raise 'Name should not be empty'              if params[:name].blank?
 			raise 'Please Select Account type'            if params[:account_type].blank?
 			raise 'Please enter your mobile phone number' if params[:login_id].blank?
@@ -19,6 +19,9 @@ module Setup
 			# allow access to all buildings
 			if params[:account_type] == AccountTypes::ADMIN
 				user.buildings << Building.all
+			else
+				buildings = Building.where(id: building_params[:building_id_list])
+				user.buildings << buildings.select{ |building| ! user.buildings.include?(building) }
 			end
 			return ResponseHelper.json(true, user, 'Successfully Created User')
 		end

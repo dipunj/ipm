@@ -3,7 +3,7 @@ class Api::V1::Setup::UserController < Api::V1::BaseController
 	before_action :set_service, :require_escalated_privileges
 
 	def create
-		response = @service.create_new_user(user_params)
+		response = @service.create_new_user(user_params, building_params)
 		render json: response
 	end
 
@@ -60,7 +60,7 @@ class Api::V1::Setup::UserController < Api::V1::BaseController
 		end
 
 		def user_params
-			params.permit(:name, :account_type, :image_url, :login_id, :password, :password_confirmation)
+			params.permit(:name, :account_type, :image_url, :login_id, :password)
 		end
 
 		def user_id
