@@ -52,7 +52,7 @@ class Api::V1::Setup::WardController < Api::V1::BaseController
     end
 
     def building_id
-      params.permit(:building_id)[:building_id]
+      cookies[:_ipm_sb]
     end
 
     def filter_params

@@ -37,6 +37,7 @@ module Setup
 			bed = Bed.find_by(id: id)
 			raise 'No Such Bed exists in database' if bed.blank?
 			bed.delete
+			bed.save
 
 			return ResponseHelper.json(true, nil, 'Bed Deleted Successfully')
 		end
