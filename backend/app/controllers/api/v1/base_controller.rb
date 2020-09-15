@@ -30,22 +30,22 @@ class Api::V1::BaseController < ApplicationController
 		render json: {
 			success: false,
 			is_authenticated: false,
-			data: {
+			response: {
 				data: nil,
 				message: 'Not authenticated'
 			}
-		} unless authenticated?
+		}, status: 401 unless authenticated?
 	end
 
 	def require_escalated_privileges
 		render json: {
 			success: false,
 			is_authenticated: true,
-			data: {
+			response: {
 				data: nil,
 				message: 'Unauthorised'
 			}
-		} unless current_user[:account_type] == AccountTypes::ADMIN
+		}, status: 403 unless current_user[:account_type] == AccountTypes::ADMIN
 	end
 
 

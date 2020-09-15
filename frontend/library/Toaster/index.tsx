@@ -13,6 +13,10 @@ export const handleErrorToast = (error: { response: AxiosResponse }, props = {})
 	AppToast?.show({ intent: 'danger', message: error.response.data.response.message, ...props });
 
 export const handleSuccessToast = (response: AxiosResponse, props = {}) =>
-	AppToast?.show({ intent: 'success', message: response.data.response.message, ...props });
+	AppToast?.show({
+		intent: response.status === 200 ? 'success' : 'warning',
+		message: response.data.response.message,
+		...props,
+	});
 
 export default AppToast;

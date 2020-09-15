@@ -53,7 +53,7 @@ ward_list = [
 	},
 	{
 		floor: 1,
-		ward_type: 'luxury',
+		ward_type: 'Luxury',
 		ward_number: 1
 	}
 ]
