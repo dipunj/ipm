@@ -36,7 +36,10 @@ interface ATProps {
 }
 
 const AccountTypeSelect = (props: ATProps) => {
-	const selectedText = props.activeText || props.activeItem || 'Select';
+	const { activeItem, activeText, intent } = props;
+	let selectedText = activeText || activeItem || 'Select';
+	selectedText = selectedText.charAt(0).toUpperCase() + selectedText.slice(1);
+
 	return (
 		<ATSelect
 			{...props}
@@ -44,7 +47,7 @@ const AccountTypeSelect = (props: ATProps) => {
 			items={AccountTypeList}
 			filterable={false}
 		>
-			<Button intent={props.intent} text={selectedText} rightIcon="double-caret-vertical" />
+			<Button intent={intent} text={selectedText} rightIcon="double-caret-vertical" />
 		</ATSelect>
 	);
 };
