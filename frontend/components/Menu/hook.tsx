@@ -35,8 +35,8 @@ const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 			{
 				position: 1,
 				icon: 'office',
-				name: 'Beds And Wards',
-				onClick: () => handleRedirect('/building/view'),
+				name: 'New Building',
+				onClick: () => handleRedirect('/building/new'),
 			},
 		],
 	};
@@ -86,19 +86,20 @@ const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 			{
 				position: 1,
 				icon: 'office',
-				name: 'Beds And Wards',
-				onClick: () => handleRedirect('/building/view'),
+				name: 'New Building',
+				onClick: () => handleRedirect('/building/new'),
 			},
 			{
 				position: 2,
 				icon: '',
 				name: 'New Ward / Bed',
-				onClick: () => handleRedirect('/building/create'),
+				onClick: () => handleRedirect('/building/wards'),
 			},
 			{
 				position: 3,
 				icon: '',
-				name: 'Backup Building Structure',
+				name: 'View Current Building',
+				onClick: () => handleRedirect('/building/view'),
 			},
 		],
 		'Analytics & Data': [

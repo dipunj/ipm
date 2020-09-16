@@ -32,7 +32,11 @@ const BuildingCtxProvider = ({ children }: { children: JSX.Element }): JSX.Eleme
 	}, []);
 
 	if (loading) return <div style={{ height: '100vh', width: '100vw' }} />;
-	return <BuildingCtx.Provider value={{ ctx, setCtx }}>{children}</BuildingCtx.Provider>;
+	return (
+		<BuildingCtx.Provider value={{ ctx, setCtx, refetch: fetchBuilding }}>
+			{children}
+		</BuildingCtx.Provider>
+	);
 };
 
 // wont ever be used for Functional components
