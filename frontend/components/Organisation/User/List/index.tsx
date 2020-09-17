@@ -1,10 +1,12 @@
 import { prettyJSON } from '../../../../helpers';
 import useFetch from '../../../../library/hooks/fetch';
 import Loader from '../../../../library/Loader';
+import request from '../../../../library/Request';
+import { handleErrorToast, handleSuccessToast } from '../../../../library/Toaster';
 import Card, { HeaderCard } from './Card';
 
 const ListAllUsers = () => {
-	const { data, loading } = useFetch('/setup/user/list');
+	const { data, loading, refetch } = useFetch('/setup/user/list');
 
 	if (loading) {
 		return (
@@ -15,7 +17,23 @@ const ListAllUsers = () => {
 		);
 	}
 
-	const cards = data.map((user) => <Card {...user} />);
+	// TODO: Allow user to select if he wants to hard delete (delete from db)/soft delete (toggle state) a user
+	const handleDelete = async (user_id: string) => {
+		try {
+			const response = await request.post('/setup/user/toggle_state', {
+				id: user_id,
+			});
+			handleSuccessToast(response);
+			refetch();
+		} catch (error) {
+			handleErrorToast(error);
+		}
+	};
+
+	const handleEdit = () => {};
+	const cards = data.map((user) => (
+		<Card key={user.id} {...{ userData: user, handleDelete, handleEdit }} />
+	));
 	return (
 		<div className="page-content">
 			<div className="page-title">All Users</div>
