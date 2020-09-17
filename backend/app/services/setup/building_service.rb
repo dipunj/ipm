@@ -2,7 +2,16 @@ module Setup
 	class BuildingService < SetupService
 
 		def self.create_new_building(params)
-			new_building = Building.create!(params)
+			new_building = nil
+			ActiveRecord::Base.transaction do
+				new_building = Building.create!(params)
+				admin_users = User.where(account_type: AccountTypes::ADMIN)
+
+				admin_users.each do |admin|
+					admin.buildings << new_building
+				end
+			end
+
 			return ResponseHelper.json(true,
 									   new_building,
 									   'Building Created Successfully')
@@ -51,10 +60,10 @@ module Setup
 		def self.fetch_all_buildings
 			buildings = Building.all
 			return ResponseHelper.json(true,
-								{
-									count: buildings.length,
-									buildings: buildings
-								}, nil)
+									   {
+										   count: buildings.length,
+										   buildings: buildings
+									   }, nil)
 		end
 
 		def self.find_building(params)
