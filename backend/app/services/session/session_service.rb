@@ -20,7 +20,7 @@ module Session
 					else nil
 				end
 			end
-			ResponseHelper.json(true, nil, 'Invalid Username or password')
+			ResponseHelper.json(false, nil, 'Invalid Username or password')
 		end
 
 		def self.check_cookie(user_id)

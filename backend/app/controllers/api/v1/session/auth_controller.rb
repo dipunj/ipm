@@ -7,15 +7,19 @@ class Api::V1::Session::AuthController < Api::V1::BaseController
 		reset_session
 		response = @service.authenticate(login_params)
 		if ENV["AUTH_MODE"] == 'cookie'
-			session[:user_id] = response[:response][:data]["id"]
-			cookies[:_ipm_sb] = {
-				value: response[:response][:data]["buildings"][0]["id"],
-				domain: 'localhost',
-				expires: 1.week,
-				path: '/'
-			}
+			if response[:success]
+				session[:user_id] = response[:response][:data]["id"]
+				cookies[:_ipm_sb] = {
+					value: response[:response][:data]["buildings"][0]["id"],
+					domain: 'localhost',
+					expires: 1.week,
+					path: '/'
+				}
+				render json: response
+			else
+				render json: response.as_json, status: 401
+			end
 		end
-		render json: response
 	end
 
 	def is_logged_in

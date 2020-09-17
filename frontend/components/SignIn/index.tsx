@@ -3,6 +3,7 @@ import { Button, Dialog, FormGroup, InputGroup } from '@blueprintjs/core';
 import { Background, Column, Logo, CenterColumn, Brand, AppName } from './styles';
 import request from '../../library/Request';
 import { SessionCtx } from '../../library/Context/SessionContext';
+import { handleErrorToast, handleSuccessToast } from '../../library/Toaster';
 
 const signInButtonStyles = {
 	background: 'var(--brand-color)',
@@ -30,18 +31,21 @@ const Landing = (): JSX.Element => {
 
 	const handleSubmit = async () => {
 		try {
-			const {
-				data: { success, is_authenticated },
-			} = await request.post('/session/auth/login', {
+			const response = await request.post('/session/auth/login', {
 				login_id: loginId,
 				password,
 			});
+			const {
+				data: { success, is_authenticated },
+			} = response;
 
 			if (success && is_authenticated) {
 				refetchCtx();
+			} else {
+				handleSuccessToast(response);
 			}
 		} catch (error) {
-			alert(error);
+			handleErrorToast(error);
 		}
 	};
 
