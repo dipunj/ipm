@@ -41,7 +41,7 @@ const Header = (): JSX.Element => {
 	const handleBuildingSelect = async (building: IBuilding, _e: any) => {
 		setCookie('_ipm_sb', building.id);
 		setSelectedBuilding(building);
-		window.location.pathname = '/';
+		window.location.reload();
 	};
 
 	// session controls
