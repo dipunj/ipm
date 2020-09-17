@@ -48,7 +48,7 @@ const Landing = (): JSX.Element => {
 	return (
 		<Background>
 			<CenterColumn>
-				<Logo src="/images/logo_large.png" alt="Hospital Logo" />
+				<Logo src={process.env.NEXT_PUBLIC_LOGO_URL} alt="Hospital Logo" />
 			</CenterColumn>
 			<Column>
 				<Brand>{process.env.NEXT_PUBLIC_HOSPITAL_NAME}</Brand>

@@ -25,10 +25,11 @@ export const Logo = styled.img`
 `;
 
 export const Brand = styled.h1`
-	font-family: Amiko;
+	font-family: Helvetica, sans-serif;
 	font-weight: 100;
 	font-size: 58px;
 	color: white;
+	text-shadow: 0 0px 64px black;
 `;
 
 export const AppName = styled.h2`
