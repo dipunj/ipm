@@ -117,7 +117,7 @@ const ViewBuildingStructure = () => {
 						}
 						return acc;
 					}, {})
-				).reverse()
+				).sort((a, b) => b.id - a.id)
 			);
 		}
 	}, [loading]);
