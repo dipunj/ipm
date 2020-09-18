@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { prettyJSON } from '../../../../helpers';
 import useFetch from '../../../../library/hooks/fetch';
 import Loader from '../../../../library/Loader';
@@ -6,6 +7,7 @@ import { handleErrorToast, handleSuccessToast } from '../../../../library/Toaste
 import Card, { HeaderCard } from './Card';
 
 const ListAllUsers = () => {
+	const router = useRouter();
 	const { data, loading, refetch } = useFetch('/setup/user/list');
 
 	if (loading) {
@@ -30,7 +32,9 @@ const ListAllUsers = () => {
 		}
 	};
 
-	const handleEdit = () => {};
+	const handleEdit = (user_id: string) => {
+		router.push('/user/edit/[user_id]', `/user/edit/${user_id}`);
+	};
 	const cards = data.map((user) => (
 		<Card key={user.id} {...{ userData: user, handleDelete, handleEdit }} />
 	));
