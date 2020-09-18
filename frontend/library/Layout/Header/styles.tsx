@@ -47,7 +47,7 @@ const Greeting = styled.div`
 `;
 
 const IconContainer = styled.div`
-	cursor: pointer;
+	cursor: ${(props: { disabled?: boolean }) => (props.disabled ? 'not-allowed' : 'pointer')};
 	padding: 16px;
 	border-radius: 50%;
 	margin-right: 20px;

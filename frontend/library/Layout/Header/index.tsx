@@ -8,7 +8,7 @@ import request from '../../Request';
 import { getCookie, setCookie } from '../../../helpers';
 import ProfileOptions from '../../../components/Profile/Menu';
 import MainMenu from '../../../components/Menu';
-import BuildingSelect from '../../Select/Building';
+import BuildingSelect, { IBuilding } from '../../Select/Building';
 
 const switchStyle = { marginBottom: 0, marginRight: '16px' };
 
@@ -25,6 +25,7 @@ const Header = (): JSX.Element => {
 	const toggleMainMenu = () => setShowMainMenu((prev) => !prev);
 	const closeMainMenu = () => setShowMainMenu(false);
 	// building controls
+	const showBuildingToggle = buildings.length !== 0;
 	const allowBuildingToggle = buildings.length > 1;
 	const currentBuilding = getCookie('_ipm_sb');
 	const [selectedBuilding, setSelectedBuilding] = useState(
@@ -32,7 +33,7 @@ const Header = (): JSX.Element => {
 	);
 
 	useEffect(() => {
-		if (!selectedBuilding) {
+		if (!selectedBuilding && buildings.length > 0) {
 			setCookie('_ipm_sb', buildings[0].id);
 			setSelectedBuilding(buildings[0]);
 		}
@@ -62,9 +63,15 @@ const Header = (): JSX.Element => {
 		<Wrapper>
 			<Container>
 				<Column>
-					<IconContainer onClick={toggleMainMenu}>
-						<Icon icon="menu" />
-					</IconContainer>
+					{showBuildingToggle ? (
+						<IconContainer onClick={toggleMainMenu}>
+							<Icon icon="menu" />
+						</IconContainer>
+					) : (
+						<IconContainer disabled>
+							<Icon icon="menu" />
+						</IconContainer>
+					)}
 					Hi,
 					<Popover
 						content={<ProfileOptions closeMenu={closeMainMenu} />}
@@ -76,14 +83,20 @@ const Header = (): JSX.Element => {
 						<Icon icon="home" />
 					</IconContainer>
 				</Column>
-				<Column>
-					<BuildingSelect
-						disabled={!allowBuildingToggle}
-						items={buildings}
-						onItemSelect={handleBuildingSelect}
-						activeItem={selectedBuilding}
-					/>
-				</Column>
+				{showBuildingToggle > 0 ? (
+					<Column>
+						<BuildingSelect
+							disabled={!allowBuildingToggle}
+							items={buildings}
+							onItemSelect={handleBuildingSelect}
+							activeItem={selectedBuilding}
+						/>
+					</Column>
+				) : (
+					<Column>
+						<div className="bp3-callout bp3-intent-danger">No Building Access</div>
+					</Column>
+				)}
 				<Column>
 					<Switch
 						checked={isDark}

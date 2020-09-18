@@ -14,7 +14,13 @@ const BuildingCtxProvider = ({ children }: { children: JSX.Element }): JSX.Eleme
 	const fetchBuilding = async () => {
 		try {
 			await setLoading(true);
+			// the following fetches the structure of the building referred by the building id set in _ipm_sb cookie
+			// if _ipm_sb cookie is empty/ unauthorised building id is set,
+			// then status 500 would be issued
+			// ctx would be === {}
 			const response = await request.get('/setup/building/structure');
+
+			// status 200
 			if (response.data.success && response.data.is_authenticated) {
 				setCtx({ ...response.data.response.data });
 			} else {
