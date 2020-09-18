@@ -24,9 +24,9 @@ const Card = (props: ICardProps) => {
 		handleEdit,
 	} = props;
 
-	const onEnter = () => setIsHover(() => true);
-
-	const onExit = () => setIsHover(() => false);
+	const isSysAdmin = login_id === 'admin';
+	const onEnter = () => !isSysAdmin && setIsHover(() => true);
+	const onExit = () => !isSysAdmin && setIsHover(() => false);
 
 	const onDelete = () => handleDelete(id);
 	const onEdit = () => handleEdit(id);
@@ -59,7 +59,7 @@ const Card = (props: ICardProps) => {
 	);
 
 	return (
-		<Row onMouseEnter={onEnter} onMouseLeave={onExit}>
+		<Row onMouseOver={onEnter} onMouseOut={onExit}>
 			<Cell>{name}</Cell>
 			{isHover ? hoverContent : defaultContent}
 		</Row>
