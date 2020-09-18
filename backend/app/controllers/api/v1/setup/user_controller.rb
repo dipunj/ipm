@@ -13,7 +13,7 @@ class Api::V1::Setup::UserController < Api::V1::BaseController
 	end
 
 	def update
-		response = @service.update_existing_user(user_id, user_params)
+		response = @service.update_existing_user(user_id, user_params, building_params)
 		render json: response
 	end
 
@@ -60,7 +60,7 @@ class Api::V1::Setup::UserController < Api::V1::BaseController
 		end
 
 		def user_params
-			params.permit(:name, :account_type, :image_url, :login_id, :password)
+			params.permit(:name, :account_type, :image_url, :login_id, :password, :password_confirmation)
 		end
 
 		def user_id

@@ -109,6 +109,11 @@ const Landing = (): JSX.Element => {
 	);
 };
 
-Landing.getLayout = (page: any) => page;
+// our index page points at the active admission list page,
+// which is enclosed inside the SessionCtxProvider component,
+// so the following get layout is never used, since we are never directly rendering SignIn component.
+// SessionCtxProvider itself handles whether to show the above component or to show the active admission component
+// SessionCtxProvider is the root element in our DOM so it gets to decide what to show based on auth status
+// Landing.getLayout = (page: any) => page;
 
 export default Landing;

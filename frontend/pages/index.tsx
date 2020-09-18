@@ -1,1 +1,1 @@
-export { default } from '../components/Admission/ActiveList';
+export { default } from '../components/HomePageController';
