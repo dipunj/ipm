@@ -22,11 +22,11 @@
 	"todo-tree.tree.scanMode": "current file",
 	"editor.wordWrapColumn": 120,
 	"editor.wordWrap": "bounded",
-	
 	"editor.formatOnSave": false,
+	"eslint.packageManager": "yarn",
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": true
-	},
+	}
 	// "extensions.enabled": [
 	// 	"formulahendry.auto-close-tag",
 	// 	"coenraads.bracket-pair-colorizer-2",

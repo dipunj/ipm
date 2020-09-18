@@ -26,9 +26,9 @@
 	"rules": {
 		// NextJs specific fix: allow jsx syntax in js/ts files
 		// "import/extensions": ["error", "ignorePackages"],
+		"react/react-in-jsx-scope": "off",
 		"camelcase": "off",
 		"react/jsx-props-no-spreading": "off",
-		"react/react-in-jsx-scope": "off",
 		"react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
 		"prettier/prettier": ["error"]
 	}
