@@ -9,13 +9,14 @@ class Api::V1::Session::AuthController < Api::V1::BaseController
 		if ENV["AUTH_MODE"] == 'cookie'
 			if response[:success]
 				session[:user_id] = response[:response][:data]["id"]
+				cookie_val = response[:response][:data]["buildings"].length > 0 ? response[:response][:data]["buildings"][0]["id"] : ""
 				cookies[:_ipm_sb] = {
-					value: response[:response][:data]["buildings"][0]["id"],
+					value: cookie_val,
 					domain: 'localhost',
 					expires: 1.week,
 					path: '/'
 				}
-				render json: response
+				render json: response.as_json
 			else
 				render json: response.as_json, status: 401
 			end

@@ -17,7 +17,7 @@ module Setup
 									   'Building Created Successfully')
 		end
 
-		# used by operators on inital call to set context in frontend
+		# used by operators on initial call to set context in frontend
 		def self.fetch_building_by_id(id)
 			building = Building.find_by(id: id)
 			occupied_beds = Admission.where(is_discharged: false).joins(bed: [ward: [:building]]).where("buildings.id = ?",id).pluck(:bed_id)

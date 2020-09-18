@@ -16,14 +16,7 @@ class Api::V1::BaseController < ApplicationController
 			error_message = 'You are not allowed to access this building'
 		end
 
-		render json: {
-			success: false,
-			is_authenticated: true,
-			data: {
-				data:    nil,
-				message: error_message
-			}
-		} unless error_message.nil?
+		render json: ResponseHelper.json(false, nil, error_message), status: 500 unless error_message.nil?
 	end
 
 	def authenticate!
