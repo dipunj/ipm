@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
   create_table "buildings_users", id: false, force: :cascade do |t|
     t.uuid "building_id", null: false
     t.uuid "user_id", null: false
+    t.index ["building_id", "user_id"], name: "index_buildings_users_on_building_id_and_user_id", unique: true
   end
 
   create_table "patients", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
