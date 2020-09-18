@@ -45,15 +45,18 @@ const NewUser = () => {
 	};
 
 	return (
-		<UserForm
-			{...{
-				data,
-				setData,
-				handleAPICall,
-				handleClear,
-				handleTagRemove,
-			}}
-		/>
+		<div className="page-content">
+			<h1 className="page-title">New User</h1>
+			<UserForm
+				{...{
+					data,
+					setData,
+					handleAPICall,
+					handleClear,
+					handleTagRemove,
+				}}
+			/>
+		</div>
 	);
 };
 

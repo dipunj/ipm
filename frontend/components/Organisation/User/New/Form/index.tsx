@@ -1,4 +1,4 @@
-import { FormGroup, InputGroup, Button, Callout } from '@blueprintjs/core';
+import { FormGroup, InputGroup, Button, Callout, Checkbox } from '@blueprintjs/core';
 import { ChangeEvent, SyntheticEvent } from 'react';
 import { Wrapper } from './styles';
 import AccountTypeSelect from '../../../../../library/Select/AccountType';
@@ -19,10 +19,24 @@ interface IUserFormProps {
 	handleTagRemove: (_tag: string, index: number) => void;
 	handleClear: () => void;
 	handleAPICall: () => void;
+	ctaName?: string;
+	showPasswordToggle?: boolean;
+	enablePasswordUpdate?: boolean;
+	togglePasswordUpdate?: () => void;
 }
 
 const UserForm = (props: IUserFormProps) => {
-	const { data, setData, handleAPICall, handleClear, handleTagRemove } = props;
+	const {
+		data,
+		setData,
+		handleAPICall,
+		handleClear,
+		handleTagRemove,
+		ctaName = 'Create',
+		showPasswordToggle = false,
+		enablePasswordUpdate = true,
+		togglePasswordUpdate,
+	} = props;
 
 	const onChange = (fieldName?: string): any => {
 		switch (fieldName) {
@@ -66,90 +80,105 @@ const UserForm = (props: IUserFormProps) => {
 		}
 	};
 
+	const buttonDisabled = !data.name || !data.login_id || !data.account_type;
+
 	return (
-		<div className="page-content">
-			<h1 className="page-title">New User</h1>
-			<Wrapper>
-				<div className="row full-width">
-					<FormGroup label="Full Name" className="full-width">
+		<Wrapper>
+			<div className="row full-width">
+				<FormGroup label="Full Name" className="full-width">
+					<InputGroup
+						fill
+						name="name"
+						type="text"
+						placeholder="Display Name"
+						value={data.name}
+						onChange={onChange()}
+					/>
+				</FormGroup>
+			</div>
+			<div className="row full-width wrap">
+				<div className="min-half-width">
+					<FormGroup label="Username (Login ID)" className="mr-input">
 						<InputGroup
-							fill
-							name="name"
 							type="text"
-							placeholder="Display Name"
-							value={data.name}
+							name="login_id"
+							placeholder="Phone Number / Email ID"
+							value={data.login_id}
 							onChange={onChange()}
 						/>
 					</FormGroup>
 				</div>
-				<div className="row full-width wrap">
-					<div className="min-half-width">
-						<FormGroup label="Username (Login ID)" className="mr-input">
-							<InputGroup
-								type="text"
-								name="login_id"
-								placeholder="Phone Number / Email ID"
-								value={data.login_id}
-								onChange={onChange()}
-							/>
-						</FormGroup>
-					</div>
-					<div className="min-half-width">
-						<FormGroup
-							label="Password"
-							helperText="Can be changed later by user"
-							// className="min-half-width"
-						>
-							<InputGroup
-								name="password"
-								type="text"
-								placeholder="Password"
-								value={data.password}
-								onChange={onChange()}
-							/>
-						</FormGroup>
-					</div>
+				<div className="row min-half-width align-center">
+					<FormGroup
+						label="Password"
+						helperText="Can be changed later by user"
+						className={showPasswordToggle ? 'half-width mr-input' : 'full-width'}
+						// className="min-half-width"
+					>
+						<InputGroup
+							name="password"
+							disabled={!enablePasswordUpdate}
+							type="text"
+							placeholder="Password"
+							value={data.password}
+							onChange={onChange()}
+						/>
+					</FormGroup>
+					{showPasswordToggle && (
+						<Checkbox
+							checked={enablePasswordUpdate}
+							onClick={togglePasswordUpdate}
+							label="Change Password"
+						/>
+					)}
 				</div>
-				<div className="row full-width wrap">
-					<div className="min-half-width">
-						<FormGroup label="Account Type" className="min-half-width">
-							<AccountTypeSelect
-								intent="none"
-								activeItem={data.account_type}
-								onItemSelect={onChange('account_type')}
+			</div>
+			<div className="row full-width wrap">
+				<div className="min-half-width">
+					<FormGroup label="Account Type" className="min-half-width">
+						<AccountTypeSelect
+							intent="none"
+							activeItem={data.account_type}
+							onItemSelect={onChange('account_type')}
+						/>
+					</FormGroup>
+				</div>
+				<div className="min-half-width">
+					<FormGroup label="Authorised Buildings" className="min-half-width">
+						{data.account_type !== 'admin' ? (
+							<BuildingSelect
+								multiSelect
+								fill
+								activeItemList={data.buildings}
+								onItemSelect={onChange('buildings')}
+								multiSelectTagRemove={handleTagRemove}
+								clearButton={
+									data.buildings.length > 0 ? (
+										<Button icon="cross" minimal onClick={handleClear} />
+									) : undefined
+								}
 							/>
-						</FormGroup>
-					</div>
-					<div className="min-half-width">
-						<FormGroup label="Authorised Buildings" className="min-half-width">
-							{data.account_type !== 'admin' ? (
-								<BuildingSelect
-									multiSelect
-									fill
-									activeItemList={data.buildings}
-									onItemSelect={onChange('buildings')}
-									multiSelectTagRemove={handleTagRemove}
-									clearButton={
-										data.buildings.length > 0 ? (
-											<Button icon="cross" minimal onClick={handleClear} />
-										) : undefined
-									}
-								/>
-							) : (
-								<Callout>Admin account type has access to all buildings</Callout>
-							)}
-						</FormGroup>
-					</div>
+						) : (
+							<Callout>Admin account type has access to all buildings</Callout>
+						)}
+					</FormGroup>
 				</div>
-				<div className="row justify-center" style={{ marginTop: '24px' }}>
-					<div className="min-quarter-width">
-						<Button fill intent="primary" outlined large onClick={handleAPICall}>
-							Create
-						</Button>
-					</div>
+			</div>
+			<div className="row justify-center" style={{ marginTop: '24px' }}>
+				<div className="min-quarter-width">
+					<Button
+						fill
+						intent="primary"
+						outlined
+						large
+						onClick={handleAPICall}
+						disabled={buttonDisabled}
+					>
+						{ctaName}
+					</Button>
 				</div>
-			</Wrapper>
-		</div>
+			</div>
+		</Wrapper>
 	);
 };
 
