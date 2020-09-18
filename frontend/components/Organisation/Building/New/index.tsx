@@ -1,5 +1,6 @@
 import { FormGroup, InputGroup } from '@blueprintjs/core';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
+import { SessionCtx } from '../../../../library/Context/SessionContext';
 import request from '../../../../library/Request';
 import { handleErrorToast, handleSuccessToast } from '../../../../library/Toaster';
 import BuildingForm from './Form';
@@ -16,11 +17,13 @@ const initialState = {
 };
 
 const NewBuilding = () => {
+	const { refetchCtx } = useContext(SessionCtx);
 	const [data, setData] = useState(initialState);
 	const handleSubmit = async () => {
 		try {
 			const response = await request.post('/setup/building/create', data);
 			handleSuccessToast(response);
+			refetchCtx();
 		} catch (error) {
 			handleErrorToast(error);
 		}
