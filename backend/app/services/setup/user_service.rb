@@ -18,28 +18,30 @@ module Setup
 
 			# allow access to all buildings
 			if params[:account_type] == AccountTypes::ADMIN
-				user.buildings << Building.all
+				user.buildings = Building.all
 			else
 				buildings = Building.where(id: building_params[:building_id_list])
 				user.buildings << buildings.select{ |building| ! user.buildings.include?(building) }
 			end
+			user.save
 			return ResponseHelper.json(true, user, 'Successfully Created User')
 		end
 
 		def self.fetch_user_by_id(user_id)
 			user = User.find_by(id: user_id)
 			return ResponseHelper.json(true, nil, 'No Such User') if user.nil?
-			return ResponseHelper.json(true, user, nil)
+			return ResponseHelper.json(true, user.as_json(User.with_all_data), nil)
 
 		end
 
-		def self.update_existing_user(user_id, params)
+		def self.update_existing_user(user_id, params, building_params)
 			user = User.find_by(id: user_id)
-			return ResponseHelper.json(true, nil, 'No Such User') if user.nil?
+			raise 'No Such User' if user.nil?
+
 			update_params = {
-				name: params[:name] || user[:name],
+				name:         params[:name]         || user[:name],
 				account_type: params[:account_type] || user[:account_type],
-				login_id: params[:login_id] || user[:login_id],
+				login_id:     params[:login_id]     || user[:login_id],
 			}
 
 			if params[:password] && params[:password_confirmation]
@@ -48,6 +50,15 @@ module Setup
 			end
 
 			user.update!(update_params)
+			# allow access to all buildings
+			if params[:account_type] == AccountTypes::ADMIN
+				user.buildings = Building.all
+			else
+				buildings = Building.where(id: building_params[:building_id_list])
+				# user.buildings = buildings.select{ |building| ! user.buildings.include?(building) }
+				user.buildings = buildings
+			end
+			user.save
 
 			return ResponseHelper.json(true, user, 'User Updated Successfully')
 		end

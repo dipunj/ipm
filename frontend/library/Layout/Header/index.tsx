@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
 import { Button, Switch, Icon, Drawer, Position, Popover } from '@blueprintjs/core';
-import { useRouter } from 'next/router';
 import { SessionCtx } from '../../Context/SessionContext';
 import { ThemeCtx } from '../../Context/ThemeContext';
 import { Container, Greeting, Wrapper, Column, IconContainer } from './styles';

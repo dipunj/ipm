@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_114638) do
     t.string "purpose", limit: 255
     t.string "comment", limit: 255
     t.string "guardian_name", limit: 255, null: false
-    t.string "guardian_phone", limit: 15
+    t.string "guardian_phone", limit: 15, null: false
     t.uuid "bed_id", null: false
     t.uuid "patient_id", null: false
     t.uuid "updated_by_id", null: false

@@ -43,7 +43,7 @@ Rails.application.routes.draw do
 
 
 		post       'user/create'           => 'user#create'
-		get        'user/read'             => 'user#read'
+		get        'user/find'             => 'user#read'
 		post       'user/update'           => 'user#update'
 		post       'user/delete'           => 'user#delete'
 		get        'user/list'             => 'user#list_all'

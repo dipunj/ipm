@@ -108,7 +108,7 @@ dummy_patients = [
 			doctor_name: 'Dr. Banner',
 			purpose: "Thor's brother hypnotised him using a blue cube, feels a like shit",
 			guardian_name: 'Natasha Romanoff',
-			guardian_phone: nil,
+			guardian_phone: '89764231789',
 		}
 	}
 ]
@@ -137,7 +137,7 @@ dummy_transactions = [
 	}
 ]
 
-admin_hash = Setup::UserService.create_new_user(admin_params)
+admin_hash = Setup::UserService.create_new_user(admin_params, {})
 admin = User.find_by(id: admin_hash[:response][:data][:id])
 building_ids = []
 ward_ids = []
@@ -159,8 +159,6 @@ building_list.each { |building_params|
 		}
 	}
 }
-
-admin.buildings << Building.all
 
 dummy_patients.each_with_index do |params, idx|
 	params[:admission_params].merge!({bed_id: bed_ids[idx]})
