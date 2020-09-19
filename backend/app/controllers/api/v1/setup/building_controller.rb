@@ -39,7 +39,7 @@ class Api::V1::Setup::BuildingController < Api::V1::BaseController
 	# for use by operators
 
 	def find_building_by_id
-		response = @service.fetch_building_by_id(selected_building_id, true)
+		response = @service.fetch_building_by_id(selected_building_id, true, patient_data)
 		render json: response
 	end
 
@@ -66,5 +66,9 @@ class Api::V1::Setup::BuildingController < Api::V1::BaseController
 
 		def building_id
 			params.permit(:id)[:id]
+		end
+
+		def patient_data
+			params.permit(:patient_data)[:patient_data]
 		end
 end
