@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 	  namespace :setup do
         post       'building/create'       => 'building#create'
 		get        'building/structure'    => 'building#find_building_by_id'
+		get        'building/find'         => 'building#find'
 		post       'building/update'       => 'building#update'
 		post       'building/delete'       => 'building#delete'
 		get        'building/list'         => 'building#list_all'
