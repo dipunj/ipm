@@ -3,12 +3,12 @@ import styled from 'styled-components';
 export const MenuContainer = styled.div`
 	display: flex;
 	align-items: stretch;
-	justify-content: flex-start;
 	margin: 36px;
 	padding: 12px;
 	border: 1px solid var(--border-color);
 	border-radius: 20px;
 	background-color: inherit;
+	width: 100%;
 `;
 
 export const Title = styled.div`
@@ -17,19 +17,30 @@ export const Title = styled.div`
 	font-size: 20px;
 `;
 
+export const SectionWrapper = styled.div`
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
+
 export const Section = styled.div`
-	position: relative;
 	display: flex;
 	flex-direction: column;
 	padding: 24px;
 `;
 
+export const DividerContainer = styled.div`
+	position: relative;
+`;
+
 export const Divider = styled.div`
-	background: var(--border-color);
-	height: 50%;
+	position: absolute;
 	width: 2px;
+	height: 128px;
 	border-radius: 1px;
-	margin: 5% 40px;
+	background: var(--border-color);
+	top: 25%;
 `;
 
 export const ItemList = styled.ul`

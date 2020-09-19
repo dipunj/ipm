@@ -10,7 +10,11 @@ const MainMenu = (props: IMainMenuProps) => {
 	const { accountType, toggleMenu } = props;
 	const menuComponent = useMenu(accountType, toggleMenu);
 
-	return <MenuContainer>{menuComponent}</MenuContainer>;
+	return (
+		<div className="row align-center full-height full-width">
+			<MenuContainer>{menuComponent}</MenuContainer>;
+		</div>
+	);
 };
 
 export default MainMenu;

@@ -1,6 +1,14 @@
 import { useRouter } from 'next/router';
 import { Button } from '@blueprintjs/core';
-import { Section, Title, Divider, Item, ItemList } from './styles';
+import {
+	Section,
+	Title,
+	Divider,
+	Item,
+	ItemList,
+	SectionWrapper,
+	DividerContainer,
+} from './styles';
 
 const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 	const router = useRouter();
@@ -91,7 +99,7 @@ const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 			},
 			{
 				position: 2,
-				icon: '',
+				icon: 'search-around',
 				name: 'New Ward / Bed',
 				onClick: () => handleRedirect('/building/wards'),
 			},
@@ -105,7 +113,7 @@ const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 		'Analytics & Data': [
 			{
 				position: 1,
-				icon: 'data',
+				icon: 'bank-account',
 				name: 'Revenue',
 				onClick: () => handleRedirect('/analytics/revenue'),
 			},
@@ -138,19 +146,31 @@ const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 	const sectionCount = Object.keys(menu).length;
 	const menuComponent = Object.keys(menu).map((section, idx) => (
 		<>
-			<Section key={section}>
-				<Title>{section}</Title>
-				<ItemList>
-					{menu[section].map((action) => (
-						<Item key={action.name}>
-							<Button icon={action.icon} minimal onClick={action.onClick}>
-								{action.name}
-							</Button>
-						</Item>
-					))}
-				</ItemList>
-			</Section>
-			{idx !== sectionCount - 1 && <Divider />}
+			<SectionWrapper>
+				<Section key={section}>
+					<Title>{section}</Title>
+					<ItemList>
+						{menu[section].map((action) => (
+							<Item key={action.name}>
+								<Button
+									fill
+									icon={action.icon}
+									minimal
+									onClick={action.onClick}
+									alignText="left"
+								>
+									{action.name}
+								</Button>
+							</Item>
+						))}
+					</ItemList>
+				</Section>
+			</SectionWrapper>
+			{idx !== sectionCount - 1 && (
+				<DividerContainer>
+					<Divider />
+				</DividerContainer>
+			)}
 		</>
 	));
 
