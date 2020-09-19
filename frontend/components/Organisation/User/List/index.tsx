@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import { prettyJSON } from '../../../../helpers';
 import useFetch from '../../../../library/hooks/fetch';
 import Loader from '../../../../library/Loader';
 import request from '../../../../library/Request';
