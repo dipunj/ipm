@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Button, Alert, Popover, FormGroup, H4 } from '@blueprintjs/core';
-import { DatePicker } from '@blueprintjs/datetime';
+import { Button, Alert, H4 } from '@blueprintjs/core';
 import { useRouter } from 'next/router';
 import {
 	Location,
@@ -19,6 +18,9 @@ import { dateFormatOptions } from '../../../helpers';
 import useFetch from '../../../library/hooks/fetch';
 import ViewAdmissionSkeleton from './skeleton';
 import DischargeConfirmation from '../DischargeConfirmation';
+import Providers from '../../../library/Providers';
+import Header from '../../../library/Layout/Header';
+import MainContent from '../../../library/Layout/Body';
 
 const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 	// const {
@@ -225,5 +227,12 @@ const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 		</>
 	);
 };
+
+ViewAdmission.getLayout = (page) => (
+	<Providers>
+		<Header buildingToggle={false} />
+		<MainContent>{page}</MainContent>
+	</Providers>
+);
 
 export default ViewAdmission;
