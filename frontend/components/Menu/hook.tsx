@@ -100,7 +100,7 @@ const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 			{
 				position: 2,
 				icon: 'search-around',
-				name: 'New Ward / Bed',
+				name: 'Wards / Beds',
 				onClick: () => handleRedirect('/building/wards'),
 			},
 			{
@@ -108,6 +108,12 @@ const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 				icon: 'locate',
 				name: 'View Current Building',
 				onClick: () => handleRedirect('/building/view'),
+			},
+			{
+				position: 4,
+				icon: 'locate',
+				name: 'All Buildings',
+				onClick: () => handleRedirect('/building'),
 			},
 		],
 		'Analytics & Data': [

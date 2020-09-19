@@ -16,6 +16,7 @@ export const Title = styled.div`
 	font-family: Helvetica, sans-serif;
 	font-weight: 100;
 	font-size: 20px;
+	padding: 4px 0px;
 `;
 
 export const SectionWrapper = styled.div`
@@ -27,6 +28,7 @@ export const SectionWrapper = styled.div`
 
 export const Section = styled.div`
 	display: flex;
+	height: 100%;
 	flex-direction: column;
 	padding: 24px;
 `;
