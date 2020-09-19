@@ -50,7 +50,7 @@ const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 	};
 
 	const AdminMenu = {
-		Admission: [
+		Admissions: [
 			{
 				position: 1,
 				icon: 'plus',
@@ -70,7 +70,7 @@ const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 				onClick: () => handleRedirect('/admission/past'),
 			},
 		],
-		'User Management': [
+		Users: [
 			{
 				position: 1,
 				icon: 'people',
@@ -90,7 +90,7 @@ const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 				onClick: () => handleRedirect('/user/login-history'),
 			},
 		],
-		'Building Management': [
+		Buildings: [
 			{
 				position: 1,
 				icon: 'office',
@@ -105,7 +105,7 @@ const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 			},
 			{
 				position: 3,
-				icon: '',
+				icon: 'locate',
 				name: 'View Current Building',
 				onClick: () => handleRedirect('/building/view'),
 			},

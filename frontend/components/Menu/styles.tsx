@@ -9,6 +9,7 @@ export const MenuContainer = styled.div`
 	border-radius: 20px;
 	background-color: inherit;
 	width: 100%;
+	min-height: 64%;
 `;
 
 export const Title = styled.div`

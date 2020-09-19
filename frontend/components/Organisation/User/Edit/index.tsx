@@ -58,7 +58,6 @@ const EditUser = ({ user_id }: { user_id: string }) => {
 						building_id_list: buildings.map((bld) => bld.id),
 				  };
 
-			alert(`${data.password}, ${buildings.length}`);
 			const response = await request.post('/setup/user/update', params);
 			handleSuccessToast(response);
 			router.back();
