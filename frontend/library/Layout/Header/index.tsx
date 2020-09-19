@@ -11,7 +11,7 @@ import BuildingSelect, { IBuilding } from '../../Select/Building';
 
 const switchStyle = { marginBottom: 0, marginRight: '16px' };
 
-const Header = (): JSX.Element => {
+const Header = ({ buildingToggle = true }): JSX.Element => {
 	const {
 		ctx: { name, buildings, account_type, image_url },
 		refetchCtx,
@@ -24,7 +24,7 @@ const Header = (): JSX.Element => {
 	const toggleMainMenu = () => setShowMainMenu((prev) => !prev);
 	const closeMainMenu = () => setShowMainMenu(false);
 	// building controls
-	const showBuildingToggle = buildings.length !== 0;
+	const showBuildingToggle = buildingToggle && buildings.length !== 0;
 	const allowBuildingToggle = buildings.length > 1;
 	const currentBuilding = getCookie('_ipm_sb');
 	const [selectedBuilding, setSelectedBuilding] = useState(
@@ -93,7 +93,9 @@ const Header = (): JSX.Element => {
 					</Column>
 				) : (
 					<Column>
-						<div className="bp3-callout bp3-intent-danger">No Building Access</div>
+						{buildings.length === 0 && (
+							<div className="bp3-callout bp3-intent-danger">No Building Access</div>
+						)}
 					</Column>
 				)}
 				<Column>
