@@ -62,7 +62,7 @@ const Header = ({ buildingToggle = true }): JSX.Element => {
 		<Wrapper>
 			<Container>
 				<Column>
-					{showBuildingToggle ? (
+					{buildings.length !== 0 ? (
 						<IconContainer onClick={toggleMainMenu}>
 							<Icon icon="menu" />
 						</IconContainer>
