@@ -4,7 +4,6 @@ import { AppProps } from 'next/app';
 import '../styles/index.css';
 import whyDidYouRender from '@welldone-software/why-did-you-render';
 import getDefaultLayout from '../library/Layout';
-import Providers from '../library/Providers';
 
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
 	whyDidYouRender(React, { trackAllPureComponents: false });
