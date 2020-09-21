@@ -112,8 +112,8 @@ export const AdminMenu = {
 		{
 			position: 3,
 			icon: 'delete',
-			name: 'Purge Database',
-			url: '/analytics/delete',
+			name: 'Reset System',
+			url: '/system/reset',
 		},
 	],
 };

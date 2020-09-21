@@ -21,6 +21,7 @@ import DischargeConfirmation from '../DischargeConfirmation';
 import Providers from '../../../library/Providers';
 import Header from '../../../library/Layout/Header';
 import MainContent from '../../../library/Layout/Body';
+import { layoutWithoutBuildingToggle } from '../../../library/Layout';
 
 const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 	// const {
@@ -228,11 +229,6 @@ const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 	);
 };
 
-ViewAdmission.getLayout = (page) => (
-	<Providers>
-		<Header buildingToggle={false} />
-		<MainContent>{page}</MainContent>
-	</Providers>
-);
+ViewAdmission.getLayout = layoutWithoutBuildingToggle;
 
 export default ViewAdmission;

@@ -186,6 +186,10 @@ body {
 	justify-content: flex-end;
 }
 
+.justify-between {
+	justify-content: space-between;
+}
+
 
 .center {
 	display: flex;
