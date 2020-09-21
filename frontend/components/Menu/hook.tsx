@@ -9,6 +9,7 @@ import {
 	SectionWrapper,
 	DividerContainer,
 } from './styles';
+import { OperatorMenu, AdminMenu } from '../../library/withAuth/access';
 
 const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 	const router = useRouter();
@@ -16,126 +17,6 @@ const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 	const handleRedirect = async (target: string) => {
 		await router.push(target);
 		callBack();
-	};
-
-	const OperatorMenu = {
-		Admission: [
-			{
-				position: 1,
-				icon: 'plus',
-				name: 'New Admission',
-				onClick: () => handleRedirect('/admission/new'),
-			},
-			{
-				position: 2,
-				icon: 'filter-list',
-				name: 'Active Admissions',
-				onClick: () => handleRedirect('/admission/active'),
-			},
-			{
-				position: 3,
-				icon: 'history',
-				name: 'Past Admissions',
-				onClick: () => handleRedirect('/admission/past'),
-			},
-		],
-		'Building Explorer': [
-			{
-				position: 1,
-				icon: 'office',
-				name: 'New Building',
-				onClick: () => handleRedirect('/building/new'),
-			},
-		],
-	};
-
-	const AdminMenu = {
-		Admissions: [
-			{
-				position: 1,
-				icon: 'plus',
-				name: 'New Admission',
-				onClick: () => handleRedirect('/admission/new'),
-			},
-			{
-				position: 2,
-				icon: 'filter-list',
-				name: 'Active Admissions',
-				onClick: () => handleRedirect('/admission/active'),
-			},
-			{
-				position: 3,
-				icon: 'history',
-				name: 'Past Admissions',
-				onClick: () => handleRedirect('/admission/past'),
-			},
-		],
-		Users: [
-			{
-				position: 1,
-				icon: 'people',
-				name: 'All Users',
-				onClick: () => handleRedirect('/user/list'),
-			},
-			{
-				position: 2,
-				icon: 'new-person',
-				name: 'Create New User',
-				onClick: () => handleRedirect('/user/new'),
-			},
-			{
-				position: 3,
-				icon: 'history',
-				name: 'Login History',
-				onClick: () => handleRedirect('/user/login-history'),
-			},
-		],
-		Buildings: [
-			{
-				position: 1,
-				icon: 'office',
-				name: 'New Building',
-				onClick: () => handleRedirect('/building/new'),
-			},
-			{
-				position: 2,
-				icon: 'search-around',
-				name: 'Wards / Beds',
-				onClick: () => handleRedirect('/building/wards'),
-			},
-			{
-				position: 3,
-				icon: 'locate',
-				name: 'View Current Building',
-				onClick: () => handleRedirect('/building/view'),
-			},
-			{
-				position: 4,
-				icon: 'locate',
-				name: 'All Buildings',
-				onClick: () => handleRedirect('/building'),
-			},
-		],
-		'Analytics & Data': [
-			{
-				position: 1,
-				icon: 'bank-account',
-				name: 'Revenue',
-				onClick: () => handleRedirect('/analytics/revenue'),
-			},
-			{
-				position: 2,
-				icon: 'download',
-				name: 'Download Data',
-				onClick: () => handleRedirect('/analytics/download'),
-			},
-			{
-				position: 3,
-				icon: 'delete',
-				name: 'Purge Database',
-				onClick: () => handleRedirect('/analytics/delete'),
-			},
-		],
 	};
 
 	let menu = [];
@@ -162,7 +43,7 @@ const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 									fill
 									icon={action.icon}
 									minimal
-									onClick={action.onClick}
+									onClick={() => handleRedirect(action.url)}
 									alignText="left"
 								>
 									{action.name}

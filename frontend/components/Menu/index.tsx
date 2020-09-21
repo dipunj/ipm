@@ -13,7 +13,7 @@ const MainMenu = (props: IMainMenuProps) => {
 	// drawer height is 50vh from @blueprint/core default drawer size = 50%
 	return (
 		<div className="row align-center full-height full-width">
-			<MenuContainer>{menuComponent}</MenuContainer>;
+			<MenuContainer>{menuComponent}</MenuContainer>
 		</div>
 	);
 };
