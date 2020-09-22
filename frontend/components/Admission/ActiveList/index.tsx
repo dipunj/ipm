@@ -31,6 +31,7 @@ const AdmissionsOverview = (): JSX.Element => {
 			setLoading(false);
 		} catch (error) {
 			handleErrorToast(error);
+			setLoading(false);
 		}
 	};
 
@@ -42,7 +43,7 @@ const AdmissionsOverview = (): JSX.Element => {
 
 	if (loading) {
 		content = <Loader />;
-	} else if (!loading && response.result.length === 0) {
+	} else if (!loading && (response?.result || []).length === 0) {
 		content = <div>No Admissions</div>;
 	} else {
 		content = (
