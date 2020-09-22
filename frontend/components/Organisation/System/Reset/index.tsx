@@ -1,13 +1,22 @@
 import { Dialog, Button, Callout, H1, InputGroup, FormGroup, Label } from '@blueprintjs/core';
 import React, { ChangeEvent, useContext, useState } from 'react';
+import { BuildingCtx } from '../../../../library/Context/BuildingContext';
 import { SessionCtx } from '../../../../library/Context/SessionContext';
 import { layoutWithoutBuildingToggle } from '../../../../library/Layout';
+import request from '../../../../library/Request';
+import { handleErrorToast, handleSuccessToast } from '../../../../library/Toaster';
 import { Value } from '../../../Admission/ViewExisting/styles';
 
 const ResetSystem = (): JSX.Element => {
 	const {
 		ctx: { name },
+		refetchCtx,
 	} = useContext(SessionCtx);
+
+	const {
+		ctx: { branch_code, city },
+	} = useContext(BuildingCtx);
+
 	const [hard, setHard] = useState(false);
 	const [soft, setSoft] = useState(false);
 	const [textConfirmed, setTextConfirmed] = useState(false);
@@ -28,6 +37,27 @@ const ResetSystem = (): JSX.Element => {
 
 	const toggleShowHard = () => setHard((prev) => !prev);
 	const toggleShowSoft = () => setSoft((prev) => !prev);
+
+	const hardReset = async () => {
+		try {
+			const response = await request.post('/setup/configuration/hard_reset');
+			handleSuccessToast(response);
+			refetchCtx();
+		} catch (error) {
+			handleErrorToast(error);
+		}
+	};
+
+	const softReset = async () => {
+		try {
+			// resets the current building (_ipm_sb)
+			const response = await request.post('/setup/configuration/soft_reset');
+			handleSuccessToast(response);
+			refetchCtx();
+		} catch (error) {
+			handleErrorToast(error);
+		}
+	};
 
 	return (
 		<div className="page-content">
@@ -107,7 +137,13 @@ const ResetSystem = (): JSX.Element => {
 					</FormGroup>
 				</div>
 				<div className="bp3-dialog-footer">
-					<Button intent="danger" large disabled={!textConfirmed} fill>
+					<Button
+						intent="danger"
+						large
+						disabled={!textConfirmed}
+						fill
+						onClick={hardReset}
+					>
 						Hard Reset System
 					</Button>
 				</div>
@@ -120,7 +156,11 @@ const ResetSystem = (): JSX.Element => {
 				className="custom-background"
 			>
 				<div className="bp3-dialog-body">
-					This action cannot be undone. It will remove the following
+					This action cannot be undone. It will remove the following ONLY on building{' '}
+					<strong style={{ textTransform: 'capitalize' }}>
+						{city} / {branch_code}
+						{' :'}
+					</strong>
 					<ul className="bp3-list">
 						<li>All active, past admissions</li>
 						<li>All the transactions</li>
@@ -140,15 +180,19 @@ const ResetSystem = (): JSX.Element => {
 					</FormGroup>
 				</div>
 				<div className="bp3-dialog-footer">
-					<Button intent="primary" large fill disabled={!textConfirmed}>
-						Soft Reset
+					<Button
+						intent="primary"
+						large
+						fill
+						disabled={!textConfirmed}
+						onClick={softReset}
+					>
+						Soft Reset Branch {branch_code}
 					</Button>
 				</div>
 			</Dialog>
 		</div>
 	);
 };
-
-ResetSystem.getLayout = layoutWithoutBuildingToggle;
 
 export default ResetSystem;
