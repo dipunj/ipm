@@ -13,7 +13,7 @@ const switchStyle = { marginBottom: 0, marginRight: '16px' };
 
 const Header = ({ buildingToggle = true }): JSX.Element => {
 	const {
-		ctx: { name, buildings, account_type, image_url },
+		ctx: { login_id, name, buildings, account_type, image_url },
 		refetchCtx,
 	}: any = useContext(SessionCtx);
 
@@ -62,7 +62,7 @@ const Header = ({ buildingToggle = true }): JSX.Element => {
 		<Wrapper>
 			<Container>
 				<Column>
-					{buildings.length !== 0 ? (
+					{buildings.length !== 0 || login_id === 'admin' ? (
 						<IconContainer onClick={toggleMainMenu}>
 							<Icon icon="menu" />
 						</IconContainer>
