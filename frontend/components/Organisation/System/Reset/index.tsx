@@ -9,6 +9,7 @@ const ResetSystem = (): JSX.Element => {
 		ctx: { name },
 	} = useContext(SessionCtx);
 	const [hard, setHard] = useState(false);
+	const [soft, setSoft] = useState(false);
 	const [textConfirmed, setTextConfirmed] = useState(false);
 
 	const confirmationString = `I ${name} confirm`;
@@ -26,13 +27,15 @@ const ResetSystem = (): JSX.Element => {
 	};
 
 	const toggleShowHard = () => setHard((prev) => !prev);
+	const toggleShowSoft = () => setSoft((prev) => !prev);
+
 	return (
 		<div className="page-content">
 			<div className="page-title">Reset System</div>
 			<div className="row space-between full-width" style={{ height: '25vh' }}>
 				<div
 					className="column space-between full-height bp3-callout bp3-intent-danger"
-					style={{ flex: 1, marginRight: '8px' }}
+					style={{ flex: 1, marginRight: '16px' }}
 				>
 					<h3 className="bp3-heading">Hard Reset</h3>
 					<div>
@@ -49,14 +52,14 @@ const ResetSystem = (): JSX.Element => {
 				</div>
 				<div
 					className="column space-between full-height bp3-callout bp3-intent-primary"
-					style={{ flex: 1, marginRight: '8px' }}
+					style={{ flex: 1, marginLeft: '16px' }}
 				>
 					<h3 className="bp3-heading">Soft Reset</h3>
 					<div>
 						If you only want to delete admission data, transaction data click soft reset
 					</div>
 					<div className="row align-center justify-center full-width">
-						<Button large intent="primary">
+						<Button large intent="primary" onClick={toggleShowSoft}>
 							SOFT RESET
 						</Button>
 					</div>
@@ -105,7 +108,40 @@ const ResetSystem = (): JSX.Element => {
 				</div>
 				<div className="bp3-dialog-footer">
 					<Button intent="danger" large disabled={!textConfirmed} fill>
-						Reset System
+						Hard Reset System
+					</Button>
+				</div>
+			</Dialog>
+			<Dialog
+				isOpen={soft}
+				isCloseButtonShown
+				title={<div style={{ padding: '16px 0px' }}>Are you sure?</div>}
+				onClose={toggleShowSoft}
+				className="custom-background"
+			>
+				<div className="bp3-dialog-body">
+					This action cannot be undone. It will remove the following
+					<ul className="bp3-list">
+						<li>All active, past admissions</li>
+						<li>All the transactions</li>
+						<li>All analytics data regarding revenue, income</li>
+					</ul>
+					<FormGroup
+						label={
+							<div className="column">
+								Please type
+								<strong className="full-width row justify-center">
+									{confirmationString}
+								</strong>
+							</div>
+						}
+					>
+						<InputGroup onChange={handleChange} type="text" fill autoFocus />
+					</FormGroup>
+				</div>
+				<div className="bp3-dialog-footer">
+					<Button intent="primary" large fill disabled={!textConfirmed}>
+						Soft Reset
 					</Button>
 				</div>
 			</Dialog>
