@@ -4,6 +4,8 @@ class Admission < ApplicationRecord
 	belongs_to :updated_by     , class_name: 'User'
 
 	has_one :ward, through: :bed
+	has_one :building, through: :ward
+
 	has_many :transactions
 	has_many :admission_logs
 	has_many :visit_logs

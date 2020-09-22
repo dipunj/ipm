@@ -55,6 +55,9 @@ Rails.application.routes.draw do
 		post       'user/reset'               => 'user#change_other_password'
 		post       'user/toggle_state'        => 'user#toggle_account_state'
 
+		post	  'configuration/hard_reset'     => 'configuration#hard_reset'
+		post	  'configuration/soft_reset'     => 'configuration#soft_reset'
+
 	  end
 	  namespace :session do
 		  post     'auth/login'            => 'auth#login'

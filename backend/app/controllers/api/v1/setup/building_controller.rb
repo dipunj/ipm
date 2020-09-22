@@ -9,10 +9,10 @@ class Api::V1::Setup::BuildingController < Api::V1::BaseController
 		render json: response
 	end
 
-	def find
-		response = @service.fetch_building_by_id(building_id)
-		render json: response
-	end
+	# def find
+	# 	response = @service.fetch_building_by_id(building_id)
+	# 	render json: response
+	# end
 
 	def update
 		response = @service.update_existing_building(building_id, building_params)
