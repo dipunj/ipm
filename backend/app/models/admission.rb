@@ -33,40 +33,74 @@ class Admission < ApplicationRecord
 		}
 	end
 
-	def self.with_all_data
-		{
-			include: {
-				bed: {
-					except: [:created_at, :updated_at],
-					include: {
-						ward: {
-							except: [:created_at, :updated_at],
-							include: {
-								building: {
-									except: [:created_at, :updated_at],
+	def self.with_all_data(operator)
+		if operator.account_type == AccountTypes::OPERATOR
+			return {
+				include: {
+					bed: {
+						except: [:created_at, :updated_at],
+						include: {
+							ward: {
+								except: [:created_at, :updated_at],
+								include: {
+									building: {
+										except: [:created_at, :updated_at],
+									}
 								}
 							}
 						}
+					},
+					patient: {
+						except: [:created_at, :updated_at]
+					},
+					# transactions: {
+					# 	except: [],
+					# 	include: {
+					# 		updated_by: {
+					# 			only: [:id, :name]
+					# 		}
+					# 	}
+					# },
+					updated_by: {
+						only: [:id, :name]
 					}
-				},
-				patient: {
-					except: [:created_at, :updated_at]
-				},
-				# transactions: {
-				# 	except: [],
-				# 	include: {
-				# 		updated_by: {
-				# 			only: [:id, :name]
-				# 		}
-				# 	}
-				# },
-				admission_logs: {
-					except: []
-				},
-				updated_by: {
-					only: [:id, :name]
 				}
 			}
-		}
+		else
+			return {
+				include: {
+					bed: {
+						except: [:created_at, :updated_at],
+						include: {
+							ward: {
+								except: [:created_at, :updated_at],
+								include: {
+									building: {
+										except: [:created_at, :updated_at],
+									}
+								}
+							}
+						}
+					},
+					patient: {
+						except: [:created_at, :updated_at]
+					},
+					# transactions: {
+					# 	except: [],
+					# 	include: {
+					# 		updated_by: {
+					# 			only: [:id, :name]
+					# 		}
+					# 	}
+					# },
+					admission_logs: {
+						except: []
+					},
+					updated_by: {
+						only: [:id, :name]
+					}
+				}
+			}
+		end
 	end
 end

@@ -13,6 +13,11 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
     render json: response
   end
 
+  def logs
+    response = @service.admission_logs(@current_user, admission_id, pagination_params)
+    render json: response
+  end
+
   def update_admission
     response = @service.update_admission(@current_user, admission_id, admission_params, patient_id, patient_params)
     render json: response

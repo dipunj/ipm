@@ -30,7 +30,7 @@ module Management
 			}
 
 			admission = Admission.create!(admission_params)
-			return ResponseHelper.json(true, admission.as_json(Admission.with_all_data), "#{patient.name} has been admitted at #{bed.name} in #{bed.ward.name}")
+			return ResponseHelper.json(true, admission.as_json(Admission.with_all_data(operator)), "#{patient.name} has been admitted at #{bed.name} in #{bed.ward.name}")
 		end
 
 		def self.update_admission(operator, admission_id, params, patient_id, patient_params)
@@ -79,14 +79,26 @@ module Management
 				patient_params[:yob] = Time.now.year - patient_params[:age].to_i
 				patient.update!(patient_params.except(:age))
 			end
-			return ResponseHelper.json(true, admission.as_json(Admission.with_all_data), 'Updated Successfully')
+			return ResponseHelper.json(true, admission.as_json(Admission.with_all_data(operator)), 'Updated Successfully')
 		end
 
 		def self.find_admission_by_id(operator, admission_id)
 			raise 'Invalid Admission' if admission_id.nil?
 			admission = Admission.find_by(id: admission_id)
 
-			return ResponseHelper.json(admission.present?, admission.as_json(Admission.with_all_data), nil)
+			return ResponseHelper.json(admission.present?, admission.as_json(Admission.with_all_data(operator)), nil)
+		end
+
+		def self.admission_logs(operator, admission_id, pagination_params)
+			raise 'Invalid Admission' if admission_id.nil?
+			admission = Admission.find_by(id: admission_id)
+			records_per_page           = (pagination_params[:records_per_page] || 10).to_i
+			page                       = pagination_params[:page].nil? ? 0 : (pagination_params[:page].to_i - 1)
+
+			log_list = admission.admission_logs.all
+			count = log_list.length
+			log_list = log_list.order('created_at DESC').limit(records_per_page).offset(page*records_per_page)
+			return ResponseHelper.json(admission.present?, {page: page.to_i+1, count: count, result: log_list.as_json(AdmissionLog.with_all_data)}, nil)
 		end
 
 		def self.discharge_admission(operator, admission_id, params)

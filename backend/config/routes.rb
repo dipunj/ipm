@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
 		post 'admission/new'                  => 'admission#create_new_admission'
         get 'admission/find'                  => 'admission#find_admission_by_id'
+		get  'admission/logs'                 => 'admission#logs'
 		post 'admission/update'               => 'admission#update_admission'
         get 'admission/list'               => 'admission#list_admissions'
 		post 'admission/discharge'            => 'admission#discharge'
