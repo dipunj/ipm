@@ -1,33 +1,26 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Button, Alert, H4 } from '@blueprintjs/core';
 import { useRouter } from 'next/router';
-import {
-	Location,
-	Label,
-	HeaderRow,
-	DetailBlock,
-	Value,
-	Row,
-	Item,
-	AlertContainer,
-} from './styles';
 import EditExistingAdmission from '../EditExisting';
 import { handleErrorToast, handleSuccessToast } from '../../../library/Toaster';
 import request from '../../../library/Request';
-import { dateFormatOptions } from '../../../helpers';
 import useFetch from '../../../library/hooks/fetch';
 import ViewAdmissionSkeleton from './skeleton';
 import DischargeConfirmation from '../DischargeConfirmation';
-import Providers from '../../../library/Providers';
-import Header from '../../../library/Layout/Header';
-import MainContent from '../../../library/Layout/Body';
 import { layoutWithoutBuildingToggle } from '../../../library/Layout';
+import { SessionCtx } from '../../../library/Context/SessionContext';
+import { HeaderRow } from './styles';
+import AdmissionDetailCard from './Card';
 
 const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 	// const {
 	// 	success,
 	// 	response: { message, data },
 	// } = admissionAPIResponse;
+
+	const {
+		ctx: { account_type },
+	} = useContext(SessionCtx);
 
 	const router = useRouter();
 
@@ -43,22 +36,7 @@ const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 		return <ViewAdmissionSkeleton />;
 	}
 
-	const {
-		bed: {
-			name: bedName,
-			ward: { name: wardName, floor },
-		},
-		guardian_name,
-		guardian_phone,
-		doctor_name,
-		is_discharged,
-		admit_timestamp,
-		discharge_timestamp,
-		// updated_by: { name: updated_by, id: updated_by_id },
-		patient: { name: patientName, yob: patientYob, gender: patientGender, phone: patientPhone },
-		purpose,
-		comment,
-	} = data;
+	const { is_discharged, discharge_timestamp } = data;
 
 	const goToTransactions = () => {
 		router.push(
@@ -97,13 +75,8 @@ const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 		}
 	};
 
-	const location = `${floor === 0 ? 'G' : `L${floor}`} / ${wardName} / ${bedName}`;
-	const patientAge = new Date().getFullYear() - patientYob;
-
-	const parsedAdmitTime = new Date(admit_timestamp).toLocaleString('en-GB', dateFormatOptions);
-	const parsedDischargeTime = discharge_timestamp
-		? new Date(discharge_timestamp).toLocaleString('en-GB', dateFormatOptions)
-		: '-';
+	const redirectToLogs = () =>
+		router.push('/admission/[admission_id]/logs', `/admission/${admission_id}/logs`);
 
 	const isMobile = window.innerWidth < 500;
 
@@ -125,72 +98,16 @@ const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 	return (
 		<>
 			<div className="page-content">
-				<HeaderRow>
-					<Location>{location}</Location>
-					{!is_discharged && (
-						<Button onClick={handleModify} minimal rightIcon="edit">
-							Modify
-						</Button>
-					)}
-				</HeaderRow>
-
-				<Row>
-					<DetailBlock>
-						<Item>
-							<Label>Patient Name</Label>
-							<Value>
-								{patientName} ({patientAge && `${patientAge}yr`} {patientGender})
-							</Value>
-						</Item>
-						<Item>
-							<Label>Patient Phone</Label>
-							<Value>{patientPhone}</Value>
-						</Item>
-					</DetailBlock>
-					<DetailBlock>
-						<Item>
-							<Label>Guardian Name</Label>
-							<Value>{guardian_name || '-'}</Value>
-						</Item>
-						<Item>
-							<Label>Guardian Phone</Label>
-							<Value>{guardian_phone || '-'}</Value>
-						</Item>
-					</DetailBlock>
-				</Row>
-				<Row>
-					<DetailBlock>
-						<Item>
-							<Label>Admit Time</Label>
-							<Value>{parsedAdmitTime || '-'}</Value>
-						</Item>
-						<Item>
-							<Label>
-								{!is_discharged && 'Expected'} Discharge Time{' '}
-								{!is_discharged && '*'}
-							</Label>
-							<Value>{parsedDischargeTime || '-'}</Value>
-						</Item>
-					</DetailBlock>
-					<DetailBlock>
-						<Item>
-							<Label>Doctor</Label>
-							<Value noPadding>{doctor_name || '-'}</Value>
-						</Item>
-						<Item>
-							<Label>Purpose</Label>
-							<Value noPadding>{purpose || '-'}</Value>
-						</Item>
-						<Item>
-							<Label>Comment</Label>
-							<Value noPadding>{comment || '-'}</Value>
-						</Item>
-					</DetailBlock>
-				</Row>
+				<AdmissionDetailCard {...{ data, handleModify }} />
 				<div className="row wrap space-between">
 					<Button intent="primary" onClick={goToTransactions} fill={isMobile}>
 						Transactions
 					</Button>
+					{account_type !== 'operator' && (
+						<Button onClick={redirectToLogs} outlined>
+							Change Logs
+						</Button>
+					)}
 					<Button
 						intent={is_discharged ? 'warning' : 'success'}
 						onClick={toggleDischargeConfirmation}
