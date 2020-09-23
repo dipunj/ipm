@@ -125,6 +125,7 @@ const AdminPaths = [
 		.map(({ url }: { url: string }) => url),
 	'/admission/[admission_id]',
 	'/admission/[admission_id]/transactions',
+	'/admission/[admission_id]/logs',
 	'/user/edit/[user_id]',
 	'/building/edit/[building_id]',
 ];
