@@ -65,15 +65,15 @@ module Management
 			ActiveRecord::Base.transaction do
 
 				# copy of admission before new changes
-				log_params = admission.as_json.deep_symbolize_keys.except(:id, :created_at, :updated_at)
-
-				# admission log also saves patient details
-				log_params[:patient_name] = patient[:name]
-				log_params[:patient_phone] = patient[:phone]
-				log_params[:patient_gender] = patient[:gender]
-				log_params[:patient_yob] = patient[:yob]
-
-				admission.admission_logs.create!(log_params)
+				# log_params = admission.as_json.deep_symbolize_keys.except(:id, :created_at, :updated_at)
+				#
+				# # admission log also saves patient details
+				# log_params[:patient_name] = patient[:name]
+				# log_params[:patient_phone] = patient[:phone]
+				# log_params[:patient_gender] = patient[:gender]
+				# log_params[:patient_yob] = patient[:yob]
+				#
+				# admission.admission_logs.create!(log_params)
 				admission.update!(admission_params)
 
 				patient_params[:yob] = Time.now.year - patient_params[:age].to_i

@@ -1,4 +1,7 @@
 class Admission < ApplicationRecord
+
+	before_update :push_to_log
+
 	belongs_to :patient
 	belongs_to :bed
 	belongs_to :updated_by     , class_name: 'User'
@@ -103,4 +106,17 @@ class Admission < ApplicationRecord
 			}
 		end
 	end
+
+
+	private
+
+
+		def push_to_log
+			log_params = self.as_json.deep_symbolize_keys.except(:id, :created_at, :updated_at)
+			log_params[:patient_name] = self.patient[:name]
+			log_params[:patient_phone] = self.patient[:phone]
+			log_params[:patient_gender] = self.patient[:gender]
+			log_params[:patient_yob] = self.patient[:yob]
+			self.admission_logs.create!(log_params)
+		end
 end
