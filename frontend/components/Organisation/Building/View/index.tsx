@@ -26,7 +26,7 @@ const generateWardObj = (ward: IWard): ITreeNode => ({
 			// style: { color: bed.is_occupied ? 'red' : 'green' },
 			secondaryLabel: bed.is_occupied ? (
 				<div>
-					<strong>Occupied by: </strong>
+					<strong>Occupant: </strong>
 					{bed.occupied_by.name} ({bed.occupied_by.phone})
 				</div>
 			) : null,

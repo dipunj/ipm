@@ -29,6 +29,7 @@ const AdmissionsOverview = (): JSX.Element => {
 			});
 			setResponse(apiResponse.data.response.data);
 			setLoading(false);
+			window.scrollTo(0, 0);
 		} catch (error) {
 			handleErrorToast(error);
 			setLoading(false);

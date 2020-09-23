@@ -7,7 +7,7 @@ interface IPageControls {
 	searchQuery: string;
 	handleSearchQueryChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	handleDateChange: (range: DateRange) => void;
-	doSearch: any;
+	doSearch: (() => Promise<void>) | (() => void);
 	fromDate: Date;
 	toDate: Date;
 }
