@@ -8,12 +8,12 @@ interface IApiResponse {
 	success: boolean | null;
 	message: string | null;
 	data?: any;
-	refetch: () => void;
+	refetch: (options?: AxiosRequestConfig) => void;
 }
 
 const useFetch = (
 	url: string,
-	options?: AxiosRequestConfig | undefined,
+	options?: AxiosRequestConfig,
 	handleError = handleErrorToast
 ): IApiResponse => {
 	const [loading, setLoading] = useState(true);
@@ -23,9 +23,9 @@ const useFetch = (
 		data: null,
 	});
 
-	const fetchData = async () => {
+	const fetchData = async (APIoptions = options) => {
 		try {
-			const res = await request.get(url, options);
+			const res = await request.get(url, APIoptions);
 			await setResponse({
 				success: res.data.success,
 				message: res.data.response.message,
