@@ -24,20 +24,23 @@ module Setup
 			raise 'Invalid Building ID' if building.blank?
 			return ResponseHelper.json(true, building.as_json, nil) unless ctx_call
 
-			occupied_beds = Admission.where(is_discharged: false).joins(bed: [ward: [:building]]).where("buildings.id = ?",id).pluck(:bed_id, :patient_id, :id)
+			occupied_beds = Admission.all.where(is_discharged: false).joins(bed: [ward: [:building]]).where("buildings.id = ?",id).pluck(:bed_id, :patient_id, :id)
 			json_data = building.as_json(Building.with_structural_data)
 
 			json_data["wards"].each do |ward|
 				ward["beds"].each do |bed|
 					occupied_beds.each do |bed_patient|
+						unless bed.has_key?("is_occupied")
+							bed["is_occupied"] = false
+						end
+						next if bed["is_occupied"] == true
+
 						if bed_patient[0] == bed["id"]
 							bed["is_occupied"] = true
 							if patient_data
 								bed["occupied_by"] = Patient.find(bed_patient[1]).as_json
 								bed["occupied_by_admission_id"] = bed_patient[2]
 							end
-						else
-							bed["is_occupied"] = false
 						end
 					end
 				end
