@@ -55,5 +55,57 @@ module Setup
 			ResponseHelper.json(true, nil, "All admissions, transactions deleted for branch #{building.branch_code}")
 		end
 
+
+		def self.generate_backup_file
+			all_buildings = Building.all
+			all_users = User.all
+
+			data = {
+				users: all_users.as_json(User.with_all_data),
+				buildings: all_buildings.as_json(Building.with_structural_data)
+			}
+
+			return data.as_json
+		end
+
+
+		def self.restore_from_config_file(params)
+			raise 'Please hard reset the system first to restore from config file' if Admission.all.length > 0 || Building.all.length > 1 || User.all.length > 1
+			raise 'Invalid configuration file' if params[:users].blank? || params[:buildings].blank?
+
+
+			ActiveRecord::Base.transaction do
+
+				Building.all.destroy_all
+				User.all.destroy_all
+
+				buildings = params[:buildings]
+				users = params[:users]
+
+				buildings.each do |bld|
+					new_building = Building.create!(bld.except(:wards))
+					bld[:wards].each do |ward|
+						new_ward = new_building.wards.create!(ward.except(:beds, :building_id))
+						ward[:beds].each do |bed|
+							new_ward.beds.create!(bed.except(:ward_id))
+						end
+					end
+				end
+
+				users.each do |usr|
+					if usr[:account_type] == AccountTypes::ADMIN
+						usr[:password] = 'admin'
+						usr[:password_confirmation] = 'admin'
+					else
+						usr[:password] = 'password'
+						usr[:password_confirmation] = 'password'
+					end
+					new_user = User.create!(usr.except(:buildings, :created_at, :updated_at))
+					UserService.set_user_building_list(nil,new_user[:id], { building_id_list: usr[:buildings].map {|b| b[:id] } })
+				end
+			end
+			ResponseHelper.json(true, nil, 'System Restored, admin password is "admin", all other users password is "password"')
+		end
+
 	end
 end

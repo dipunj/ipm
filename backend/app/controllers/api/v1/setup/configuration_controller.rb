@@ -17,6 +17,17 @@ class Api::V1::Setup::ConfigurationController < Api::V1::BaseController
 		render json: response
 	end
 
+
+	def generate_backup_file
+		response = @service.generate_backup_file
+		render json: response
+	end
+
+	def restore_from_config_file
+		response = @service.restore_from_config_file(restore_params)
+		render json: response
+	end
+
 	private
 
 		def set_service
@@ -25,5 +36,47 @@ class Api::V1::Setup::ConfigurationController < Api::V1::BaseController
 
 		def selected_building_id
 			cookies[:_ipm_sb]
+		end
+
+		def restore_params
+			params.permit(users: [:id,
+					              :name,
+					              :account_type,
+					              :prefers_dark,
+					              :image_url,
+					              :login_id,
+					              :is_active,
+								  :created_at,
+								  :updated_at,
+								  buildings: [
+												:id,
+												:branch_code,
+												:city
+											 ]
+								 ],
+						  buildings: [
+										 :id,
+										 :branch_code,
+										 :name_line,
+										 :address_line,
+										 :locality,
+										 :city,
+										 :administrative_area,
+										 :postal_code,
+										 :country,
+										 wards: [
+													:id,
+													:floor,
+													:ward_type,
+													:ward_number,
+													:name,
+													:building_id,
+													beds: [
+															:id,
+															:name,
+															:ward_id
+														  ]
+												]
+								 ])
 		end
 end

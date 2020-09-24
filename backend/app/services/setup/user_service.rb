@@ -92,17 +92,17 @@ module Setup
 
 
 		# application specific
-		def self.add_user_to_building(admin, user_id, params)
+		def self.set_user_building_list(admin, user_id, params, internal = true)
 			user = User.find_by(id: user_id)
 			raise 'No such user in database' if user.nil?
 
 			buildings = Building.where(id: params[:building_id_list])
+			user.buildings = []
 			user.buildings << buildings.select{ |building| ! user.buildings.include?(building) }
 
 			access_count = user.buildings.length
-			ResponseHelper.json(true,
-								nil,
-								"#{user[:name]} can now login into #{access_count} #{'branch'.pluralize(access_count)}")
+			return ResponseHelper.json(true, nil, "#{user[:name]} can now login into #{access_count} #{'branch'.pluralize(access_count)}") unless internal
+			return user
 		end
 
 		def self.remove_user_from_building(admin, user_id, params)

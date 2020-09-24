@@ -2,10 +2,10 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       namespace :management do
-        get 'visitor/create'
-        get 'visitor/read'
-        get 'visitor/update'
-        get 'visitor/delete'
+        # get 'visitor/create'
+        # get 'visitor/read'
+        # get 'visitor/update'
+        # get 'visitor/delete'
 
 		post 'transaction/create'            => 'transaction#create'
 		post 'transaction/modify'            => 'transaction#modify'
@@ -61,6 +61,8 @@ Rails.application.routes.draw do
 
 		post	  'configuration/hard_reset'     => 'configuration#hard_reset'
 		post	  'configuration/soft_reset'     => 'configuration#soft_reset'
+		get       'configuration/backup'         => 'configuration#generate_backup_file'
+		post       'configuration/restore'         => 'configuration#restore_from_config_file'
 
 	  end
 	  namespace :session do
