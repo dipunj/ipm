@@ -1,6 +1,7 @@
 import { Cell, EditableCell } from '@blueprintjs/table';
 import { Checkbox, Popover, Alert, Button, H5, Classes } from '@blueprintjs/core';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { useRouter } from 'next/router';
 import TransactionTypeSelect from '../Select/TransactionType';
 import PaymentModeSelect from '../Select/PaymentMode';
 import { PaymentMode_Value2Display } from '../Select/PaymentMode/data';
@@ -8,6 +9,7 @@ import { dateFormatOptions, withCurrency } from '../../../helpers';
 import { INewTransaction } from '../NewTransaction';
 import request from '../../../library/Request';
 import { handleErrorToast } from '../../../library/Toaster';
+import { SessionCtx } from '../../../library/Context/SessionContext';
 
 export interface Transaction {
 	id: string;
@@ -24,6 +26,7 @@ export interface Transaction {
 		name: string;
 	};
 	created_at: Date;
+	updated_at: Date;
 }
 
 const defaultTransactionData: INewTransaction = {
@@ -36,6 +39,10 @@ const defaultTransactionData: INewTransaction = {
 };
 
 const useLayout = (list: Transaction[], refetch: () => void): any => {
+	const router = useRouter();
+	const {
+		ctx: { account_type },
+	} = useContext(SessionCtx);
 	const [modifyRow, setModifyRow] = useState(-1);
 	const [deleteRow, setDeleteRow] = useState(-1);
 	const [modifyData, setModifyData] = useState(defaultTransactionData);
@@ -75,6 +82,9 @@ const useLayout = (list: Transaction[], refetch: () => void): any => {
 			handleErrorToast(error);
 		}
 	};
+
+	const showLogs = (transaction_id: string) =>
+		router.push('/logs/transaction/[transaction_id]', `/logs/transaction/${transaction_id}`);
 
 	const setEditRow = async (rowIndex: number) => {
 		if (rowIndex < 0) {
@@ -130,10 +140,6 @@ const useLayout = (list: Transaction[], refetch: () => void): any => {
 				};
 		}
 	};
-
-	useEffect(() => {
-		console.log(deleteRow);
-	}, [deleteRow]);
 
 	return {
 		columns: [
@@ -276,14 +282,14 @@ const useLayout = (list: Transaction[], refetch: () => void): any => {
 				},
 			},
 			{
-				name: 'Created At',
+				name: 'Last Updated At',
 				cellRender: (rowIndex: number) => {
 					return (
 						<Cell
 							intent={list[rowIndex].is_settled ? 'success' : 'danger'}
 							className="row justify-end"
 						>
-							{new Date(list[rowIndex].created_at).toLocaleString(
+							{new Date(list[rowIndex].updated_at).toLocaleString(
 								'en-US',
 								dateFormatOptions
 							)}
@@ -330,7 +336,7 @@ const useLayout = (list: Transaction[], refetch: () => void): any => {
 						>
 							<div
 								className="row full-width space-between"
-								style={{ width: '100px' }}
+								style={{ width: '120px' }}
 							>
 								<a onClick={() => setEditRow(rowIndex)}>Modify</a>
 								<Popover
@@ -359,6 +365,9 @@ const useLayout = (list: Transaction[], refetch: () => void): any => {
 								>
 									<a onClick={() => setDeleteRow(rowIndex)}>Delete</a>
 								</Popover>
+								{account_type !== 'operator' && (
+									<a onClick={() => showLogs(list[rowIndex].id)}>Logs</a>
+								)}
 							</div>
 						</Cell>
 					);
