@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
 
-export { default } from '../../../../components/Admission/ViewLogs';
+export { default } from '../../../components/Admission/ViewLogs';
 
 // export const getStaticProps: getStaticProps = async (context) => {
 // 	const {

@@ -76,7 +76,7 @@ const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 	};
 
 	const redirectToLogs = () =>
-		router.push('/admission/[admission_id]/logs', `/admission/${admission_id}/logs`);
+		router.push('/logs/admission/[admission_id]', `/logs/admission/${admission_id}`);
 
 	const isMobile = window.innerWidth < 500;
 
