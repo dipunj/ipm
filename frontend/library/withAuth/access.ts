@@ -117,6 +117,7 @@ const AdminPaths = [
 	...Object.values(AdminMenu)
 		.flat()
 		.map(({ url }: { url: string }) => url),
+	'/profile/password',
 	'/admission/[admission_id]',
 	'/admission/[admission_id]/transactions',
 	'/admission/[admission_id]/transactions/deleted',
@@ -131,6 +132,7 @@ const OperatorPaths = [
 	...Object.values(OperatorMenu)
 		.flat()
 		.map(({ url }: { url: string }) => url),
+	'/profile/password',
 	'/admission/[admission_id]',
 	'/admission/[admission_id]/transactions',
 ];
