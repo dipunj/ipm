@@ -1,21 +1,25 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div.attrs({
-	className: 'column center full-width',
+	className: 'column align-center full-width',
 })`
 	height: 100%;
 `;
 
-export const Container = styled.div.attrs({})`
+export const Container = styled.div`
 	width: 90%;
+	margin: 24px;
 	padding: 24px;
 	border: 1px solid var(--border-color);
 	border-radius: 16px;
 `;
 
-export const ButtonContainer = styled.div.attrs({})`
+export const ButtonContainer = styled.div.attrs({
+	className: 'column align-center justify-center',
+})`
 	width: 80%;
-	padding: 128px 32px;
+	padding: 0px 32px;
+	min-height: 256px;
 	/* border: 1px solid var(--border-color); */
 `;
 

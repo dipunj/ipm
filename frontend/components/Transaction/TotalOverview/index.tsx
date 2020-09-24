@@ -1,10 +1,11 @@
 import { Colors, Icon, Popover, Position, Tooltip, Button } from '@blueprintjs/core';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import { withCurrency, prettyJSON } from '../../../helpers';
 import { IAdmissionData } from '../../Admission/EditExisting';
 import { Container, Location, Wrapper, FieldName, MoneyValue, ButtonContainer } from './styles';
 import DischargeConfirmation from '../../Admission/DischargeConfirmation';
+import { SessionCtx } from '../../../library/Context/SessionContext';
 
 interface ITotalOverviewProps {
 	totals: {
@@ -36,6 +37,9 @@ interface ITotalOverviewProps {
 }
 
 const TotalOverview = (props: ITotalOverviewProps): JSX.Element => {
+	const {
+		ctx: { account_type },
+	} = useContext(SessionCtx);
 	const {
 		totals: { total_bill, amount_received, amount_receivable },
 		admission_info: {
@@ -75,6 +79,12 @@ const TotalOverview = (props: ITotalOverviewProps): JSX.Element => {
 	}
 
 	const toggleOpen = () => setIsOpen((prev) => !prev);
+	const redirectToDeletedTxns = () => {
+		router.push(
+			'/admission/[admission_id]/transactions/deleted',
+			`/admission/${admission_id}/transactions/deleted`
+		);
+	};
 	const redirectToAdmission = () => {
 		router.push('/admission/[admission_id]', `/admission/${admission_id}`);
 	};
@@ -138,6 +148,11 @@ const TotalOverview = (props: ITotalOverviewProps): JSX.Element => {
 				>
 					Discharge
 				</Button>
+				{account_type !== 'operator' && (
+					<Button onClick={redirectToDeletedTxns} minimal style={{ marginTop: '16px' }}>
+						Show Deleted Transactions
+					</Button>
+				)}
 			</ButtonContainer>
 			<DischargeConfirmation
 				reopenAdmission={false}
