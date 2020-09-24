@@ -55,7 +55,7 @@ const ListAllBuildings = () => {
 
 	return (
 		<div className="page-content">
-			<div className="page-title">All Users</div>
+			<div className="page-title">All Buildings</div>
 			<HeaderCard />
 			{cards}
 		</div>
