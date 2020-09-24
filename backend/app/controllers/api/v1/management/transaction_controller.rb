@@ -17,6 +17,11 @@ class Api::V1::Management::TransactionController < Api::V1::BaseController
     render json: response
   end
 
+  def logs
+    response = @service.transaction_logs(@current_user, transaction_id, pagination_params)
+    render json: response
+  end
+
   private
 
     def set_service

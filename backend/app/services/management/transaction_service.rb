@@ -22,12 +22,20 @@ module Management
 			ResponseHelper.json(true, transaction.as_json, 'Created new transaction')
 		end
 
+		def self.transaction_logs(operator, transaction_id, pagination_params)
+			records_per_page           = (pagination_params[:records_per_page] || 10).to_i
+			page                       = pagination_params[:page].nil? ? 0 : (pagination_params[:page].to_i - 1)
 
-		def self.modify_transaction(operator, transaction_id, params)
+			# TODO: Add operator role check
 			raise 'Invalid Transaction' if transaction_id.blank?
-
 			transaction = Transaction.find(transaction_id)
 			raise ActiveRecord::RecordNotFound "Transaction doesn't exist" if transaction.nil?
+			logs = transaction.transaction_logs
+			count = logs.length
+			logs = logs.order('created_at DESC').limit(records_per_page).offset(page*records_per_page)
+
+			ResponseHelper.json(true, {page: page.to_i+1, count: count, result: logs.as_json(TransactionLog.as_json)})
+		end
 
 			Transaction.transaction do
 				log_params = transaction.as_json.deep_symbolize_keys.except!(:id, :created_at, :updated_at)
