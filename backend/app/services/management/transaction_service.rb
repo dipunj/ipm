@@ -37,13 +37,13 @@ module Management
 			ResponseHelper.json(true, {page: page.to_i+1, count: count, result: logs.as_json(TransactionLog.as_json)})
 		end
 
-			Transaction.transaction do
-				log_params = transaction.as_json.deep_symbolize_keys.except!(:id, :created_at, :updated_at)
-				transaction.transaction_logs.create!(log_params)
+		def self.modify_transaction(operator, transaction_id, params)
+			raise 'Invalid Transaction' if transaction_id.blank?
+			transaction = Transaction.find(transaction_id)
+			raise ActiveRecord::RecordNotFound "Transaction doesn't exist" if transaction.nil?
 
-				params[:updated_by_id] = operator.id
-				transaction.update!(params)
-			end
+			params[:updated_by_id] = operator.id
+			transaction.update!(params)
 			ResponseHelper.json(true, transaction.as_json)
 		end
 
