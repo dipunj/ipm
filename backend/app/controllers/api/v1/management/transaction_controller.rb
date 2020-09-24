@@ -22,6 +22,11 @@ class Api::V1::Management::TransactionController < Api::V1::BaseController
     render json: response
   end
 
+  def deleted_in_admission
+    response = @service.list_all_deleted_in_admission(@current_user, admission_id, pagination_params)
+    render json: response
+  end
+
   private
 
     def set_service

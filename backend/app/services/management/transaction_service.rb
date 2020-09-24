@@ -29,6 +29,7 @@ module Management
 			# TODO: Add operator role check
 			raise 'Invalid Transaction' if transaction_id.blank?
 			transaction = Transaction.find(transaction_id)
+
 			raise ActiveRecord::RecordNotFound "Transaction doesn't exist" if transaction.nil?
 			logs = transaction.transaction_logs
 			count = logs.length
@@ -74,6 +75,7 @@ module Management
 		end
 
 		def self.list_all_in_admission(operator, admission_id)
+			raise 'Invalid admission ID' if admission_id.blank?
 			admission = Admission.find_by(id: admission_id)
 			raise 'Invalid admission ID' if admission.nil?
 
@@ -94,6 +96,21 @@ module Management
 				admission_info: admission.as_json(Admission.with_overview_data)
 			}
 			return ResponseHelper.json(true, response,  nil)
+		end
+
+		def self.list_all_deleted_in_admission(operator, admission_id, pagination_params)
+			records_per_page           = (pagination_params[:records_per_page] || 10).to_i
+			page                       = pagination_params[:page].nil? ? 0 : (pagination_params[:page].to_i - 1)
+
+			raise 'Invalid Admission ID' if admission_id.blank?
+			admission = Admission.find_by(id: admission_id)
+			raise 'Invalid admission ID' if admission.nil?
+
+			deleted_transactions = admission.transactions.where(is_deleted: true)
+			count = deleted_transactions.length
+
+			deleted_transactions = deleted_transactions.order('created_at DESC').limit(records_per_page).offset(page*records_per_page)
+			ResponseHelper.json(true, {page: page.to_i+1, count: count, result: deleted_transactions.as_json(Transaction.with_data)})
 		end
 	end
 end

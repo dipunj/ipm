@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 		post 'transaction/modify'            => 'transaction#modify'
 		get  'transaction/list'              => 'transaction#list_all_in_admission'
 		get  'transaction/logs'              => 'transaction#logs'
+		get  'transaction/deleted'           => 'transaction#deleted_in_admission'
+
 
 		post 'admission/new'                  => 'admission#create_new_admission'
         get 'admission/find'                  => 'admission#find_admission_by_id'
