@@ -21,6 +21,7 @@ interface ICardProps {
 		transaction_id: string;
 		created_at: string;
 	};
+	onClick?: () => void;
 }
 
 const Card = (props: ICardProps) => {
@@ -34,11 +35,12 @@ const Card = (props: ICardProps) => {
 			updated_by: { name: updated_by },
 			created_at,
 		},
+		onClick,
 	} = props;
 
 	const timestamp = new Date(created_at).toLocaleString('en-GB', dateFormatOptions);
 	return (
-		<Row>
+		<Row className={onClick && 'clickable'} onClick={onClick}>
 			<Cell>
 				<Checkbox checked={is_settled} disabled />
 			</Cell>
@@ -52,15 +54,15 @@ const Card = (props: ICardProps) => {
 	);
 };
 
-export const HeaderCard = () => (
+export const HeaderCard = ({ deleted = false }) => (
 	<HeaderRow>
 		<HeaderCell>Settled ?</HeaderCell>
 		<HeaderCell>Payment Type</HeaderCell>
 		<HeaderCell>Payment Mode</HeaderCell>
 		<HeaderCell>Value</HeaderCell>
 		<HeaderCell>Purpose</HeaderCell>
-		<HeaderCell>Created By</HeaderCell>
-		<HeaderCell>Snapshot Time</HeaderCell>
+		<HeaderCell>{deleted ? 'Deleted' : 'Created'} By</HeaderCell>
+		<HeaderCell>{deleted ? 'Deletion' : 'Snapshot'} Time</HeaderCell>
 	</HeaderRow>
 );
 

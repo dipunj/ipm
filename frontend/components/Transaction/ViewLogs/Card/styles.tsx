@@ -5,9 +5,12 @@ export const Row = styled.div.attrs({
 })`
 	padding: 4px 24px;
 	border-radius: 16px;
-	cursor: pointer;
-	&:hover {
-		background: var(--background-highlight);
+
+	&.clickable {
+		cursor: pointer;
+		&:hover {
+			background: var(--background-highlight);
+		}
 	}
 `;
 

@@ -32,6 +32,7 @@ const ViewTransactionLogs = ({ transaction_id }: { transaction_id: string }): JS
 	return (
 		<div className="page-content">
 			<h1 className="page-title">Transaction logs</h1>
+
 			<div className="column align-center full-width">
 				<HeaderCard />
 				{logLength > 0 && data.result.map((info) => <Card {...{ data: info }} />)}
