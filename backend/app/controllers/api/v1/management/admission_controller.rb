@@ -57,10 +57,6 @@ class Api::V1::Management::AdmissionController < Api::V1::BaseController
       cookies[:_ipm_sb]
     end
 
-    def pagination_params
-      params.permit(:page, :records_per_page)
-    end
-
     def admission_params
       params.permit(:admit_timestamp, :discharge_timestamp, :doctor_name,:purpose,:comment, :bed_id, :guardian_name, :guardian_phone)
     end

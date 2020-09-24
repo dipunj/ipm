@@ -41,6 +41,9 @@ class Api::V1::BaseController < ApplicationController
 		}, status: 403 unless current_user[:account_type] == AccountTypes::ADMIN
 	end
 
+	def pagination_params
+		params.permit(:page, :records_per_page)
+	end
 
 	private
 
