@@ -63,12 +63,6 @@ export const AdminMenu = {
 			name: 'Create New User',
 			url: '/user/new',
 		},
-		{
-			position: 3,
-			icon: 'history',
-			name: 'Login History',
-			url: '/user/login-history',
-		},
 	],
 	Buildings: [
 		{
@@ -101,13 +95,13 @@ export const AdminMenu = {
 			position: 1,
 			icon: 'bank-account',
 			name: 'Revenue',
-			url: '/analytics/revenue',
+			url: '/system/revenue',
 		},
 		{
 			position: 2,
 			icon: 'download',
-			name: 'Download Data',
-			url: '/analytics/download',
+			name: 'System Configuration',
+			url: '/system/configuration',
 		},
 		{
 			position: 3,
