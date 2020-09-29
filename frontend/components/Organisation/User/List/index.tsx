@@ -34,7 +34,7 @@ const ListAllUsers = () => {
 	const handleEdit = (user_id: string) => {
 		router.push('/user/edit/[user_id]', `/user/edit/${user_id}`);
 	};
-	const cards = data.map((user) => (
+	const cards = data.map((user: any) => (
 		<Card key={user.id} {...{ userData: user, handleDelete, handleEdit }} />
 	));
 	return (

@@ -19,20 +19,10 @@ interface ICardProps {
 	isDeletable: boolean;
 }
 
-const Card = (props: ICardProps) => {
+const Card = (props: ICardProps): JSX.Element => {
 	const [isHover, setIsHover] = useState(false);
 	const {
-		buildingData: {
-			id,
-			branch_code,
-			name_line,
-			address_line,
-			locality,
-			city,
-			administrative_area,
-			postal_code,
-			country,
-		},
+		buildingData: { id, branch_code, name_line, city },
 		handleDelete,
 		handleEdit,
 		isDeletable,

@@ -35,7 +35,7 @@ const ViewTransactionLogs = ({ transaction_id }: { transaction_id: string }): JS
 
 			<div className="column align-center full-width">
 				<HeaderCard />
-				{logLength > 0 && data.result.map((info) => <Card {...{ data: info }} />)}
+				{logLength > 0 && data.result.map((info: any) => <Card {...{ data: info }} />)}
 				<div className="form-cta-margin">
 					{data.result.length > 0 && (
 						<Pagination

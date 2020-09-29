@@ -5,21 +5,12 @@ import request from '../../../../library/Request';
 import { handleErrorToast, handleSuccessToast } from '../../../../library/Toaster';
 import UserForm, { UserFormDataType } from '../New/Form';
 import Loader from '../../../../library/Loader';
-import { prettyJSON } from '../../../../helpers';
-
-const initialData = {
-	name: '',
-	login_id: '',
-	password: '',
-	account_type: 'operator',
-	buildings: [],
-};
 
 const EditUser = ({ user_id }: { user_id: string }) => {
 	const router = useRouter();
 
 	const [enablePasswordUpdate, setEnablePasswordUpdate] = useState(false);
-	const [data, setData]: [UserFormDataType, any] = useState(null);
+	const [data, setData]: [UserFormDataType | null, any] = useState(null);
 	const { data: apiResponse, loading } = useFetch('/setup/user/find', {
 		params: { id: user_id },
 	});
@@ -44,18 +35,18 @@ const EditUser = ({ user_id }: { user_id: string }) => {
 	};
 
 	const handleAPICall = async () => {
-		const { buildings, password, ...rest } = data;
+		const { buildings, password, ...rest }: any = data;
 		try {
 			const params = enablePasswordUpdate
 				? {
 						...rest,
 						password,
 						password_confirmation: password,
-						building_id_list: buildings.map((bld) => bld.id),
+						building_id_list: buildings.map((bld: { id: string }) => bld.id),
 				  }
 				: {
 						...rest,
-						building_id_list: buildings.map((bld) => bld.id),
+						building_id_list: buildings.map((bld: { id: string }) => bld.id),
 				  };
 
 			const response = await request.post('/setup/user/update', params);

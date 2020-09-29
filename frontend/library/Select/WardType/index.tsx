@@ -31,7 +31,7 @@ interface WTProps {
 	name?: string;
 	activeText?: string;
 	activeItem?: WardType;
-	intent: Intent;
+	intent?: Intent;
 	onItemSelect: (item: WardType, event?: SyntheticEvent<HTMLElement, Event>) => void;
 }
 

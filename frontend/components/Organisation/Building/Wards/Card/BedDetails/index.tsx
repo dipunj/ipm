@@ -1,7 +1,5 @@
-import { InputGroup, Button, Icon } from '@blueprintjs/core';
+import { InputGroup, Icon } from '@blueprintjs/core';
 import { ChangeEvent, useState } from 'react';
-import request from '../../../../../../library/Request';
-import { handleErrorToast, handleSuccessToast } from '../../../../../../library/Toaster';
 
 interface IProps {
 	bedData: {
@@ -10,11 +8,11 @@ interface IProps {
 		ward_id: string;
 		is_occupied: boolean;
 	};
-	handleBedDelete: () => void;
-	handleBedUpdate: () => void;
+	handleBedDelete: (bed_id: string) => void;
+	handleBedUpdate: (bed_id: string, bedName: string) => void;
 }
 
-const BedDetails = (props: IProps) => {
+const BedDetails = (props: IProps): JSX.Element => {
 	const {
 		bedData: { id: bed_id, name: bedName },
 		handleBedDelete,
@@ -50,7 +48,11 @@ const BedDetails = (props: IProps) => {
 				/>
 				<div>
 					<Icon intent="danger" icon="cross" onClick={toggleEdit} className="mr-input" />
-					<Icon icon="tick" intent="success" onClick={handleBedUpdate} />
+					<Icon
+						icon="tick"
+						intent="success"
+						onClick={() => handleBedUpdate(bed_id, name)}
+					/>
 				</div>
 			</div>
 		);

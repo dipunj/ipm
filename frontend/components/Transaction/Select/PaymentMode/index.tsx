@@ -29,11 +29,11 @@ const renderPMItem: ItemRenderer<IPaymentMode> = (
 };
 
 interface PMProps {
-	activeItem: string | null;
+	activeItem?: string | null;
 	onItemSelect: (item: IPaymentMode, event?: SyntheticEvent<HTMLElement, Event>) => void;
 	showButton?: boolean;
-	children?: JSX.Element[];
-	popoverPosition: PopoverPosition;
+	children?: any;
+	popoverPosition?: PopoverPosition;
 }
 
 const PaymentModeSelect = (props: PMProps): JSX.Element => {

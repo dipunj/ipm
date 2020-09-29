@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { AccountType } from '../../../../common/types';
 import request from '../../../../library/Request';
 import { handleErrorToast, handleSuccessToast } from '../../../../library/Toaster';
 import UserForm, { UserFormDataType } from './Form';
@@ -7,7 +8,7 @@ const initialData = {
 	name: '',
 	login_id: '',
 	password: '',
-	account_type: 'operator',
+	account_type: 'operator' as AccountType,
 	buildings: [],
 };
 
@@ -15,7 +16,7 @@ const NewUser = () => {
 	const [data, setData]: [UserFormDataType, any] = useState(initialData);
 
 	const handleTagRemove = (_tag: string, index: number) => {
-		setData((prev: FormDataType) => {
+		setData((prev: UserFormDataType) => {
 			const newList = [...prev.buildings];
 			newList.splice(index, 1);
 			return { ...prev, buildings: newList };
@@ -23,7 +24,7 @@ const NewUser = () => {
 	};
 
 	const handleClear = () => {
-		setData((prev: FormDataType) => ({
+		setData((prev: UserFormDataType) => ({
 			...prev,
 			buildings: [],
 		}));

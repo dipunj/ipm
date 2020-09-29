@@ -54,7 +54,7 @@ interface IWard {
 }
 
 interface IBuildingStructure {
-	id: strig;
+	id: string;
 	branch_code: string;
 	name_line: string;
 	address_line: string;
@@ -66,7 +66,7 @@ interface IBuildingStructure {
 	wards: IWard[];
 }
 
-const ViewBuildingStructure = () => {
+const ViewBuildingStructure = (): JSX.Element => {
 	const router = useRouter();
 
 	const {
@@ -110,10 +110,14 @@ const ViewBuildingStructure = () => {
 					ppNode?.childNodes?.forEach((pNode) => {
 						pNode?.childNodes?.forEach((node) => {
 							if (node.id === nodeData.id) {
-								if (nodeData.nodeData?.admission_id) {
+								const {
+									nodeData: { admission_id },
+								}: any = nodeData;
+
+								if (admission_id) {
 									router.push(
 										'/admission/[admission_id]',
-										`/admission/${nodeData.nodeData.admission_id}`
+										`/admission/${admission_id}`
 									);
 								}
 								done = true;
@@ -148,7 +152,8 @@ const ViewBuildingStructure = () => {
 						}
 						return acc;
 					}, {})
-				).sort((a, b) => b.id - a.id)
+				).sort((a, b) => Number(b.id) - Number(a.id))
+				// ids are floor numbers (integer values, had to write Number, because TS won't allow numeric conversion)
 			);
 		}
 	}, [loading]);

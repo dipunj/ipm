@@ -92,7 +92,8 @@ export const systemCurrency = new Intl.NumberFormat('en-IN', {
 	minimumFractionDigits: 2,
 });
 
-export const withCurrency = (value: string) => systemCurrency.format(parseFloat(value));
+export const withCurrency = (value: string | number) =>
+	systemCurrency.format(parseFloat(value.toString()));
 
 interface IPasswordValidation {
 	message: string;
@@ -142,6 +143,6 @@ export const validatePassword = (
 
 	return conditionArray.reduce(
 		(acc, cnd) => [...acc, { ...cnd, satisfy: cnd.exp.test(pass) }],
-		[]
+		[] as IPasswordValidation[]
 	);
 };

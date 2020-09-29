@@ -1,8 +1,7 @@
-import { Colors, Icon, Popover, Position, Tooltip, Button } from '@blueprintjs/core';
+import { Colors, Icon, Position, Tooltip, Button } from '@blueprintjs/core';
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
-import { withCurrency, prettyJSON } from '../../../helpers';
-import { IAdmissionData } from '../../Admission/EditExisting';
+import { withCurrency } from '../../../helpers';
 import { Container, Location, Wrapper, FieldName, MoneyValue, ButtonContainer } from './styles';
 import DischargeConfirmation from '../../Admission/DischargeConfirmation';
 import { SessionCtx } from '../../../library/Context/SessionContext';
@@ -26,7 +25,7 @@ interface ITotalOverviewProps {
 			name: string;
 		};
 		ward: {
-			floor: string;
+			floor: string | number;
 			name: string;
 		};
 		patient: {
@@ -39,7 +38,7 @@ interface ITotalOverviewProps {
 const TotalOverview = (props: ITotalOverviewProps): JSX.Element => {
 	const {
 		ctx: { account_type },
-	} = useContext(SessionCtx);
+	}: any = useContext(SessionCtx);
 	const {
 		totals: { total_bill, amount_received, amount_receivable },
 		admission_info: {
@@ -63,7 +62,7 @@ const TotalOverview = (props: ITotalOverviewProps): JSX.Element => {
 	const currencyAmountReceivable = withCurrency(amount_receivable);
 	const currencyAmountPayable = withCurrency(amountPayable);
 
-	const location = `${floor === 0 ? 'G' : `L${floor}`} / ${ward} / ${bed}`;
+	const location = `${floor == 0 ? 'G' : `L${floor}`} / ${ward} / ${bed}`;
 
 	const dueColor = amountReceivable ? Colors.RED5 : Colors.GREEN5;
 	const recievedColor = amountReceived < 0 ? Colors.RED5 : Colors.GREEN5;

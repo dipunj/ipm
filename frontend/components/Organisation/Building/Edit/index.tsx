@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from 'react';
-import { prettyJSON } from '../../../../helpers';
 import { SessionCtx } from '../../../../library/Context/SessionContext';
 import useFetch from '../../../../library/hooks/fetch';
 import Loader from '../../../../library/Loader';
@@ -7,8 +6,8 @@ import request from '../../../../library/Request';
 import { handleErrorToast, handleSuccessToast } from '../../../../library/Toaster';
 import BuildingForm from '../New/Form';
 
-const UpdateBuilding = ({ building_id }: { building_id: string }) => {
-	const { refetchCtx } = useContext(SessionCtx);
+const UpdateBuilding = ({ building_id }: { building_id: string }): JSX.Element => {
+	const { refetchCtx }: any = useContext(SessionCtx);
 
 	const { data: APIResponse, loading } = useFetch('/setup/building/find', {
 		params: {
@@ -16,7 +15,7 @@ const UpdateBuilding = ({ building_id }: { building_id: string }) => {
 		},
 	});
 
-	const [data, setData] = useState({});
+	const [data, setData]: [any, any] = useState({});
 
 	useEffect(() => {
 		if (!loading) setData(APIResponse);

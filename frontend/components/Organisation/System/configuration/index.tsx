@@ -6,9 +6,9 @@ import request from '../../../../library/Request';
 import { handleErrorToast, handleSuccessToast } from '../../../../library/Toaster';
 
 const SystemConfiguration = (): JSX.Element => {
-	const { refetchCtx } = useContext(SessionCtx);
+	const { refetchCtx }: any = useContext(SessionCtx);
 	const [file, setFile] = useState({});
-	const [displayText, setDisplayText] = useState('Select Configuration File...');
+	const [displayText, setDisplayText]: [any, any] = useState('Select Configuration File...');
 
 	const handleRestore = async () => {
 		try {
@@ -30,10 +30,10 @@ const SystemConfiguration = (): JSX.Element => {
 			const reader = new FileReader();
 			reader.onload = async (event: ProgressEvent<FileReader>) => {
 				const text = event?.target?.result;
-				setDisplayText(files[0].name);
-				setFile(JSON.parse(text));
+				setDisplayText(files?.[0].name);
+				setFile(JSON.parse(text as string));
 			};
-			reader.readAsText(files[0]);
+			reader.readAsText(files?.[0] as Blob);
 		}
 	};
 	const downloadConfig = async () => {

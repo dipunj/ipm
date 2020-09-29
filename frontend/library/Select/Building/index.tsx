@@ -60,7 +60,7 @@ const BuildingSelect = (props: IBuildingSelectProps | IBuildingMultiSelectProps)
 	const { items = buildings, multiSelect = false } = props;
 
 	if (!multiSelect) {
-		const { disabled = false, onItemSelect, activeItem } = props;
+		const { disabled = false, onItemSelect, activeItem }: any = props;
 		return (
 			<BLDSelect
 				disabled={disabled}
@@ -83,7 +83,7 @@ const BuildingSelect = (props: IBuildingSelectProps | IBuildingMultiSelectProps)
 		);
 	}
 
-	const { onItemSelect, fill, activeItemList, multiSelectTagRemove, clearButton } = props;
+	const { onItemSelect, fill, activeItemList, multiSelectTagRemove, clearButton }: any = props;
 
 	return (
 		<MultiBLDSelect

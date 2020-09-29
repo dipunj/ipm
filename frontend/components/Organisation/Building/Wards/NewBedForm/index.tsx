@@ -1,4 +1,4 @@
-import { Icon, FormGroup, InputGroup, Label } from '@blueprintjs/core';
+import { Icon, FormGroup, InputGroup } from '@blueprintjs/core';
 import { ChangeEvent, useEffect, useState } from 'react';
 
 interface IProps {

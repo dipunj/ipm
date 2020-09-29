@@ -6,10 +6,10 @@ import { shortDateOptions } from '../../../helpers';
 interface IPageControls {
 	searchQuery: string;
 	handleSearchQueryChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	handleDateChange: (range: DateRange) => void;
 	doSearch: (() => Promise<void>) | (() => void);
-	fromDate: Date;
-	toDate: Date;
+	fromDate?: Date | null;
+	toDate?: Date | null;
+	handleDateChange?: (range: DateRange) => void;
 }
 
 const PageControls = (props: IPageControls): JSX.Element => {

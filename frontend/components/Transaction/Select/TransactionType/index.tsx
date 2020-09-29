@@ -29,11 +29,11 @@ const renderTTItem: ItemRenderer<ITransactionType> = (
 };
 
 interface PMProps {
-	activeItem: boolean | null;
+	activeItem?: boolean | null;
 	onItemSelect: any;
 	showButton?: boolean;
-	children?: JSX.Element;
-	popoverPosition: PopoverPosition;
+	children?: any;
+	popoverPosition?: PopoverPosition;
 }
 
 const TransactionTypeSelect = (props: PMProps): JSX.Element => {

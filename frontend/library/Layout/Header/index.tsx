@@ -13,7 +13,7 @@ const switchStyle = { marginBottom: 0, marginRight: '16px' };
 
 const Header = ({ buildingToggle = true }): JSX.Element => {
 	const {
-		ctx: { login_id, name, buildings, account_type, image_url },
+		ctx: { login_id, name, buildings, account_type },
 		refetchCtx,
 	}: any = useContext(SessionCtx);
 
@@ -82,7 +82,7 @@ const Header = ({ buildingToggle = true }): JSX.Element => {
 						<Icon icon="home" />
 					</IconContainer>
 				</Column>
-				{showBuildingToggle > 0 ? (
+				{showBuildingToggle ? (
 					<Column>
 						<BuildingSelect
 							disabled={!allowBuildingToggle}

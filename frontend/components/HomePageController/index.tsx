@@ -1,14 +1,12 @@
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
-import { AccountType } from '../../common/types';
+import { useContext, useEffect } from 'react';
 import { SessionCtx } from '../../library/Context/SessionContext';
 import Loader from '../../library/Loader';
-import { IBuilding } from '../../library/Select/Building';
 
 const HomePage = (): JSX.Element => {
 	const {
 		ctx: { buildings, account_type },
-	}: { ctx: { buildings: IBuilding[]; account_type: AccountType } } = useContext(SessionCtx);
+	}: any = useContext(SessionCtx);
 
 	const router = useRouter();
 	useEffect(() => {
@@ -41,7 +39,7 @@ const HomePage = (): JSX.Element => {
 					<h1 className="bp3-heading" style={{ margin: '48px 0px 24px' }}>
 						Please Contact Admin
 					</h1>
-					You don't have access to any building/branch.
+					You don&apos;t have access to any building/branch.
 				</div>
 			</div>
 		);

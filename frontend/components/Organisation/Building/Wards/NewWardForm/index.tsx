@@ -1,7 +1,6 @@
 import { H4, Button, FormGroup, InputGroup } from '@blueprintjs/core';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, SyntheticEvent, useState } from 'react';
 import { WardType } from '../../../../../common/types';
-import { prettyJSON } from '../../../../../helpers';
 import request from '../../../../../library/Request';
 import SelectWardType from '../../../../../library/Select/WardType';
 import { handleErrorToast, handleSuccessToast } from '../../../../../library/Toaster';

@@ -39,7 +39,7 @@ const ViewDeletedTransactions = ({ admission_id }: { admission_id: string }): JS
 			{count > 0 ? (
 				<div className="column align-center">
 					<HeaderCard deleted />
-					{data.result.map((info) => (
+					{data.result.map((info: any) => (
 						<Card data={info} onClick={() => showLogs(info.id)} />
 					))}
 					<div className="form-cta-margin">

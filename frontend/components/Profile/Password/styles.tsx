@@ -20,7 +20,7 @@ export const InputContainer = styled.div.attrs({
 `;
 
 export const ListItem = styled.li`
-	color: ${(props: { satisfy: boolean }) => (props.satisfy ? Colors.GREEN5 : Colors.RED5)};
+	color: ${(props: { satisfy?: boolean }) => (props.satisfy ? Colors.GREEN5 : Colors.RED5)};
 	margin: 0px !important;
 `;
 

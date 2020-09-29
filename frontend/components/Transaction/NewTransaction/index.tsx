@@ -10,11 +10,11 @@ import { handleErrorToast } from '../../../library/Toaster';
 
 export interface INewTransaction {
 	id: string | null;
-	purpose: string | null;
-	payment_mode: string | null;
-	value: number;
-	is_credit: boolean | null;
-	is_settled?: boolean | undefined;
+	purpose?: string | null;
+	payment_mode?: string | null;
+	value: number | string;
+	is_credit?: boolean | null;
+	is_settled?: boolean;
 }
 
 const NewTransaction = ({ refetch }: { refetch: () => void }): JSX.Element => {
@@ -99,7 +99,7 @@ const NewTransaction = ({ refetch }: { refetch: () => void }): JSX.Element => {
 					placeholder="Transaction Value"
 					onChange={onInputChange()}
 					style={{ textAlign: 'right' }}
-					value={newTransaction.value}
+					value={(newTransaction.value as unknown) as string}
 					step={100}
 					leftElement={
 						<div

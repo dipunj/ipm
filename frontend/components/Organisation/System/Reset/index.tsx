@@ -1,21 +1,19 @@
-import { Dialog, Button, Callout, H1, InputGroup, FormGroup, Label } from '@blueprintjs/core';
+import { Dialog, Button, InputGroup, FormGroup } from '@blueprintjs/core';
 import React, { ChangeEvent, useContext, useState } from 'react';
 import { BuildingCtx } from '../../../../library/Context/BuildingContext';
 import { SessionCtx } from '../../../../library/Context/SessionContext';
-import { layoutWithoutBuildingToggle } from '../../../../library/Layout';
 import request from '../../../../library/Request';
 import { handleErrorToast, handleSuccessToast } from '../../../../library/Toaster';
-import { Value } from '../../../Admission/ViewExisting/styles';
 
 const ResetSystem = (): JSX.Element => {
 	const {
 		ctx: { name },
 		refetchCtx,
-	} = useContext(SessionCtx);
+	}: any = useContext(SessionCtx);
 
 	const {
 		ctx: { branch_code, city },
-	} = useContext(BuildingCtx);
+	}: any = useContext(BuildingCtx);
 
 	const [hard, setHard] = useState(false);
 	const [soft, setSoft] = useState(false);

@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import { prettyJSON } from '../../../../helpers';
 import { BuildingCtx } from '../../../../library/Context/BuildingContext';
 import useFetch from '../../../../library/hooks/fetch';
 import Loader from '../../../../library/Loader';
@@ -14,7 +13,7 @@ const ListAllBuildings = () => {
 
 	const {
 		ctx: { id: current_building_id },
-	} = useContext(BuildingCtx);
+	}: any = useContext(BuildingCtx);
 
 	if (loading) {
 		return (
@@ -41,7 +40,7 @@ const ListAllBuildings = () => {
 		router.push('/building/edit/[building_id]', `/building/edit/${building_id}`);
 	};
 
-	const cards = data.buildings.map((building) => (
+	const cards = data.buildings.map((building: any) => (
 		<Card
 			key={building.id}
 			{...{

@@ -1,5 +1,5 @@
 import { useContext, useState, ChangeEvent } from 'react';
-import { FormGroup, InputGroup, Button, Callout, Colors, Popover } from '@blueprintjs/core';
+import { FormGroup, InputGroup, Button } from '@blueprintjs/core';
 import { SessionCtx } from '../../../library/Context/SessionContext';
 import { InputContainer, ButtonContainer, ListItem, ChecksContainer } from './styles';
 import { validatePassword } from '../../../helpers';

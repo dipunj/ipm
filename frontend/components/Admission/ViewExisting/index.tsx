@@ -20,7 +20,7 @@ const ViewAdmission = ({ admission_id }: { admission_id: string }) => {
 
 	const {
 		ctx: { account_type },
-	} = useContext(SessionCtx);
+	}: any = useContext(SessionCtx);
 
 	const router = useRouter();
 

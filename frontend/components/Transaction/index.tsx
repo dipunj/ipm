@@ -1,5 +1,4 @@
 import { Table, Column } from '@blueprintjs/table';
-import { Button } from '@blueprintjs/core';
 import { useState } from 'react';
 import { TableContainer, TableWrapper, TableLayout } from './styles';
 import NewTransaction from './NewTransaction';
@@ -46,7 +45,7 @@ const Transactions = ({ admission_id }: { admission_id: string }): JSX.Element =
 						columnWidths={columnWidths}
 						onColumnWidthChanged={handleColumnWidthChange}
 					>
-						{columns.map((col) => (
+						{columns.map((col: any) => (
 							<Column key={col.name} name={col.name} cellRenderer={col.cellRender} />
 						))}
 					</Table>

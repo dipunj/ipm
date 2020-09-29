@@ -1,4 +1,4 @@
-import { Checkbox, Icon } from '@blueprintjs/core';
+import { Checkbox } from '@blueprintjs/core';
 import { withCurrency, dateFormatOptions } from '../../../../helpers';
 import { PaymentMode_Value2Display } from '../../Select/PaymentMode/data';
 import { HeaderCell, Cell, Row, HeaderRow } from './styles';

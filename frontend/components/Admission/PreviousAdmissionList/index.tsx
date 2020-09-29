@@ -13,8 +13,8 @@ const PastAdmissions = (): JSX.Element => {
 	const [response, setResponse]: [any, any] = useState(null);
 	const [recordsPerPage] = useState(10);
 	const [searchQuery, setSearchQuery] = useState('');
-	const [fromDate, setFromDate] = useState(null);
-	const [toDate, setToDate] = useState(null);
+	const [fromDate, setFromDate]: [Date | null, any] = useState(null);
+	const [toDate, setToDate]: [Date | null, any] = useState(null);
 
 	const handleSearchQueryChange = (event: React.ChangeEvent<HTMLInputElement>) =>
 		setSearchQuery(event.target.value);

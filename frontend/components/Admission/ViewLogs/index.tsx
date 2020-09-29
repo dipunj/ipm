@@ -1,4 +1,3 @@
-import { Icon } from '@blueprintjs/core';
 import React, { useState } from 'react';
 import { dateFormatOptions } from '../../../helpers';
 import useFetch from '../../../library/hooks/fetch';
@@ -6,7 +5,6 @@ import { layoutWithoutBuildingToggle } from '../../../library/Layout';
 import Pagination from '../../../library/Pagination';
 import AdmissionDetailCard from '../ViewExisting/Card';
 import ViewAdmissionSkeleton from '../ViewExisting/skeleton';
-import { DetailBlock, Item, Label, Value } from '../ViewExisting/styles';
 
 const ViewLogs = ({ admission_id }: { admission_id: string }): JSX.Element => {
 	const [recordsPerPage] = useState(3);
@@ -35,7 +33,7 @@ const ViewLogs = ({ admission_id }: { admission_id: string }): JSX.Element => {
 			<div className="page-title">Change logs</div>
 			<div className="column align-center space-between">
 				{logCount > 0 ? (
-					data.result.map((card) => {
+					data.result.map((card: any) => {
 						const creationDate = new Date(card.created_at).toLocaleString(
 							'en-GB',
 							dateFormatOptions

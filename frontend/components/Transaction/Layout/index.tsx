@@ -1,8 +1,8 @@
 import { Cell, EditableCell } from '@blueprintjs/table';
-import { Checkbox, Popover, Alert, Button, H5, Classes } from '@blueprintjs/core';
-import { useState, useEffect, useContext } from 'react';
+import { Checkbox, Popover, Button, H5 } from '@blueprintjs/core';
+import { useState, useContext, ChangeEvent, SyntheticEvent } from 'react';
 import { useRouter } from 'next/router';
-import TransactionTypeSelect from '../Select/TransactionType';
+import TransactionTypeSelect, { ITransactionType } from '../Select/TransactionType';
 import PaymentModeSelect from '../Select/PaymentMode';
 import { PaymentMode_Value2Display } from '../Select/PaymentMode/data';
 import { dateFormatOptions, withCurrency } from '../../../helpers';
@@ -16,7 +16,8 @@ export interface Transaction {
 	is_credit: boolean;
 	payment_mode: string;
 	currency: string;
-	value: string;
+	value: number;
+	comment: string;
 	is_settled: boolean;
 	purpose: string;
 	reverses_transaction_id?: string;
@@ -42,10 +43,10 @@ const useLayout = (list: Transaction[], refetch: () => void): any => {
 	const router = useRouter();
 	const {
 		ctx: { account_type },
-	} = useContext(SessionCtx);
+	}: any = useContext(SessionCtx);
 	const [modifyRow, setModifyRow] = useState(-1);
 	const [deleteRow, setDeleteRow] = useState(-1);
-	const [modifyData, setModifyData] = useState(defaultTransactionData);
+	const [modifyData, setModifyData]: [any, any] = useState(defaultTransactionData);
 
 	const makeUpdate = async () => {
 		try {
@@ -132,7 +133,7 @@ const useLayout = (list: Transaction[], refetch: () => void): any => {
 				};
 			default:
 				// for input tags
-				return (value: string, rowIndex?: number, columnIndex?: number) => {
+				return (value: string, _rowIndex?: number, _columnIndex?: number) => {
 					setModifyData((prev: INewTransaction) => ({
 						...prev,
 						[fieldName]: value,

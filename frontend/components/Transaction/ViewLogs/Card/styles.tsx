@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
-export const Row = styled.div.attrs({
-	className: 'row align-center full-width',
-})`
+export const Row = styled.div`
+	display: flex;
+	align-items: align-center;
+	width: 100%;
 	padding: 4px 24px;
 	border-radius: 16px;
 

@@ -19,7 +19,7 @@ const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 		callBack();
 	};
 
-	let menu = [];
+	let menu: any = [];
 
 	switch (accountType) {
 		case 'admin':
@@ -37,7 +37,7 @@ const useMenu = (accountType: string, callBack: () => void): JSX.Element[] => {
 				<Section key={section}>
 					<Title>{section}</Title>
 					<ItemList>
-						{menu[section].map((action) => (
+						{menu[section].map((action: any) => (
 							<Item key={action.name}>
 								<Button
 									fill

@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { SessionCtx } from '../../../../library/Context/SessionContext';
 import request from '../../../../library/Request';
 import { handleErrorToast, handleSuccessToast } from '../../../../library/Toaster';
@@ -15,8 +15,8 @@ const initialState = {
 	country: '',
 };
 
-const NewBuilding = () => {
-	const { refetchCtx } = useContext(SessionCtx);
+const NewBuilding = (): JSX.Element => {
+	const { refetchCtx }: any = useContext(SessionCtx);
 	const [data, setData] = useState(initialState);
 	const handleSubmit = async () => {
 		try {

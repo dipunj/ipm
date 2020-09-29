@@ -2,7 +2,7 @@ import { Button, FormGroup, InputGroup } from '@blueprintjs/core';
 import { ChangeEvent } from 'react';
 
 interface IProps {
-	formTitle: string;
+	formTitle?: string;
 	data: {
 		branch_code: string;
 		name_line: string;
@@ -15,7 +15,7 @@ interface IProps {
 	};
 	setData: any;
 	handleSubmit: () => void;
-	ctaName: string;
+	ctaName?: string;
 }
 
 const BuildingForm = (props: IProps) => {

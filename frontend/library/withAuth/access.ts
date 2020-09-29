@@ -1,3 +1,5 @@
+import { AccountType } from '../../common/types';
+
 export const OperatorMenu = {
 	Admission: [
 		{
@@ -137,7 +139,7 @@ const OperatorPaths = [
 	'/admission/[admission_id]/transactions',
 ];
 
-const AuthRules = {
+const AuthRules: { [key in AccountType]: string[] } = {
 	admin: AdminPaths,
 	operator: OperatorPaths,
 	manager: AdminPaths,

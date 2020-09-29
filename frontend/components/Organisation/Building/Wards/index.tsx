@@ -13,7 +13,7 @@ const WardList = () => {
 
 	const { wards } = data;
 
-	const floorWiseData = wards.reduce((acc, wrd) => {
+	const floorWiseData = wards.reduce((acc: any, wrd: any) => {
 		if (acc.hasOwnProperty(wrd.floor)) {
 			acc[wrd.floor].push(wrd);
 		} else {
@@ -78,7 +78,7 @@ const WardList = () => {
 				<H4>Existing Wards</H4>
 				{Object.keys(floorWiseData)
 					.sort((a: any, b: any) => b - a)
-					.map((floor) => {
+					.map((floor: string | number) => {
 						return (
 							<Card className="custom-background">
 								<H3 className="bp3-ui-text">
@@ -86,7 +86,7 @@ const WardList = () => {
 								</H3>
 								<div className="row full-width align-center">
 									<div className="flex-grow">
-										{floorWiseData[floor].map((ward) => (
+										{floorWiseData[floor].map((ward: any) => (
 											<DetailsCard
 												key={ward.id}
 												{...{
