@@ -4,5 +4,4 @@ Stack:
 
 -   Nextjs with Typescript
 -   Styled Components
--   TailwindCSS
--   Framer-Motion
+-   Blueprintjs
