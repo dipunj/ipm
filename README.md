@@ -3,6 +3,11 @@ Motivation
 This project aims to help hospitals digitalize their in-patient departments. In-patient department refers to the department of a hospital that handles patients who are being treated post-operation or are scheduled for a procedure.
 - Built it primarily because I saw many doctors in my town still relying on paper logs and struggling with managing patients.
 
+
+![][activeAdmissions] 
+Checkout more screenshots [here](./screenshots)
+
+
 Overview
 --------
 - Manage multiple hospital buildings/branches.
@@ -21,7 +26,7 @@ Overview
 - Allows operators to use the application on a per branch basis. Switching to another branch means that all branch specific interface would be applicable only to that building.
 
 
-Developer Gains
+Personal Gains
 --------
 
 (what I learned during the 2 months building it)
@@ -49,6 +54,14 @@ Developer Gains
 - How to implement dark mode toggle using CSS variables.
 - apply dark background to body and not a containing div of full 100vw,100vh. Because if browser is allowed to scroll past the end, there would be a white background(body color) making it unpleasant.
 - Improved CSS knowledge vastly, learnt about BEM. But the project was near deadline by then.
+- Learnt figma to design screens.
+
+
+
+Deploy
+--------
+- For my clients' usecase, the application needed to be deployed on premises instead of cloud, hence the process is trivial.
+
 
 
 Open sourcing for anyone to reuse it if you find a doctor with a similar problem. The code can be vastly improved (evaded later typescript errors with any - bad practice)
@@ -59,6 +72,5 @@ But as the old saying goes:
 It's good, but there are improvements that can be made. But it works.
 
 
-Deploy
---------
-- For my clients' usecase, the application needed to be deployed on premises instead of cloud, hence the process is trivial.
+
+[activeAdmissions]: ./screenshots/active_admissions_page.png
