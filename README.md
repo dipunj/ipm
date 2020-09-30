@@ -1,7 +1,7 @@
 Motivation
 --------
 This project aims to help hospitals digitalize their in-patient departments. In-patient department refers to the department of a hospital that handles patients who are being treated post-operation or are scheduled for a procedure.
-- Built it primarily because saw many doctors in my town struggling with this problem.
+- Built it primarily because I saw many doctors in my town still relying on paper logs and struggling with managing patients.
 
 Overview
 --------
@@ -19,12 +19,6 @@ Overview
 - Transaction data is never deleted, it is only updated before logging, so no operator/manager/admin can make a false modification, since change/deletion is logged. Unless the system is soft reset by the admin.
 - Doesn't allow discharging an admission if the ledger is not settled.
 - Allows operators to use the application on a per branch basis. Switching to another branch means that all branch specific interface would be applicable only to that building.
-
-
-Deploy
---------
-
-- For my client's usecase, the application needed to be deployed on premises instead of cloud, hence the process is trivial.
 
 
 Developer Gains
@@ -63,3 +57,8 @@ But as the old saying goes:
 > If you don't hate your code from yesterday, you aren't learning.
 
 It's good, but there are improvements that can be made. But it works.
+
+
+Deploy
+--------
+- For my clients' usecase, the application needed to be deployed on premises instead of cloud, hence the process is trivial.
